@@ -440,8 +440,8 @@
                                         (<span class="font-mono font-bold text-zinc-200" x-text="embajadorDetectadoCliente.codigo"></span>)
                                     </span>
                                 </div>
-                                <span class="text-[10px] font-mono text-indigo-300 bg-indigo-900/60 px-2 py-0.5 rounded border border-indigo-500/30">
-                                    Antifraude Automático Activo
+                                <span class="text-[10px] font-mono text-zinc-400 bg-zinc-800/80 px-2 py-0.5 rounded border border-zinc-700">
+                                    Seguridad Activa
                                 </span>
                             </div>
                         </template>
@@ -1926,13 +1926,13 @@
         
         <div 
             @click.away="mostrarModalNuevoEmbajador = false" 
-            class="bg-brand-900 border border-gray-800 w-full max-w-lg p-6 rounded-2xl space-y-4 shadow-2xl">
+            class="bg-zinc-900 border border-zinc-800 w-full max-w-lg p-6 rounded-2xl space-y-4 shadow-2xl">
             
-            <div class="flex items-center justify-between pb-3 border-b border-gray-800">
+            <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
                 <h3 class="text-base font-bold text-white flex items-center gap-2">
-                    <i data-lucide="user-plus" class="w-5 h-5 text-brand-400"></i> Crear Nuevo Código Personalizado
+                    <i data-lucide="user-plus" class="w-5 h-5 text-zinc-300"></i> Crear Nuevo Código Personalizado
                 </h3>
-                <button @click="mostrarModalNuevoEmbajador = false" class="text-gray-400 hover:text-white">
+                <button @click="mostrarModalNuevoEmbajador = false" class="text-zinc-400 hover:text-white">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -1984,32 +1984,14 @@
                     </div>
                 </div>
 
-                <!-- SEGURIDAD ANTIFRAUDE: CÓDIGO PADRE / QUIÉN LO INVITÓ -->
-                <div class="p-3 rounded-xl bg-gray-950/90 border border-gray-800 space-y-1.5">
-                    <label class="text-gray-300 font-medium block flex items-center justify-between text-xs">
-                        <span class="flex items-center gap-1.5 text-indigo-300 font-semibold">
-                            <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-indigo-400"></i>
-                            Protección Antifraude: ¿Quién lo invitó a comprar?
-                        </span>
-                        <span class="text-[10px] text-gray-500 font-mono">Anti-trampa cruzada</span>
-                    </label>
-                    <select x-model="nuevoEmbajador.invitadoPorCodigo" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-white text-xs font-mono">
-                        <option value="">(Ninguno — Llegó directo a la tienda)</option>
-                        <template x-for="e in embajadores" :key="e.id">
-                            <option :value="e.codigo" x-text="e.codigo + ' — ' + e.nombre"></option>
-                        </template>
-                    </select>
-                    <p class="text-[10px] text-gray-400">
-                        Si este cliente usó el código de un amigo para comprar, selecciónalo aquí. Esto <strong>bloqueará automáticamente</strong> que su amigo use este nuevo código en revancha para ganar beneficios mutuos.
-                    </p>
-                </div>
+
 
                 <!-- REGLA DE ELEGIBILIDAD -->
-                <div class="p-3 rounded-xl bg-indigo-950/30 border border-indigo-500/30 space-y-2">
-                    <label class="text-indigo-300 font-semibold block flex items-center gap-1.5">
-                        <i data-lucide="filter" class="w-3.5 h-3.5 text-indigo-400"></i> ¿A qué clientes aplica el descuento de este código?:
+                <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800 space-y-2">
+                    <label class="text-zinc-200 font-semibold block flex items-center gap-1.5">
+                        <i data-lucide="filter" class="w-3.5 h-3.5 text-zinc-400"></i> ¿A qué clientes aplica el descuento de este código?:
                     </label>
-                    <select x-model="nuevoEmbajador.elegibilidad" class="w-full bg-gray-950 border border-gray-700 rounded-lg p-2 text-white text-xs">
+                    <select x-model="nuevoEmbajador.elegibilidad" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2 text-white text-xs">
                         <option value="solo_nuevos">Solo a Clientes Nuevos (1ra compra de bienvenida)</option>
                         <option value="minimo_compra">Solo si la compra supera un monto mínimo</option>
                         <option value="solo_vip">Solo a Clientes VIP / Embajadoras seleccionadas</option>
@@ -2018,39 +2000,39 @@
 
                     <template x-if="nuevoEmbajador.elegibilidad === 'minimo_compra'">
                         <div class="flex items-center space-x-2 pt-1">
-                            <span class="text-gray-300 text-[11px]">Monto mínimo de compra requerido ($):</span>
-                            <input type="number" step="1" min="10" x-model.number="nuevoEmbajador.montoMinimoCompra" class="w-20 px-2 py-1 rounded bg-gray-950 border border-indigo-500 text-white font-mono text-xs">
+                            <span class="text-zinc-400 text-[11px]">Monto mínimo de compra requerido ($):</span>
+                            <input type="number" step="1" min="10" x-model.number="nuevoEmbajador.montoMinimoCompra" class="w-20 px-2 py-1 rounded bg-zinc-950 border border-zinc-700 text-white font-mono text-xs">
                         </div>
                     </template>
                 </div>
 
                 <!-- SELECCIÓN DE META & PREMIO -->
-                <div class="p-3 rounded-xl bg-gray-950/70 border border-gray-800 space-y-3">
-                    <label class="text-indigo-300 font-semibold block">Selecciona la Meta del Cupón:</label>
+                <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800 space-y-3">
+                    <label class="text-zinc-200 font-semibold block">Selecciona la Meta del Cupón:</label>
                     <div class="grid grid-cols-2 gap-3">
                         <button 
                             type="button"
                             @click="nuevoEmbajador.meta = 5; nuevoEmbajador.premio = '$10.00 OFF en su compra'; generarCodigoSugerido()"
-                            :class="nuevoEmbajador.meta === 5 ? 'bg-brand-600/30 border-brand-500 text-white font-bold' : 'bg-gray-900 border-gray-800 text-gray-400'"
+                            :class="nuevoEmbajador.meta === 5 ? 'bg-zinc-800 border-zinc-500 text-white font-bold' : 'bg-zinc-900 border-zinc-800 text-zinc-400'"
                             class="p-3 rounded-xl border text-left transition">
                             <div class="text-sm font-semibold">Meta: 5 Personas</div>
-                            <div class="text-[11px] text-brand-300 mt-1">Premio: $10 OFF</div>
+                            <div class="text-[11px] text-zinc-400 mt-1">Premio: $10 OFF</div>
                         </button>
 
                         <button 
                             type="button"
                             @click="nuevoEmbajador.meta = 8; nuevoEmbajador.premio = '$20.00 OFF o Prenda Gratis'; generarCodigoSugerido()"
-                            :class="nuevoEmbajador.meta === 8 ? 'bg-brand-600/30 border-brand-500 text-white font-bold' : 'bg-gray-900 border-gray-800 text-gray-400'"
+                            :class="nuevoEmbajador.meta === 8 ? 'bg-zinc-800 border-zinc-500 text-white font-bold' : 'bg-zinc-900 border-zinc-800 text-zinc-400'"
                             class="p-3 rounded-xl border text-left transition">
                             <div class="text-sm font-semibold">Meta: 8 Personas</div>
-                            <div class="text-[11px] text-purple-300 mt-1">Premio: $20 OFF / Prenda</div>
+                            <div class="text-[11px] text-zinc-400 mt-1">Premio: $20 OFF / Prenda</div>
                         </button>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2 pt-1 text-[11px]">
                         <div>
-                            <span class="text-gray-400 block mb-0.5">Descuento para sus amigos:</span>
-                            <select x-model="nuevoEmbajador.descuentoAmigo" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-1.5 text-white">
+                            <span class="text-zinc-400 block mb-0.5">Descuento para sus amigos:</span>
+                            <select x-model="nuevoEmbajador.descuentoAmigo" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-1.5 text-white">
                                 <option value="10% OFF en su primera compra">10% OFF en primera compra</option>
                                 <option value="15% OFF en su primera compra">15% OFF en primera compra</option>
                                 <option value="Envío Gratis en su compra">Envío Gratis</option>
