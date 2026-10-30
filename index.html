@@ -2382,13 +2382,21 @@
                     }
                 },
 
-                eliminarEmbajador(id) {
+                async eliminarEmbajador(id) {
                     const emb = this.embajadores.find(e => e.id === id);
                     if (!emb) return;
                     if (confirm(`¿Eliminar al embajador ${emb.nombre} (${emb.codigo})?`)) {
                         this.embajadores = this.embajadores.filter(e => e.id !== id);
-                        this.guardarEnStorage();
-                        this.mostrarToast("Eliminado", "Embajador borrado correctamente.");
+                        this.guardarEnStorage(false);
+                        if (this.supabaseClient && this.supabaseConectado) {
+                            try {
+                                const { error } = await this.supabaseClient.from('embajadores').delete().eq('id', id);
+                                if (error) console.error("Error al eliminar embajador en Supabase:", error);
+                            } catch (err) {
+                                console.error("Error al eliminar embajador en Supabase:", err);
+                            }
+                        }
+                        this.mostrarToast("Eliminado", "Embajador borrado permanentemente de la base de datos.");
                     }
                 },
 
@@ -2474,11 +2482,19 @@
                     this.refreshLucide();
                 },
 
-                eliminarPrendaCatalogo(id) {
+                async eliminarPrendaCatalogo(id) {
                     if (confirm("¿Seguro que deseas eliminar esta prenda del catálogo?")) {
                         this.inventario = this.inventario.filter(p => p.id !== id);
-                        this.guardarEnStorage();
-                        this.mostrarToast("Eliminada", "Prenda borrada del inventario.");
+                        this.guardarEnStorage(false);
+                        if (this.supabaseClient && this.supabaseConectado) {
+                            try {
+                                const { error } = await this.supabaseClient.from('inventario').delete().eq('id', id);
+                                if (error) console.error("Error al eliminar prenda en Supabase:", error);
+                            } catch (err) {
+                                console.error("Error al eliminar prenda en Supabase:", err);
+                            }
+                        }
+                        this.mostrarToast("Eliminada", "Prenda borrada permanentemente del inventario.");
                     }
                 },
 
@@ -3157,13 +3173,21 @@
                     }
                 },
 
-                eliminarPlanillaPedido(id) {
+                async eliminarPlanillaPedido(id) {
                     const p = this.pedidosGuardados.find(item => item.id === id);
                     const num = p ? p.numeroPlanilla : 'esta planilla';
                     if (confirm(`¿Estás seguro de eliminar ${num} del registro histórico?`)) {
                         this.pedidosGuardados = this.pedidosGuardados.filter(item => item.id !== id);
-                        this.guardarEnStorage();
-                        this.mostrarToast("Planilla Eliminada", `${num} borrada del registro histórico.`);
+                        this.guardarEnStorage(false);
+                        if (this.supabaseClient && this.supabaseConectado) {
+                            try {
+                                const { error } = await this.supabaseClient.from('pedidos').delete().eq('id', id);
+                                if (error) console.error("Error al eliminar pedido en Supabase:", error);
+                            } catch (err) {
+                                console.error("Error al eliminar pedido en Supabase:", err);
+                            }
+                        }
+                        this.mostrarToast("Planilla Eliminada", `${num} borrada permanentemente del historial.`);
                     }
                 },
 
@@ -3363,8 +3387,8 @@
                     if (!this.supabaseClient || !this.supabaseConectado) return;
                     try {
                         // Cargar Embajadores
-                        const { data: embData } = await this.supabaseClient.from('embajadores').select('*').order('id', { ascending: false });
-                        if (embData && embData.length > 0) {
+                        const { data: embData, error: embErr } = await this.supabaseClient.from('embajadores').select('*').order('id', { ascending: false });
+                        if (!embErr && Array.isArray(embData)) {
                             this.embajadores = embData.map(e => ({
                                 id: e.id,
                                 nombre: e.nombre,
@@ -3384,8 +3408,8 @@
                         }
 
                         // Cargar Inventario
-                        const { data: invData } = await this.supabaseClient.from('inventario').select('*').order('id', { ascending: false });
-                        if (invData && invData.length > 0) {
+                        const { data: invData, error: invErr } = await this.supabaseClient.from('inventario').select('*').order('id', { ascending: false });
+                        if (!invErr && Array.isArray(invData)) {
                             this.inventario = invData.map(p => ({
                                 id: p.id,
                                 nombre: p.nombre,
@@ -3397,8 +3421,8 @@
                         }
 
                         // Cargar Pedidos
-                        const { data: pedData } = await this.supabaseClient.from('pedidos').select('*').order('id', { ascending: false });
-                        if (pedData && pedData.length > 0) {
+                        const { data: pedData, error: pedErr } = await this.supabaseClient.from('pedidos').select('*').order('id', { ascending: false });
+                        if (!pedErr && Array.isArray(pedData)) {
                             this.pedidosGuardados = pedData.map(p => ({
                                 id: p.id,
                                 numeroPlanilla: p.numero_planilla,
@@ -3466,7 +3490,9 @@
                             reclamado: e.reclamado,
                             historial: e.historial || []
                         }));
-                        await this.supabaseClient.from('embajadores').upsert(embPayload, { onConflict: 'id' });
+                        if (embPayload.length > 0) {
+                            await this.supabaseClient.from('embajadores').upsert(embPayload, { onConflict: 'id' });
+                        }
 
                         // Sincronizar Inventario (Upsert)
                         const invPayload = this.inventario.map(p => ({
@@ -3477,7 +3503,9 @@
                             pvp: p.pvp,
                             stock: p.stock
                         }));
-                        await this.supabaseClient.from('inventario').upsert(invPayload, { onConflict: 'id' });
+                        if (invPayload.length > 0) {
+                            await this.supabaseClient.from('inventario').upsert(invPayload, { onConflict: 'id' });
+                        }
 
                         // Sincronizar Pedidos (Upsert)
                         const pedPayload = this.pedidosGuardados.map(p => ({
@@ -3503,7 +3531,9 @@
                             margen_porcentaje_cuenta: p.margenPorcentajeCuenta,
                             ticket_texto: p.ticketTexto
                         }));
-                        await this.supabaseClient.from('pedidos').upsert(pedPayload, { onConflict: 'id' });
+                        if (pedPayload.length > 0) {
+                            await this.supabaseClient.from('pedidos').upsert(pedPayload, { onConflict: 'id' });
+                        }
                     } catch (err) {
                         console.error("Error al sincronizar con Supabase en background:", err);
                     }
