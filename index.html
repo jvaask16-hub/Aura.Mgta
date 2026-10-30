@@ -2,7 +2,7 @@
 <html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>aura.mgta — Suite Comercial</title>
     <link rel="icon" type="image/png" href="logo-square.png">
     <!-- Tailwind CSS -->
@@ -52,6 +52,8 @@
             background-color: #09090b; 
             color: #f4f4f5; 
             letter-spacing: -0.01em;
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: env(safe-area-inset-bottom);
         }
         h1, h2, .font-serif {
             font-family: 'Cormorant Garamond', serif;
@@ -59,7 +61,7 @@
         }
         input[type=range] {
             -webkit-appearance: none;
-            background: #1f2937;
+            background: #27272a;
             border-radius: 8px;
             height: 8px;
         }
@@ -68,112 +70,194 @@
             height: 18px;
             width: 18px;
             border-radius: 50%;
-            background: #6366f1;
+            background: #e4e4e7;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #070a12;
+            background: #09090b;
         }
         ::-webkit-scrollbar-thumb {
-            background: #1f2937;
+            background: #27272a;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #374151;
+            background: #3f3f46;
+        }
+        /* Previene zoom brusco indeseado en Safari móvil al hacer foco */
+        @media (max-width: 640px) {
+            input:not([type=range]):not([type=checkbox]), select, textarea {
+                font-size: 16px !important;
+            }
         }
     </style>
 </head>
-<body x-data="auraApp()" x-init="initApp()" class="min-h-screen flex flex-col bg-[#09090b] text-zinc-100 antialiased selection:bg-zinc-800 selection:text-white">
+<body x-data="auraApp()" x-init="initApp()" class="min-h-screen flex flex-col bg-[#09090b] text-zinc-100 antialiased selection:bg-zinc-800 selection:text-white overflow-x-hidden">
 
     <!-- HEADER & NAVBAR -->
-    <header class="border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <img src="logo.png" alt="AURA" class="h-6 sm:h-7 w-auto object-contain">
-                <span class="hidden sm:inline-block text-[9px] px-2 py-0.5 rounded-full bg-zinc-900 text-zinc-400 border border-zinc-800 font-mono tracking-widest uppercase">Suite Comercial</span>
+    <header class="border-b border-zinc-800/80 bg-zinc-950/95 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="h-14 sm:h-16 flex items-center justify-between gap-3">
+                <div class="flex items-center space-x-2.5 flex-shrink-0">
+                    <img src="logo.png" alt="AURA" class="h-6 sm:h-7 w-auto object-contain">
+                    <span class="hidden sm:inline-block text-[9px] px-2 py-0.5 rounded-full bg-zinc-900 text-zinc-400 border border-zinc-800 font-mono tracking-widest uppercase">Suite Comercial</span>
+                </div>
+
+                <!-- Resumen rápido en móvil (prendas en cuenta) -->
+                <div class="md:hidden flex items-center gap-2">
+                    <button 
+                        @click="setTab('cuenta')"
+                        class="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-xs font-mono flex items-center gap-1.5 text-zinc-300">
+                        <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-zinc-400"></i>
+                        <span x-text="cuenta.items.length + ' prendas'"></span>
+                    </button>
+                </div>
+
+                <!-- TABS NAVIGATION (DESKTOP) -->
+                <nav class="hidden md:flex p-1 bg-zinc-900/90 rounded-xl border border-zinc-800">
+                    <!-- Tab 1: Armar Cuenta Entera -->
+                    <button 
+                        @click="setTab('cuenta')"
+                        :class="activeTab === 'cuenta' ? 'bg-zinc-100 text-zinc-950 font-semibold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all">
+                        <i data-lucide="receipt" class="w-4 h-4"></i>
+                        <span>Cuenta & Descuentos</span>
+                    </button>
+
+                    <!-- Tab 2: Gestor y Creador de Códigos -->
+                    <button 
+                        @click="setTab('embajadores')"
+                        :class="activeTab === 'embajadores' ? 'bg-zinc-100 text-zinc-950 font-semibold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all relative">
+                        <i data-lucide="users" class="w-4 h-4"></i>
+                        <span>Embajadores & Códigos</span>
+                        <template x-if="embajadoresListosParaReclamar.length > 0">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        </template>
+                    </button>
+
+                    <!-- Tab 3: Calculadora de Lotes, Envío & Fijador de PVP para Referidos -->
+                    <button 
+                        @click="setTab('calculadora')"
+                        :class="activeTab === 'calculadora' ? 'bg-zinc-100 text-zinc-950 font-semibold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all">
+                        <i data-lucide="tag" class="w-4 h-4"></i>
+                        <span>Lotes & PVP</span>
+                    </button>
+
+                    <!-- Tab 4: Inventario / Catálogo de Prendas -->
+                    <button 
+                        @click="setTab('inventario')"
+                        :class="activeTab === 'inventario' ? 'bg-zinc-100 text-zinc-950 font-semibold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all">
+                        <i data-lucide="shirt" class="w-4 h-4"></i>
+                        <span>Catálogo Prendas</span>
+                    </button>
+
+                    <!-- Tab 5: Planillas y Pedidos Guardados -->
+                    <button 
+                        @click="setTab('pedidos')"
+                        :class="activeTab === 'pedidos' ? 'bg-zinc-100 text-zinc-950 font-semibold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all relative">
+                        <i data-lucide="folder-check" class="w-4 h-4"></i>
+                        <span>Planillas Guardadas</span>
+                        <template x-if="pedidosGuardados.length > 0">
+                            <span class="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700 font-bold" x-text="pedidosGuardados.length"></span>
+                        </template>
+                    </button>
+
+                    <!-- Tab 6: Simulador Financiero Ciclo -->
+                    <button 
+                        @click="setTab('simulador')"
+                        :class="activeTab === 'simulador' ? 'bg-zinc-100 text-zinc-950 font-semibold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all">
+                        <i data-lucide="calculator" class="w-4 h-4"></i>
+                        <span>Simulador Ciclo</span>
+                    </button>
+                </nav>
             </div>
 
-            <!-- TABS NAVIGATION -->
-            <nav class="flex p-1 bg-zinc-900/90 rounded-xl border border-zinc-800">
-                <!-- Tab 1: Armar Cuenta Entera -->
-                <button 
-                    @click="setTab('cuenta')"
-                    :class="activeTab === 'cuenta' ? 'bg-zinc-100 text-zinc-950 font-semibold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
-                    class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all">
-                    <i data-lucide="receipt" class="w-4 h-4"></i>
-                    <span class="hidden md:inline">Cuenta & Descuentos</span>
-                    <span class="md:hidden">Cuenta</span>
-                </button>
-
-                <!-- Tab 2: Gestor y Creador de Códigos -->
-                <button 
-                    @click="setTab('embajadores')"
-                    :class="activeTab === 'embajadores' ? 'bg-zinc-100 text-zinc-950 font-semibold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
-                    class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all relative">
-                    <i data-lucide="users" class="w-4 h-4"></i>
-                    <span class="hidden md:inline">Embajadores & Códigos</span>
-                    <span class="md:hidden">Códigos</span>
-                    <template x-if="embajadoresListosParaReclamar.length > 0">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    </template>
-                </button>
-
-                <!-- Tab 3: Calculadora de Lotes, Envío & Fijador de PVP para Referidos -->
-                <button 
-                    @click="setTab('calculadora')"
-                    :class="activeTab === 'calculadora' ? 'bg-zinc-100 text-zinc-950 font-semibold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
-                    class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all">
-                    <i data-lucide="tag" class="w-4 h-4"></i>
-                    <span class="hidden md:inline">Lotes & PVP</span>
-                    <span class="md:hidden">Lotes</span>
-                </button>
-
-                <!-- Tab 4: Inventario / Catálogo de Prendas -->
-                <button 
-                    @click="setTab('inventario')"
-                    :class="activeTab === 'inventario' ? 'bg-zinc-100 text-zinc-950 font-semibold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
-                    class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all">
-                    <i data-lucide="shirt" class="w-4 h-4"></i>
-                    <span class="hidden md:inline">Catálogo Prendas</span>
-                    <span class="md:hidden">Prendas</span>
-                </button>
-
-                <!-- Tab 5: Planillas y Pedidos Guardados -->
-                <button 
-                    @click="setTab('pedidos')"
-                    :class="activeTab === 'pedidos' ? 'bg-zinc-100 text-zinc-950 font-semibold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
-                    class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all relative">
-                    <i data-lucide="folder-check" class="w-4 h-4"></i>
-                    <span class="hidden md:inline">Planillas Guardadas</span>
-                    <span class="md:hidden">Planillas</span>
-                    <template x-if="pedidosGuardados.length > 0">
-                        <span class="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700 font-bold" x-text="pedidosGuardados.length"></span>
-                    </template>
-                </button>
-
-                <!-- Tab 6: Simulador Financiero Ciclo -->
-                <button 
-                    @click="setTab('simulador')"
-                    :class="activeTab === 'simulador' ? 'bg-zinc-100 text-zinc-950 font-semibold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
-                    class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all">
-                    <i data-lucide="calculator" class="w-4 h-4"></i>
-                    <span class="hidden lg:inline">Simulador Ciclo</span>
-                </button>
-            </nav>
+            <!-- TABS SCROLLABLE PARA MÓVILES (md:hidden) -->
+            <div class="md:hidden pb-2.5 overflow-x-auto no-scrollbar -mx-3 px-3">
+                <nav class="flex items-center gap-1.5 p-1 bg-zinc-900/90 rounded-xl border border-zinc-800 w-max">
+                    <button 
+                        @click="setTab('cuenta')"
+                        :class="activeTab === 'cuenta' ? 'bg-zinc-100 text-zinc-950 font-bold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all flex-shrink-0">
+                        <i data-lucide="receipt" class="w-4 h-4"></i>
+                        <span>Cuenta</span>
+                    </button>
+                    <button 
+                        @click="setTab('embajadores')"
+                        :class="activeTab === 'embajadores' ? 'bg-zinc-100 text-zinc-950 font-bold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all flex-shrink-0 relative">
+                        <i data-lucide="users" class="w-4 h-4"></i>
+                        <span>Códigos</span>
+                        <template x-if="embajadoresListosParaReclamar.length > 0">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        </template>
+                    </button>
+                    <button 
+                        @click="setTab('calculadora')"
+                        :class="activeTab === 'calculadora' ? 'bg-zinc-100 text-zinc-950 font-bold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all flex-shrink-0">
+                        <i data-lucide="tag" class="w-4 h-4"></i>
+                        <span>Lotes & PVP</span>
+                    </button>
+                    <button 
+                        @click="setTab('inventario')"
+                        :class="activeTab === 'inventario' ? 'bg-zinc-100 text-zinc-950 font-bold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all flex-shrink-0">
+                        <i data-lucide="shirt" class="w-4 h-4"></i>
+                        <span>Catálogo</span>
+                    </button>
+                    <button 
+                        @click="setTab('pedidos')"
+                        :class="activeTab === 'pedidos' ? 'bg-zinc-100 text-zinc-950 font-bold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all flex-shrink-0 relative">
+                        <i data-lucide="folder-check" class="w-4 h-4"></i>
+                        <span>Planillas</span>
+                        <template x-if="pedidosGuardados.length > 0">
+                            <span class="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700 font-bold" x-text="pedidosGuardados.length"></span>
+                        </template>
+                    </button>
+                    <button 
+                        @click="setTab('simulador')"
+                        :class="activeTab === 'simulador' ? 'bg-zinc-100 text-zinc-950 font-bold shadow-sm' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="flex items-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all flex-shrink-0">
+                        <i data-lucide="calculator" class="w-4 h-4"></i>
+                        <span>Simulador</span>
+                    </button>
+                </nav>
+            </div>
         </div>
     </header>
 
     <!-- BARRA RÁPIDA: REGISTRO EXPRESS DE CÓDIGO -->
-    <section class="bg-zinc-900/40 border-b border-zinc-800/80 px-4 py-2">
-        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div class="flex items-center space-x-2 text-zinc-400">
-                <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>
-                <span class="font-medium text-zinc-300">Registro Rápido de Venta con Código:</span>
+    <section class="bg-zinc-900/40 border-b border-zinc-800/80 px-3 sm:px-4 py-2">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2 text-zinc-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>
+                    <span class="font-medium text-zinc-300">Venta Express con Código:</span>
+                </div>
+                <template x-if="embajadoresListosParaReclamar.length > 0">
+                    <button @click="setTab('embajadores')" class="sm:hidden text-[11px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded-lg flex items-center gap-1">
+                        <i data-lucide="award" class="w-3 h-3"></i>
+                        <span x-text="embajadoresListosParaReclamar.length + ' listos'"></span>
+                    </button>
+                </template>
             </div>
 
             <div class="flex items-center space-x-2 w-full sm:w-auto">
@@ -183,36 +267,18 @@
                         x-model="codigoExpressInput" 
                         @keyup.enter="registrarUsoExpress()"
                         placeholder="Ej. SOFIA5 o VALE8"
-                        class="w-full uppercase font-mono px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 text-xs focus:border-zinc-500 focus:outline-none">
+                        class="w-full uppercase font-mono px-3 py-1.5 h-9 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 text-xs focus:border-zinc-500 focus:outline-none">
                 </div>
                 <button 
                     @click="registrarUsoExpress()"
-                    class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-zinc-700 font-medium rounded-lg text-xs flex items-center space-x-1.5 transition">
-                    <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
-                    <span>+1 Venta</span>
-                </button>
-            </div>
-            </div>
-
-            <div class="flex items-center space-x-2 w-full sm:w-auto">
-                <div class="relative flex-grow sm:w-64">
-                    <input 
-                        type="text" 
-                        x-model="codigoExpressInput" 
-                        @keyup.enter="registrarUsoExpress()"
-                        placeholder="Ej. SOFIA5 o VALE8"
-                        class="w-full uppercase font-mono px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-100 placeholder-zinc-600 text-xs focus:border-zinc-500 focus:outline-none">
-                </div>
-                <button 
-                    @click="registrarUsoExpress()"
-                    class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-zinc-700 font-medium rounded-lg text-xs flex items-center space-x-1.5 transition">
+                    class="px-3.5 py-1.5 h-9 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-zinc-700 font-medium rounded-lg text-xs flex items-center space-x-1.5 transition flex-shrink-0">
                     <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
                     <span>+1 Venta</span>
                 </button>
             </div>
 
             <template x-if="embajadoresListosParaReclamar.length > 0">
-                <div class="flex items-center space-x-2 bg-emerald-950/60 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-lg">
+                <div class="hidden sm:flex items-center space-x-2 bg-emerald-950/60 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-lg">
                     <i data-lucide="award" class="w-3.5 h-3.5 text-emerald-400"></i>
                     <span><strong><span x-text="embajadoresListosParaReclamar.length"></span> embajador(es)</strong> listos para su beneficio</span>
                     <button @click="setTab('embajadores')" class="underline text-emerald-200 hover:text-white font-semibold ml-1">Ver lista</button>
@@ -367,8 +433,8 @@
                                             type="text" 
                                             x-model="cuenta.nuevoCodigoReferido" 
                                             @input="cuenta.codigoPersonalizadoManualmente = true"
-                                            placeholder="EJ. AURA-6345" 
-                                            class="uppercase font-mono font-bold px-3 py-1 h-8 rounded-lg bg-zinc-950 border border-zinc-700 text-zinc-100 text-xs focus:border-zinc-400 focus:outline-none w-40">
+                                            placeholder="EJ. MARIAPEREZ" 
+                                            class="uppercase font-mono font-bold px-3 py-1 h-8 rounded-lg bg-zinc-950 border border-zinc-700 text-zinc-100 text-xs focus:border-zinc-400 focus:outline-none w-36">
                                         <button 
                                             type="button" 
                                             @click="onInputCliente(true)"
@@ -867,28 +933,32 @@
 
                         <button 
                             @click="guardarPlanillaPedido()"
-                            class="w-full py-3 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-semibold text-xs sm:text-sm flex items-center justify-center space-x-2 transition shadow-sm">
+                            class="w-full py-3 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-semibold text-xs sm:text-sm flex items-center justify-center space-x-2 transition shadow-sm active:scale-[0.99]">
                             <i data-lucide="file-check" class="w-4 h-4"></i>
                             <span>Crear Planilla y Guardar Pedido</span>
                         </button>
 
-                        <button 
-                            @click="copiarAlPortapapeles(generarTicketCliente(), 'Ticket copiado al portapapeles listo para enviar')"
-                            class="w-full py-2.5 px-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700/80 font-medium text-xs flex items-center justify-center space-x-2 transition">
-                            <i data-lucide="copy" class="w-4 h-4"></i>
-                            <span>Copiar Ticket para WhatsApp</span>
-                        </button>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <button 
+                                @click="enviarTicketPorWhatsApp()"
+                                class="w-full py-2.5 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-zinc-700 font-medium text-xs flex items-center justify-center space-x-2 transition active:scale-[0.99]">
+                                <i data-lucide="send" class="w-4 h-4 text-emerald-400"></i>
+                                <span>Enviar por WhatsApp</span>
+                            </button>
+
+                            <button 
+                                @click="copiarAlPortapapeles(generarTicketCliente(), 'Ticket copiado al portapapeles listo para enviar')"
+                                class="w-full py-2.5 px-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 font-medium text-xs flex items-center justify-center space-x-2 transition active:scale-[0.99]">
+                                <i data-lucide="copy" class="w-4 h-4 text-zinc-400"></i>
+                                <span>Copiar Ticket</span>
+                            </button>
+                        </div>
 
                         <!-- Botón para asentar/contar uso al embajador si no se sumó automáticamente -->
                         <template x-if="cuenta.embajadorValido && evaluacionElegibilidad.califica">
                             <button 
                                 @click="contarVentaParaEmbajadorEnCuenta()"
                                 class="w-full py-2 px-3 rounded-xl bg-zinc-900/60 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 hover:text-zinc-200 font-mono text-[11px] flex items-center justify-center space-x-1.5 transition">
-                                <i data-lucide="user-check" class="w-3.5 h-3.5 text-zinc-400"></i>
-                                <span>Sumar +1 Uso Manual al Embajador (<span x-text="cuenta.embajadorValido.codigo"></span>)</span>
-                            </button>
-                        </template>
-                    </div>
                                 <i data-lucide="user-check" class="w-3.5 h-3.5 text-zinc-400"></i>
                                 <span>Sumar +1 Uso Manual al Embajador (<span x-text="cuenta.embajadorValido.codigo"></span>)</span>
                             </button>
@@ -1471,9 +1541,67 @@
                 </button>
             </div>
 
-            <!-- TABLA DE PRENDAS -->
+            <!-- TABLA Y TARJETAS DE PRENDAS -->
             <div class="bg-zinc-900/60 rounded-2xl border border-zinc-800 overflow-hidden shadow-sm">
-                <div class="overflow-x-auto">
+                <!-- VISTA TARJETAS PARA MÓVILES (sm:hidden) -->
+                <div class="sm:hidden p-3 space-y-3">
+                    <template x-for="(prenda, idx) in inventario" :key="'mob-' + prenda.id">
+                        <div class="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800/90 space-y-3">
+                            <div class="flex items-start justify-between gap-2">
+                                <div>
+                                    <h4 class="font-semibold text-white text-sm flex items-center gap-1.5">
+                                        <i data-lucide="sparkle" class="w-3.5 h-3.5 text-zinc-500"></i>
+                                        <span x-text="prenda.nombre"></span>
+                                    </h4>
+                                    <span class="text-[11px] text-zinc-400 font-sans" x-text="prenda.categoria || 'Colección'"></span>
+                                </div>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono border"
+                                    :class="prenda.stock > 0 ? 'bg-zinc-800 text-zinc-200 border-zinc-700' : 'bg-zinc-900 text-zinc-500 border-zinc-800'"
+                                    x-text="prenda.stock + ' disp.'">
+                                </span>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2 p-2 rounded-lg bg-zinc-900/60 border border-zinc-800/80 text-center font-mono">
+                                <div>
+                                    <span class="text-[9px] text-zinc-500 block uppercase">Costo Base</span>
+                                    <span class="text-xs font-semibold text-zinc-300" x-text="'$' + prenda.costo.toFixed(2)"></span>
+                                </div>
+                                <div>
+                                    <span class="text-[9px] text-zinc-500 block uppercase">PVP Tienda</span>
+                                    <span class="text-xs font-bold text-white" x-text="'$' + prenda.pvp.toFixed(2)"></span>
+                                </div>
+                                <div>
+                                    <span class="text-[9px] text-zinc-500 block uppercase">Margen</span>
+                                    <span class="text-xs font-bold text-zinc-200" x-text="'+$' + (prenda.pvp - prenda.costo).toFixed(2)"></span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2 pt-1 border-t border-zinc-800/80">
+                                <button 
+                                    @click="agregarPrendaDesdeCatalogo(prenda.id); setTab('cuenta')"
+                                    class="flex-1 py-2 px-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 rounded-lg text-xs font-medium transition flex items-center justify-center gap-1.5 border border-zinc-700/80 active:scale-95">
+                                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                                    <span>Sumar a Cuenta</span>
+                                </button>
+                                <button 
+                                    @click="abrirModalEditarPrenda(prenda)"
+                                    class="p-2 text-zinc-400 hover:text-white bg-zinc-900 hover:bg-zinc-800 rounded-lg transition border border-zinc-800"
+                                    title="Modificar prenda">
+                                    <i data-lucide="pencil" class="w-4 h-4"></i>
+                                </button>
+                                <button 
+                                    @click="eliminarPrendaCatalogo(prenda.id)"
+                                    class="p-2 text-zinc-500 hover:text-rose-400 bg-zinc-900 hover:bg-zinc-800 rounded-lg transition border border-zinc-800"
+                                    title="Eliminar prenda">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- TABLA PARA TABLET / DESKTOP -->
+                <div class="hidden sm:block overflow-x-auto">
                     <table class="w-full text-left text-xs font-mono">
                         <thead class="bg-zinc-950 text-zinc-400 uppercase text-[10px] tracking-wider border-b border-zinc-800">
                             <tr>
@@ -1645,29 +1773,30 @@
                             <!-- Acciones de la Planilla -->
                             <div class="pt-2 border-t border-zinc-800 flex items-center justify-between gap-2">
                                 <button 
+                                    @click="enviarTicketPorWhatsApp(p.ticketTexto)"
+                                    class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-zinc-700 text-xs font-mono flex items-center gap-1 transition">
+                                    <i data-lucide="send" class="w-3.5 h-3.5 text-emerald-400"></i> WhatsApp
+                                </button>
+
+                                <button 
                                     @click="copiarAlPortapapeles(p.ticketTexto, 'Ticket de la planilla copiado')"
-                                    class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-mono flex items-center gap-1 transition">
-                                    <i data-lucide="copy" class="w-3.5 h-3.5 text-zinc-300"></i> Copiar Ticket
+                                    class="px-2.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 text-xs font-mono flex items-center gap-1 transition">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5 text-zinc-400"></i> Copiar
                                 </button>
 
                                 <button 
                                     @click="cargarPlanillaEnCotizador(p)"
-                                    class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 text-xs font-mono flex items-center gap-1 transition">
+                                    class="px-2.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 text-xs font-mono flex items-center gap-1 transition">
                                     <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Abrir
                                 </button>
 
                                 <button 
                                     @click="eliminarPlanillaPedido(p.id)"
-                                    class="text-zinc-500 hover:text-rose-400 p-1 transition"
+                                    class="text-zinc-500 hover:text-rose-400 p-1.5 transition ml-auto"
                                     title="Eliminar registro">
                                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                                 </button>
                             </div>
-
-                        </div>
-                    </template>
-                </div>
-            </div>
 
                         </div>
                     </template>
@@ -1922,7 +2051,7 @@
         
         <div 
             @click.away="mostrarModalNuevoEmbajador = false" 
-            class="bg-zinc-900 border border-zinc-800 w-full max-w-lg p-6 rounded-2xl space-y-4 shadow-2xl">
+            class="bg-zinc-900 border border-zinc-800 w-full max-w-lg p-5 sm:p-6 rounded-2xl space-y-4 shadow-2xl max-h-[92vh] overflow-y-auto">
             
             <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
                 <h3 class="text-base font-bold text-white flex items-center gap-2">
@@ -1970,7 +2099,7 @@
                         <input 
                             type="text" 
                             x-model="nuevoEmbajador.codigo" 
-                            placeholder="EJ. AURA-6345"
+                            placeholder="CARLOS5 o CAMI8"
                             class="uppercase font-mono font-bold text-zinc-300 w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 focus:border-zinc-500 focus:outline-none">
                         <button 
                             @click="generarCodigoSugerido()" 
@@ -2071,7 +2200,7 @@
         
         <div 
             @click.away="mostrarModalNuevaPrenda = false" 
-            class="bg-zinc-900 border border-zinc-800 w-full max-w-md p-6 rounded-2xl space-y-4 shadow-2xl">
+            class="bg-zinc-900 border border-zinc-800 w-full max-w-md p-5 sm:p-6 rounded-2xl space-y-4 shadow-2xl max-h-[92vh] overflow-y-auto">
             
             <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
                 <h3 class="text-base font-bold text-white flex items-center gap-2">
@@ -2132,52 +2261,52 @@
         
         <div 
             @click.away="mostrarModalSupabase = false" 
-            class="bg-brand-900 border border-gray-800 w-full max-w-lg p-6 rounded-2xl space-y-4 shadow-2xl">
+            class="bg-zinc-900 border border-zinc-800 w-full max-w-lg p-5 sm:p-6 rounded-2xl space-y-4 shadow-2xl max-h-[92vh] overflow-y-auto">
             
-            <div class="flex items-center justify-between pb-3 border-b border-gray-800">
+            <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
                 <h3 class="text-base font-bold text-white flex items-center gap-2">
                     <i data-lucide="database" class="w-5 h-5 text-emerald-400"></i> Conexión con Supabase Database
                 </h3>
-                <button @click="mostrarModalSupabase = false" class="text-gray-400 hover:text-white">
+                <button @click="mostrarModalSupabase = false" class="text-zinc-400 hover:text-white">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
 
-            <p class="text-xs text-gray-400">
+            <p class="text-xs text-zinc-400">
                 Ingresa la URL y la llave anónima (Anon Public Key) de tu proyecto de Supabase. Tus datos de inventario, embajadores y planillas se sincronizarán en la nube de forma persistente.
             </p>
 
             <div class="space-y-3 text-xs">
                 <div>
-                    <label class="text-gray-300 font-medium block mb-1">Project URL (URL de Supabase):</label>
+                    <label class="text-zinc-300 font-medium block mb-1">Project URL (URL de Supabase):</label>
                     <input 
                         type="text" 
                         x-model="configSupabase.url" 
                         placeholder="https://xyzcompany.supabase.co" 
-                        class="w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 text-white font-mono text-xs focus:outline-none focus:border-zinc-500">
+                        class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-white font-mono text-xs focus:outline-none focus:border-zinc-500">
                 </div>
 
                 <div>
-                    <label class="text-gray-300 font-medium block mb-1">Anon Public Key (API Key anónima):</label>
+                    <label class="text-zinc-300 font-medium block mb-1">Anon Public Key (API Key anónima):</label>
                     <input 
                         type="password" 
                         x-model="configSupabase.anonKey" 
                         placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." 
-                        class="w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 text-white font-mono text-xs focus:outline-none focus:border-zinc-500">
+                        class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-white font-mono text-xs focus:outline-none focus:border-zinc-500">
                 </div>
 
-                <div class="p-3 rounded-xl bg-gray-950/70 border border-gray-800 text-[11px] space-y-1.5">
+                <div class="p-3 rounded-xl bg-zinc-950/70 border border-zinc-800 text-[11px] space-y-1.5">
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-400">Estado de conexión:</span>
-                        <span class="font-bold font-mono" :class="supabaseConectado ? 'text-emerald-400' : 'text-amber-400'" x-text="supabaseConectado ? 'CONECTADO Y SINCRONIZADO' : 'MODO LOCAL (OFFLINE)'"></span>
+                        <span class="text-zinc-400">Estado de conexión:</span>
+                        <span class="font-bold font-mono" :class="supabaseConectado ? 'text-emerald-400' : 'text-zinc-400'" x-text="supabaseConectado ? 'CONECTADO Y SINCRONIZADO' : 'MODO LOCAL (OFFLINE)'"></span>
                     </div>
-                    <p class="text-[10px] text-gray-500">
+                    <p class="text-[10px] text-zinc-500">
                         Si no tienes Supabase aún configurado, la suite funciona al 100% en modo local guardando todo en tu navegador.
                     </p>
                 </div>
             </div>
 
-            <div class="pt-3 border-t border-gray-800 flex justify-between items-center">
+            <div class="pt-3 border-t border-zinc-800 flex justify-between items-center">
                 <button 
                     @click="desconectarSupabase()" 
                     x-show="supabaseConectado"
@@ -2185,8 +2314,8 @@
                     Desconectar
                 </button>
                 <div class="flex space-x-2 ml-auto">
-                    <button @click="mostrarModalSupabase = false" class="px-4 py-2 rounded-xl bg-gray-800 text-gray-300 text-xs hover:bg-gray-700 transition">Cerrar</button>
-                    <button @click="conectarSupabase()" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-lg shadow-emerald-600/30 transition flex items-center gap-1.5">
+                    <button @click="mostrarModalSupabase = false" class="px-4 py-2 rounded-xl bg-zinc-800 text-zinc-300 text-xs hover:bg-zinc-700 transition">Cerrar</button>
+                    <button @click="conectarSupabase()" class="px-5 py-2 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-semibold shadow-sm transition flex items-center gap-1.5">
                         <i data-lucide="check" class="w-4 h-4"></i> Guardar y Conectar
                     </button>
                 </div>
@@ -2338,7 +2467,8 @@
                 },
 
                 generarCodigoSugerido() {
-                    this.nuevoEmbajador.codigo = this.generarSugerenciaCodigoReferido(this.nuevoEmbajador.nombre, this.nuevoEmbajador.telefono, 0);
+                    const primerNombre = (this.nuevoEmbajador.nombre.trim().split(' ')[0] || 'AURA').toUpperCase().replace(/[^A-Z]/g, '');
+                    this.nuevoEmbajador.codigo = `${primerNombre}${this.nuevoEmbajador.meta}`;
                 },
 
                 guardarNuevoEmbajador() {
@@ -2593,7 +2723,7 @@
                     telefono: "+58 412-5550000",
                     tipoCliente: "nuevo",
                     autoCrearEmbajador: true,
-                    nuevoCodigoReferido: "AURA-5000",
+                    nuevoCodigoReferido: "MARIAPEREZ",
                     codigoPersonalizadoManualmente: false,
                     codigoEmbajador: "",
                     embajadorValido: null,
@@ -2936,35 +3066,77 @@
                 },
 
                 generarSugerenciaCodigoReferido(nombre, telefono = '', indiceVariante = 0) {
-                    const codigosExistentes = new Set(this.embajadores.map(e => (e.codigo || '').toUpperCase()));
+                    if (!nombre || !nombre.trim()) return '';
 
-                    // Extraer los últimos 4 dígitos del número de teléfono si existen
+                    const normalizar = (txt) => (txt || '')
+                        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                        .replace(/[^a-zA-Z0-9\s]/g, "")
+                        .trim();
+
+                    const palabras = normalizar(nombre).split(/\s+/).filter(Boolean);
+                    if (palabras.length === 0) return 'AURA5';
+
+                    const p1 = palabras[0].toUpperCase();
+                    const p2 = palabras.length > 1 ? palabras[1].toUpperCase() : '';
+                    const apellido = palabras.length > 1 ? palabras[palabras.length - 1].toUpperCase() : '';
+
                     const digitosTel = (telefono || '').replace(/[^0-9]/g, '');
-                    const ultimos4 = digitosTel.length >= 4 ? digitosTel.slice(-4) : (digitosTel.length >= 3 ? ('0' + digitosTel.slice(-3)) : '');
+                    const ultimos2Tel = digitosTel.length >= 2 ? digitosTel.slice(-2) : '';
 
-                    // Si es la sugerencia inicial y hay 4 dígitos de teléfono, asignar AURA-XXXX (donde XXXX es el fin de su número)
-                    if (indiceVariante === 0 && ultimos4 && ultimos4.length === 4) {
-                        const codTel = `AURA-${ultimos4}`;
-                        if (!codigosExistentes.has(codTel)) {
-                            return codTel;
+                    const candidatos = [];
+
+                    if (palabras.length >= 2) {
+                        const inApellido = apellido[0];
+                        // 1. Nombre + Apellido real (Estilo embajadora oficial: MARIAPEREZ)
+                        if ((p1 + apellido).length <= 15) {
+                            candidatos.push(`${p1}${apellido}`);
                         }
+                        // 2. Nombre + Inicial Apellido + 5 (MARIAP5)
+                        candidatos.push(`${p1}${inApellido}5`);
+                        // 3. Nombre + Inicial Apellido (MARIAP)
+                        candidatos.push(`${p1}${inApellido}`);
+                        // 4. Inicial Nombre + Apellido + 5 (MPEREZ5)
+                        candidatos.push(`${p1[0]}${apellido}5`);
+                        // 5. Iniciales compuestas si hay 2 nombres (MALE5 o MALEJANDRA)
+                        if (palabras.length >= 3 && p2) {
+                            candidatos.push(`${p1[0]}${p2[0]}${apellido}`);
+                            candidatos.push(`${p1.slice(0, 4)}${inApellido}5`);
+                        }
+                        // 6. Con terminación de teléfono real de la clienta (personalizado y auténtico)
+                        if (ultimos2Tel) {
+                            candidatos.push(`${p1}${inApellido}${ultimos2Tel}`);
+                            candidatos.push(`${p1}${ultimos2Tel}`);
+                        }
+                        // 7. Nombre + Inicial Apellido + AURA
+                        candidatos.push(`${p1}${inApellido}AURA`);
+                    } else {
+                        // Solo se escribió un nombre (ej. "María")
+                        candidatos.push(`${p1}5`);
+                        if (ultimos2Tel) {
+                            candidatos.push(`${p1}${ultimos2Tel}`);
+                        }
+                        candidatos.push(`${p1}AURA`);
+                        candidatos.push(`AURA${p1}`);
+                        candidatos.push(`${p1}8`);
                     }
 
-                    // Generación determinista y rotativa con prefijo AURA-XXXX
-                    const baseSeed = (digitosTel ? (parseInt(digitosTel.slice(-4)) || 1200) : 1200) + ((nombre || '').length * 37);
-                    const offsets = [0, 1845, 3421, 5190, 7234, 8612, 4390, 6128, 2571, 9143];
-                    const offset = offsets[Math.abs(indiceVariante) % offsets.length];
+                    const codigosExistentes = new Set(this.embajadores.map(e => (e.codigo || '').toUpperCase()));
+                    const candidatosDisponibles = candidatos.filter(c => !codigosExistentes.has(c));
 
-                    let num = ((baseSeed + offset + (Math.abs(indiceVariante) * 431)) % 8999) + 1000;
-                    let candidato = `AURA-${num}`;
-
-                    // Garantizar unicidad absoluta
-                    while (codigosExistentes.has(candidato)) {
-                        num = ((num + 17) % 8999) + 1000;
-                        candidato = `AURA-${num}`;
+                    if (candidatosDisponibles.length > 0) {
+                        const idx = Math.abs(indiceVariante) % candidatosDisponibles.length;
+                        return candidatosDisponibles[idx];
                     }
 
-                    return candidato;
+                    // Fallback garantizado único y profesional
+                    let base = palabras.length >= 2 ? `${p1}${apellido[0]}` : p1.slice(0, 6);
+                    let fallback = `${base}${ultimos2Tel || 'VIP'}`;
+                    let count = 1;
+                    while (codigosExistentes.has(fallback)) {
+                        fallback = `${base}${count}`;
+                        count++;
+                    }
+                    return fallback;
                 },
 
                 onInputCliente(esRegeneracionManual = false) {
@@ -3230,6 +3402,25 @@
                     txt += `Por favor envíanos tus datos de entrega y comprobante de pago para procesar tu orden. Gracias por tu preferencia en aura.mgta.`;
 
                     return txt;
+                },
+
+                enviarTicketPorWhatsApp(ticketPersonalizado = null) {
+                    const texto = ticketPersonalizado || this.generarTicketCliente();
+                    const tel = (this.cuenta.telefono || '').replace(/\D/g, '');
+                    const textoEncoded = encodeURIComponent(texto);
+                    let url = '';
+                    if (tel && tel.length >= 7) {
+                        let numeroFinal = tel;
+                        if (numeroFinal.startsWith('0')) {
+                            numeroFinal = '58' + numeroFinal.substring(1);
+                        } else if (!numeroFinal.startsWith('58') && numeroFinal.length === 10) {
+                            numeroFinal = '58' + numeroFinal;
+                        }
+                        url = `https://wa.me/${numeroFinal}?text=${textoEncoded}`;
+                    } else {
+                        url = `https://wa.me/?text=${textoEncoded}`;
+                    }
+                    window.open(url, '_blank');
                 },
 
 
