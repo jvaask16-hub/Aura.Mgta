@@ -2155,13 +2155,13 @@
             return {
                 activeTab: 'cuenta',
 
-                // Configuración y Cliente Supabase
+                // Configuración y Cliente Supabase (Conectado a tu proyecto oficial)
                 mostrarModalSupabase: false,
                 supabaseConectado: false,
                 supabaseClient: null,
                 configSupabase: {
-                    url: '',
-                    anonKey: ''
+                    url: 'https://ikcskvnqvixkrphtxdbq.supabase.co',
+                    anonKey: 'sb_publishable_DhAGa5ce3FYs_9xoE6UfMQ_jY9EIz24'
                 },
 
                 codigoExpressInput: '',
@@ -3294,9 +3294,9 @@
                         const savedPedidos = localStorage.getItem('aura_pedidos_v5');
                         if (savedPedidos) this.pedidosGuardados = JSON.parse(savedPedidos);
 
-                        // Cargar credenciales Supabase si existen
-                        const savedSupaUrl = localStorage.getItem('aura_supa_url');
-                        const savedSupaKey = localStorage.getItem('aura_supa_key');
+                        // Cargar credenciales Supabase si existen (o usar las predeterminadas del proyecto)
+                        const savedSupaUrl = localStorage.getItem('aura_supa_url') || this.configSupabase.url;
+                        const savedSupaKey = localStorage.getItem('aura_supa_key') || this.configSupabase.anonKey;
                         if (savedSupaUrl && savedSupaKey) {
                             this.configSupabase.url = savedSupaUrl;
                             this.configSupabase.anonKey = savedSupaKey;
