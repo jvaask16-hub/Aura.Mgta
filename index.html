@@ -317,7 +317,7 @@
                                 <input 
                                     type="text" 
                                     x-model="cuenta.telefono" 
-                                    @input="revalidarElegibilidad()"
+                                    @input="onInputCliente()"
                                     placeholder="+58 412..."
                                     class="w-full h-10 px-3.5 rounded-xl bg-gray-950 border border-gray-800 text-white placeholder-gray-500 focus:border-brand-500 focus:outline-none font-mono text-xs">
                             </div>
@@ -368,12 +368,23 @@
                             <div x-show="cuenta.autoCrearEmbajador" class="flex flex-col sm:flex-row sm:items-center gap-2.5 pt-2 border-t border-indigo-800/40 text-xs">
                                 <div class="flex items-center gap-2 flex-grow">
                                     <span class="text-gray-400 font-mono text-[11px] whitespace-nowrap">Código asignado:</span>
-                                    <input 
-                                        type="text" 
-                                        x-model="cuenta.nuevoCodigoReferido" 
-                                        placeholder="EJ. MARIA5" 
-                                        class="uppercase font-mono font-bold px-3 py-1 h-8 rounded-lg bg-gray-950 border border-indigo-500/40 text-indigo-300 text-xs focus:border-indigo-400 focus:outline-none w-32">
-                                    <span class="text-[10px] text-gray-500 font-mono">(Sugerido según su nombre)</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <input 
+                                            type="text" 
+                                            x-model="cuenta.nuevoCodigoReferido" 
+                                            @input="cuenta.codigoPersonalizadoManualmente = true"
+                                            placeholder="EJ. MARIAPEREZ" 
+                                            class="uppercase font-mono font-bold px-3 py-1 h-8 rounded-lg bg-gray-950 border border-indigo-500/40 text-indigo-300 text-xs focus:border-indigo-400 focus:outline-none w-36">
+                                        <button 
+                                            type="button" 
+                                            @click="onInputCliente(true)"
+                                            title="Generar otra alternativa de código"
+                                            class="h-8 px-2 rounded-lg bg-indigo-950/60 border border-indigo-500/30 text-indigo-300 hover:text-white hover:bg-indigo-900/60 transition flex items-center gap-1 text-[11px] font-mono">
+                                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                                            <span class="hidden sm:inline">Variar</span>
+                                        </button>
+                                    </div>
+                                    <span class="text-[10px] text-gray-500 font-mono">(Único y sin repetición)</span>
                                 </div>
 
                                 <div class="text-[10px] text-indigo-300/80 font-mono flex items-center gap-1">
@@ -2551,7 +2562,8 @@
                     telefono: "+58 412-5550000",
                     tipoCliente: "nuevo",
                     autoCrearEmbajador: true,
-                    nuevoCodigoReferido: "MARIA5",
+                    nuevoCodigoReferido: "MARIAPEREZ",
+                    codigoPersonalizadoManualmente: false,
                     codigoEmbajador: "",
                     embajadorValido: null,
                     autorizadoManualmente: false,
@@ -2892,34 +2904,98 @@
                     this.mostrarToast("Descuento Asignado", `El cupón se aplicó específicamente a la prenda seleccionada.`);
                 },
 
-                generarSugerenciaCodigoReferido(nombre) {
+                generarSugerenciaCodigoReferido(nombre, telefono = '', indiceVariante = 0) {
                     if (!nombre || !nombre.trim()) return '';
-                    const limpio = nombre.trim()
+
+                    const normalizar = (txt) => (txt || '')
                         .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-                        .replace(/[^a-zA-Z0-9]/g, "");
-                    let base = limpio.slice(0, 6).toUpperCase();
-                    if (base.length < 3) base = 'AURA';
-                    let candidato = `${base}5`;
-                    if (this.embajadores.some(e => e.codigo === candidato)) {
-                        candidato = `${base}8`;
+                        .replace(/[^a-zA-Z0-9\s]/g, "")
+                        .trim();
+
+                    const palabras = normalizar(nombre).split(/\s+/).filter(Boolean);
+                    if (palabras.length === 0) return 'AURA5';
+
+                    const p1 = palabras[0].toUpperCase();
+                    const p2 = palabras.length > 1 ? palabras[1].toUpperCase() : '';
+                    const apellido = palabras.length > 1 ? palabras[palabras.length - 1].toUpperCase() : '';
+
+                    const digitosTel = (telefono || '').replace(/[^0-9]/g, '');
+                    const ultimos2Tel = digitosTel.length >= 2 ? digitosTel.slice(-2) : '';
+
+                    const candidatos = [];
+
+                    if (palabras.length >= 2) {
+                        const inApellido = apellido[0];
+                        // 1. Nombre + Apellido real (Estilo embajadora oficial: MARIAPEREZ)
+                        if ((p1 + apellido).length <= 15) {
+                            candidatos.push(`${p1}${apellido}`);
+                        }
+                        // 2. Nombre + Inicial Apellido + 5 (MARIAP5)
+                        candidatos.push(`${p1}${inApellido}5`);
+                        // 3. Nombre + Inicial Apellido (MARIAP)
+                        candidatos.push(`${p1}${inApellido}`);
+                        // 4. Inicial Nombre + Apellido + 5 (MPEREZ5)
+                        candidatos.push(`${p1[0]}${apellido}5`);
+                        // 5. Iniciales compuestas si hay 2 nombres (MALE5 o MALEJANDRA)
+                        if (palabras.length >= 3 && p2) {
+                            candidatos.push(`${p1[0]}${p2[0]}${apellido}`);
+                            candidatos.push(`${p1.slice(0, 4)}${inApellido}5`);
+                        }
+                        // 6. Con terminación de teléfono real de la clienta (personalizado y auténtico)
+                        if (ultimos2Tel) {
+                            candidatos.push(`${p1}${inApellido}${ultimos2Tel}`);
+                            candidatos.push(`${p1}${ultimos2Tel}`);
+                        }
+                        // 7. Nombre + Inicial Apellido + AURA
+                        candidatos.push(`${p1}${inApellido}AURA`);
+                    } else {
+                        // Solo se escribió un nombre (ej. "María")
+                        candidatos.push(`${p1}5`);
+                        if (ultimos2Tel) {
+                            candidatos.push(`${p1}${ultimos2Tel}`);
+                        }
+                        candidatos.push(`${p1}AURA`);
+                        candidatos.push(`AURA${p1}`);
+                        candidatos.push(`${p1}8`);
                     }
-                    if (this.embajadores.some(e => e.codigo === candidato)) {
-                        candidato = `${base}${Math.floor(Math.random() * 90 + 10)}`;
+
+                    const codigosExistentes = new Set(this.embajadores.map(e => (e.codigo || '').toUpperCase()));
+                    const candidatosDisponibles = candidatos.filter(c => !codigosExistentes.has(c));
+
+                    if (candidatosDisponibles.length > 0) {
+                        const idx = Math.abs(indiceVariante) % candidatosDisponibles.length;
+                        return candidatosDisponibles[idx];
                     }
-                    return candidato;
+
+                    // Fallback garantizado único y profesional
+                    let base = palabras.length >= 2 ? `${p1}${apellido[0]}` : p1.slice(0, 6);
+                    let fallback = `${base}${ultimos2Tel || 'VIP'}`;
+                    let count = 1;
+                    while (codigosExistentes.has(fallback)) {
+                        fallback = `${base}${count}`;
+                        count++;
+                    }
+                    return fallback;
                 },
 
-                onInputCliente() {
+                onInputCliente(esRegeneracionManual = false) {
                     if (this.cuenta.tipoCliente === 'nuevo') {
-                        this.cuenta.nuevoCodigoReferido = this.generarSugerenciaCodigoReferido(this.cuenta.cliente);
+                        if (!this.cuenta.codigoPersonalizadoManualmente || esRegeneracionManual || !this.cuenta.nuevoCodigoReferido) {
+                            if (esRegeneracionManual) {
+                                this.varianteCodigoActual = (this.varianteCodigoActual || 0) + 1;
+                            } else {
+                                this.varianteCodigoActual = 0;
+                            }
+                            this.cuenta.nuevoCodigoReferido = this.generarSugerenciaCodigoReferido(this.cuenta.cliente, this.cuenta.telefono, this.varianteCodigoActual);
+                        }
                     }
                     this.revalidarElegibilidad();
                 },
 
                 onCambioTipoCliente() {
                     if (this.cuenta.tipoCliente === 'nuevo') {
-                        if (!this.cuenta.nuevoCodigoReferido) {
-                            this.cuenta.nuevoCodigoReferido = this.generarSugerenciaCodigoReferido(this.cuenta.cliente);
+                        if (!this.cuenta.nuevoCodigoReferido || !this.cuenta.codigoPersonalizadoManualmente) {
+                            this.cuenta.nuevoCodigoReferido = this.generarSugerenciaCodigoReferido(this.cuenta.cliente, this.cuenta.telefono, 0);
                         }
                     }
                     this.revalidarElegibilidad();
