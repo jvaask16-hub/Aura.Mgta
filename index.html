@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
@@ -231,7 +231,7 @@
         x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 translate-y-2"
         class="fixed bottom-5 right-5 z-50 max-w-sm p-4 rounded-xl shadow-2xl flex items-start space-x-3 border"
-        :class="toast.tipo === 'success' ? 'bg-emerald-950/95 border-emerald-500 text-emerald-100' : (toast.tipo === 'warning' ? 'bg-amber-950/95 border-amber-500 text-amber-100' : (toast.tipo === 'error' ? 'bg-rose-950/95 border-rose-500 text-rose-100' : 'bg-gray-900 border-indigo-500 text-white'))">
+        :class="toast.tipo === 'success' ? 'bg-emerald-950/95 border-emerald-500 text-emerald-100' : (toast.tipo === 'warning' ? 'bg-amber-950/95 border-amber-500 text-amber-100' : (toast.tipo === 'error' ? 'bg-rose-950/95 border-rose-500 text-rose-100' : 'bg-gray-900 border-zinc-700 text-white'))">
         <i :data-lucide="toast.tipo === 'success' ? 'check-circle-2' : (toast.tipo === 'warning' ? 'alert-triangle' : (toast.tipo === 'error' ? 'x-circle' : 'info'))" class="w-5 h-5 flex-shrink-0 mt-0.5"></i>
         <div class="text-xs">
             <h4 class="font-bold" x-text="toast.titulo"></h4>
@@ -251,7 +251,7 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-gray-800">
                 <div>
                     <h1 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                        <i data-lucide="receipt" class="w-6 h-6 text-brand-400"></i>
+                        <i data-lucide="receipt" class="w-6 h-6 text-zinc-300"></i>
                         Cotizador de Cuenta Completa & Descuentos por Prenda
                     </h1>
                     <p class="text-xs sm:text-sm text-gray-400 mt-1">
@@ -266,7 +266,7 @@
                     </button>
                     <button 
                         @click="cargarCuentaEjemplo()" 
-                        class="px-3 py-1.5 rounded-lg bg-indigo-900/60 hover:bg-indigo-800/80 text-indigo-200 text-xs font-mono flex items-center gap-1.5 border border-indigo-700/60 transition">
+                        class="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-mono flex items-center gap-1.5 border border-zinc-700 transition">
                         <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Cargar Ejemplo
                     </button>
                 </div>
@@ -575,22 +575,22 @@
                         <!-- ITEMS EN LA CUENTA -->
                         <div class="space-y-3">
                             <template x-for="(item, index) in cuenta.items" :key="item.id">
-                                <div class="bg-gray-950/70 p-3.5 sm:p-4 rounded-xl border border-gray-800 space-y-3 transition-all hover:border-gray-700"
-                                     :class="item.descuentoTipo !== 'ninguno' && item.descuentoValor > 0 ? 'border-brand-500/40 bg-brand-950/15' : ''">
+                                <div class="bg-zinc-950 p-3.5 sm:p-4 rounded-xl border border-zinc-800 space-y-3 transition-all hover:border-zinc-700"
+                                     :class="item.descuentoTipo !== 'ninguno' && item.descuentoValor > 0 ? 'border-zinc-600 bg-zinc-900/40' : ''">
                                     
                                     <!-- FILA 1: Nombre, Cantidad, Precio y Eliminar -->
                                     <div class="flex items-start justify-between gap-2">
                                         <div class="flex-grow flex items-center gap-2">
-                                            <span class="text-xs font-mono font-bold text-gray-500" x-text="'#' + (index+1)"></span>
+                                            <span class="text-xs font-mono font-bold text-zinc-500" x-text="'#' + (index+1)"></span>
                                             <input 
                                                 type="text" 
                                                 x-model="item.nombre" 
                                                 placeholder="Nombre o modelo de la prenda"
-                                                class="w-full bg-transparent font-semibold text-sm text-white placeholder-gray-500 border-b border-transparent focus:border-brand-500 focus:outline-none">
+                                                class="w-full bg-transparent font-semibold text-sm text-white placeholder-zinc-500 border-b border-transparent focus:border-zinc-500 focus:outline-none">
                                         </div>
                                         <button 
                                             @click="eliminarItem(index)" 
-                                            class="text-gray-500 hover:text-rose-400 transition p-1"
+                                            class="text-zinc-500 hover:text-rose-400 transition p-1"
                                             title="Quitar prenda">
                                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                                         </button>
@@ -599,55 +599,55 @@
                                     <!-- FILA 2: Valores Numéricos -->
                                     <div class="grid grid-cols-3 sm:grid-cols-4 gap-2 text-xs">
                                         <div>
-                                            <label class="text-[10px] text-gray-400 font-mono block">PVP Regular ($):</label>
+                                            <label class="text-[10px] text-zinc-400 font-mono block">PVP Regular ($):</label>
                                             <div class="relative mt-1">
-                                                <span class="absolute inset-y-0 left-0 pl-2 flex items-center text-gray-500 font-mono">$</span>
+                                                <span class="absolute inset-y-0 left-0 pl-2 flex items-center text-zinc-500 font-mono">$</span>
                                                 <input 
                                                     type="number" 
                                                     step="0.5" 
                                                     min="0" 
                                                     x-model.number="item.pvp" 
-                                                    class="w-full pl-6 pr-2 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-white font-mono text-xs focus:border-brand-500 focus:outline-none">
+                                                    class="w-full pl-6 pr-2 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 text-white font-mono text-xs focus:border-zinc-500 focus:outline-none">
                                             </div>
                                         </div>
 
                                         <div>
-                                            <label class="text-[10px] text-amber-400/90 font-mono block">Costo Base ($):</label>
+                                            <label class="text-[10px] text-zinc-400 font-mono block">Costo Base ($):</label>
                                             <div class="relative mt-1">
-                                                <span class="absolute inset-y-0 left-0 pl-2 flex items-center text-gray-500 font-mono">$</span>
+                                                <span class="absolute inset-y-0 left-0 pl-2 flex items-center text-zinc-500 font-mono">$</span>
                                                 <input 
                                                     type="number" 
                                                     step="0.5" 
                                                     min="0" 
                                                     x-model.number="item.costo" 
-                                                    class="w-full pl-6 pr-2 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-amber-300 font-mono text-xs focus:border-brand-500 focus:outline-none">
+                                                    class="w-full pl-6 pr-2 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-300 font-mono text-xs focus:border-zinc-500 focus:outline-none">
                                             </div>
                                         </div>
 
                                         <div>
-                                            <label class="text-[10px] text-gray-400 font-mono block">Cantidad:</label>
+                                            <label class="text-[10px] text-zinc-400 font-mono block">Cantidad:</label>
                                             <input 
                                                 type="number" 
                                                 min="1" 
                                                 x-model.number="item.cantidad" 
-                                                class="w-full mt-1 px-2 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-white font-mono text-xs text-center focus:border-brand-500 focus:outline-none">
+                                                class="w-full mt-1 px-2 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 text-white font-mono text-xs text-center focus:border-zinc-500 focus:outline-none">
                                         </div>
 
                                         <div class="hidden sm:block">
-                                            <label class="text-[10px] text-gray-400 font-mono block">Subtotal Bruto:</label>
-                                            <div class="mt-2 font-mono font-semibold text-gray-300 text-xs" x-text="'$' + (item.pvp * item.cantidad).toFixed(2)"></div>
+                                            <label class="text-[10px] text-zinc-400 font-mono block">Subtotal Bruto:</label>
+                                            <div class="mt-2 font-mono font-semibold text-zinc-300 text-xs" x-text="'$' + (item.pvp * item.cantidad).toFixed(2)"></div>
                                         </div>
                                     </div>
 
                                     <!-- FILA 3: DESCUENTO INDIVIDUAL A ESTA PRENDA ESPECÍFICA -->
-                                    <div class="pt-2 border-t border-gray-800/80 flex flex-wrap items-center justify-between gap-2 text-xs">
+                                    <div class="pt-2 border-t border-zinc-800 flex flex-wrap items-center justify-between gap-2 text-xs">
                                         <div class="flex items-center space-x-2">
-                                            <span class="text-[11px] font-mono text-indigo-300 flex items-center gap-1">
-                                                <i data-lucide="scissors" class="w-3.5 h-3.5"></i> Descuento a esta prenda:
+                                            <span class="text-[11px] font-mono text-zinc-300 flex items-center gap-1">
+                                                <i data-lucide="scissors" class="w-3.5 h-3.5 text-zinc-400"></i> Descuento a esta prenda:
                                             </span>
                                             <select 
                                                 x-model="item.descuentoTipo" 
-                                                class="bg-gray-900 border border-gray-700 text-gray-200 rounded-lg px-2 py-1 text-xs focus:outline-none">
+                                                class="bg-zinc-900 border border-zinc-700 text-zinc-200 rounded-lg px-2 py-1 text-xs focus:outline-none">
                                                 <option value="ninguno">Sin descuento</option>
                                                 <option value="monto">$ OFF (Monto fijo)</option>
                                                 <option value="porcentaje">% OFF (Porcentaje)</option>
@@ -659,18 +659,18 @@
                                                         step="1" 
                                                         min="0" 
                                                         x-model.number="item.descuentoValor" 
-                                                        class="w-full px-2 py-1 rounded-lg bg-gray-900 border border-indigo-500/60 text-indigo-200 font-mono text-xs focus:outline-none">
-                                                    <span class="absolute right-2 top-1 text-xs text-gray-400 font-mono" x-text="item.descuentoTipo === 'porcentaje' ? '%' : '$'"></span>
+                                                        class="w-full px-2 py-1 rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-200 font-mono text-xs focus:outline-none">
+                                                    <span class="absolute right-2 top-1 text-xs text-zinc-400 font-mono" x-text="item.descuentoTipo === 'porcentaje' ? '%' : '$'"></span>
                                                 </div>
                                             </template>
                                         </div>
 
                                         <!-- Precio final unitario y subtotal con descuento -->
                                         <div class="text-right font-mono">
-                                            <span class="text-[11px] text-gray-400 mr-2">Paga el cliente:</span>
-                                            <span class="font-bold text-emerald-400" x-text="'$' + calcularItemTotalCobro(item).toFixed(2)"></span>
+                                            <span class="text-[11px] text-zinc-400 mr-2">Paga el cliente:</span>
+                                            <span class="font-bold text-white" x-text="'$' + calcularItemTotalCobro(item).toFixed(2)"></span>
                                             <template x-if="calcularItemDescuentoMonto(item) > 0">
-                                                <span class="text-[10px] text-purple-300 block">Ahorra: -$<span x-text="calcularItemDescuentoMonto(item).toFixed(2)"></span></span>
+                                                <span class="text-[10px] text-zinc-400 block">Ahorra: -$<span x-text="calcularItemDescuentoMonto(item).toFixed(2)"></span></span>
                                             </template>
                                         </div>
                                     </div>
@@ -689,9 +689,9 @@
                     </div>
 
                     <!-- AJUSTE DE ENVÍO Y DESCUENTO GLOBAL ADICIONAL -->
-                    <div class="bg-brand-900/40 p-4 sm:p-5 rounded-2xl border border-gray-800/80 backdrop-blur-sm space-y-4">
+                    <div class="bg-zinc-900/60 p-4 sm:p-5 rounded-2xl border border-gray-800/80 backdrop-blur-sm space-y-4">
                         <h2 class="text-xs font-semibold tracking-wider text-gray-400 uppercase font-mono flex items-center gap-2">
-                            <i data-lucide="truck" class="w-4 h-4 text-brand-400"></i> Envío & Ajustes Finales
+                            <i data-lucide="truck" class="w-4 h-4 text-zinc-300"></i> Envío & Ajustes Finales
                         </h2>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
@@ -715,7 +715,7 @@
                                             step="0.5" 
                                             min="0" 
                                             x-model.number="cuenta.costoEnvioCliente" 
-                                            class="w-full pl-6 pr-2 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-white font-mono text-xs focus:border-brand-500 focus:outline-none">
+                                            class="w-full pl-6 pr-2 py-1.5 rounded-lg bg-gray-900 border border-gray-700 text-white font-mono text-xs focus:border-zinc-500 focus:outline-none">
                                     </div>
                                 </div>
                                 <div class="flex justify-between text-[11px] text-gray-400 pt-1">
@@ -726,7 +726,7 @@
                                         min="0" 
                                         x-model.number="cuenta.costoEnvioRealTienda" 
                                         title="Costo real para la tienda"
-                                        class="w-16 px-1.5 py-0.5 rounded bg-gray-900 border border-gray-700 text-amber-300 text-right font-mono text-[11px]">
+                                        class="w-16 px-1.5 py-0.5 rounded bg-gray-900 border border-gray-700 text-zinc-200 text-right font-mono text-[11px]">
                                 </div>
                             </div>
 
@@ -748,7 +748,7 @@
                                                 step="1" 
                                                 min="0" 
                                                 x-model.number="cuenta.descuentoGlobalValor" 
-                                                class="w-full px-2 py-1.5 rounded-lg bg-gray-900 border border-indigo-500 text-indigo-200 font-mono text-xs focus:outline-none">
+                                                class="w-full px-2 py-1.5 rounded-lg bg-gray-900 border border-zinc-700 text-white font-mono text-xs focus:outline-none">
                                             <span class="absolute right-2 top-1.5 text-xs text-gray-400 font-mono" x-text="cuenta.descuentoGlobalTipo === 'porcentaje' ? '%' : '$'"></span>
                                         </div>
                                     </template>
@@ -889,7 +889,7 @@
                             </button>
                         </template>
                     </div>
-                                <i data-lucide="user-check" class="w-3.5 h-3.5 text-indigo-400"></i>
+                                <i data-lucide="user-check" class="w-3.5 h-3.5 text-zinc-400"></i>
                                 <span>Sumar +1 Uso Manual al Embajador (<span x-text="cuenta.embajadorValido.codigo"></span>)</span>
                             </button>
                         </template>
@@ -910,7 +910,7 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-gray-800">
                 <div>
                     <h1 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                        <i data-lucide="users" class="w-6 h-6 text-brand-400"></i>
+                        <i data-lucide="users" class="w-6 h-6 text-zinc-300"></i>
                         Creador & Gestor de Códigos de Embajadores
                     </h1>
                     <p class="text-xs sm:text-sm text-gray-400 mt-1">
@@ -981,23 +981,23 @@
                             <!-- BENEFICIOS & CONDICIÓN DE ELEGIBILIDAD -->
                             <div class="mt-3.5 space-y-2 text-[11px] font-mono">
                                 <div class="grid grid-cols-2 gap-2">
-                                    <div class="p-2 rounded-lg bg-gray-950/60 border border-gray-800">
-                                        <span class="text-gray-500 block text-[10px]">Beneficio amigos:</span>
-                                        <span class="font-semibold text-sky-400" x-text="emb.descuentoAmigo"></span>
+                                    <div class="p-2 rounded-lg bg-zinc-950 border border-zinc-800">
+                                        <span class="text-zinc-500 block text-[10px]">Beneficio amigos:</span>
+                                        <span class="font-semibold text-zinc-200" x-text="emb.descuentoAmigo"></span>
                                     </div>
-                                    <div class="p-2 rounded-lg bg-gray-950/60 border border-gray-800">
-                                        <span class="text-gray-500 block text-[10px]">Premio por meta:</span>
-                                        <span class="font-semibold text-purple-300" x-text="emb.premio"></span>
+                                    <div class="p-2 rounded-lg bg-zinc-950 border border-zinc-800">
+                                        <span class="text-zinc-500 block text-[10px]">Premio por meta:</span>
+                                        <span class="font-semibold text-zinc-200" x-text="emb.premio"></span>
                                     </div>
                                 </div>
 
                                 <!-- CONDICIÓN DE CLIENTES A QUIEN APLICA -->
                                 <div class="p-2 rounded-lg bg-gray-950/80 border border-gray-800 flex items-center justify-between text-[11px]">
                                     <span class="text-gray-400 flex items-center gap-1 font-sans">
-                                        <i data-lucide="filter" class="w-3.5 h-3.5 text-indigo-400"></i> ¿A quién aplica?:
+                                        <i data-lucide="filter" class="w-3.5 h-3.5 text-zinc-400"></i> ¿A quién aplica?:
                                     </span>
                                     <span class="font-semibold"
-                                          :class="emb.elegibilidad === 'solo_nuevos' ? 'text-amber-300' : (emb.elegibilidad === 'minimo_compra' ? 'text-sky-300' : (emb.elegibilidad === 'solo_vip' ? 'text-purple-300' : 'text-emerald-400'))"
+                                          class="font-semibold text-zinc-300"
                                           x-text="obtenerTextoElegibilidad(emb)">
                                     </span>
                                 </div>
@@ -1023,7 +1023,7 @@
 
                             <div class="w-full h-3 bg-gray-950 rounded-full overflow-hidden p-0.5 border border-gray-800">
                                 <div class="h-full rounded-full transition-all duration-500"
-                                    :class="emb.usos >= emb.meta ? 'bg-gradient-to-r from-emerald-500 to-teal-400 animate-pulse' : 'bg-gradient-to-r from-brand-500 to-indigo-500'"
+                                    :class="emb.usos >= emb.meta ? 'bg-gradient-to-r from-emerald-500 to-teal-400 animate-pulse' : 'bg-gradient-to-r from-zinc-500 to-zinc-300'"
                                     :style="'width: ' + Math.min((emb.usos / emb.meta) * 100, 100) + '%'"></div>
                             </div>
 
@@ -1036,8 +1036,8 @@
                                 </template>
                                 <template x-if="emb.usos < emb.meta">
                                     <span class="text-gray-400 flex items-center gap-1.5">
-                                        <i data-lucide="clock" class="w-3 h-3 text-indigo-400"></i>
-                                        <span>Faltan <strong class="text-indigo-300" x-text="emb.meta - emb.usos"></strong> compras para su beneficio</span>
+                                        <i data-lucide="clock" class="w-3 h-3 text-zinc-400"></i>
+                                        <span>Faltan <strong class="text-zinc-300" x-text="emb.meta - emb.usos"></strong> compras para su beneficio</span>
                                     </span>
                                 </template>
                             </div>
@@ -1072,7 +1072,7 @@
                             <template x-if="emb.usos < emb.meta">
                                 <button 
                                     @click="copiarMensajeAvanceEmbajador(emb)"
-                                    class="w-full py-2 px-3 rounded-xl bg-indigo-950/60 hover:bg-indigo-900/60 text-indigo-300 border border-indigo-700/50 text-xs flex items-center justify-center gap-2 transition">
+                                    class="w-full py-2 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 text-xs flex items-center justify-center gap-2 transition">
                                     <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
                                     <span>Copiar Mensaje de Avance</span>
                                 </button>
@@ -1080,7 +1080,7 @@
 
                             <!-- BOTONES SECUNDARIOS -->
                             <div class="flex justify-between items-center text-[10px] text-gray-500 pt-1 font-mono">
-                                <button @click="reiniciarCicloEmbajador(emb.id)" class="hover:text-amber-400 transition">Reiniciar ciclo a 0</button>
+                                <button @click="reiniciarCicloEmbajador(emb.id)" class="hover:text-zinc-200 transition">Reiniciar ciclo a 0</button>
                                 <button @click="eliminarEmbajador(emb.id)" class="hover:text-rose-400 transition">Eliminar</button>
                             </div>
                         </div>
@@ -1100,7 +1100,7 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-gray-800">
                 <div>
                     <h1 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                        <i data-lucide="boxes" class="w-6 h-6 text-brand-400"></i>
+                        <i data-lucide="boxes" class="w-6 h-6 text-zinc-300"></i>
                         Calculadora de Lotes al Proveedor, Costo con Envío & PVP para Referidos
                     </h1>
                     <p class="text-xs sm:text-sm text-gray-400 mt-1">
@@ -1110,82 +1110,82 @@
             </div>
 
             <!-- FILA SUPERIOR: PANEL DE COMPRA EN LOTE AL PROVEEDOR -->
-            <div class="bg-gradient-to-r from-brand-900/50 via-gray-900/70 to-indigo-950/40 p-5 sm:p-6 rounded-2xl border border-brand-500/30 backdrop-blur-sm space-y-4 shadow-xl">
-                <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-gray-800">
+            <div class="bg-zinc-900/60 p-5 sm:p-6 rounded-2xl border border-zinc-800 space-y-4 shadow-sm">
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-zinc-800">
                     <h2 class="text-sm font-semibold tracking-wider text-white uppercase flex items-center gap-2 font-mono">
-                        <i data-lucide="package-search" class="w-4 h-4 text-brand-400"></i> 
+                        <i data-lucide="package-search" class="w-4 h-4 text-zinc-400"></i> 
                         Prorrateo de Pedido en Lote al Proveedor
                     </h2>
-                    <span class="text-xs text-indigo-300 font-mono bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">
+                    <span class="text-xs text-zinc-400 font-mono bg-zinc-800/60 px-2.5 py-1 rounded-full border border-zinc-700/60">
                         Divide el flete global entre todas las prendas
                     </span>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-mono">
                     <!-- Cantidad de prendas en el lote -->
-                    <div class="bg-gray-950/70 p-3.5 rounded-xl border border-gray-800 space-y-1.5">
-                        <label class="text-gray-300 font-sans font-medium block">Prendas en el pedido:</label>
+                    <div class="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800 space-y-1.5">
+                        <label class="text-zinc-300 font-sans font-medium block">Prendas en el pedido:</label>
                         <div class="flex items-center gap-2">
                             <input 
                                 type="number" 
                                 min="1" 
                                 step="1" 
                                 x-model.number="calcUnit.cantidadLote" 
-                                class="w-full px-3 py-2 rounded-lg bg-gray-900 border border-gray-700 text-white font-bold text-sm text-center focus:border-brand-500 focus:outline-none">
-                            <span class="text-gray-400">prendas</span>
+                                class="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-700 text-white font-bold text-sm text-center focus:border-zinc-500 focus:outline-none">
+                            <span class="text-zinc-400">prendas</span>
                         </div>
-                        <p class="text-[10px] text-gray-500 font-sans">Ejemplo: Pediste 12 prendas</p>
+                        <p class="text-[10px] text-zinc-500 font-sans">Ejemplo: Pediste 12 prendas</p>
                     </div>
 
                     <!-- Costo total del envío al proveedor -->
-                    <div class="bg-gray-950/70 p-3.5 rounded-xl border border-gray-800 space-y-1.5">
-                        <label class="text-sky-300 font-sans font-medium block">Envío/Flete Total Proveedor:</label>
+                    <div class="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800 space-y-1.5">
+                        <label class="text-zinc-300 font-sans font-medium block">Envío/Flete Total Proveedor:</label>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">$</span>
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-500">$</span>
                             <input 
                                 type="number" 
                                 min="0" 
                                 step="1" 
                                 x-model.number="calcUnit.envioTotalLote" 
-                                class="w-full pl-7 pr-3 py-2 rounded-lg bg-gray-900 border border-sky-500/50 text-sky-200 font-bold text-sm focus:outline-none">
+                                class="w-full pl-7 pr-3 py-2 rounded-lg bg-zinc-900 border border-zinc-700 text-white font-bold text-sm focus:border-zinc-500 focus:outline-none">
                         </div>
-                        <p class="text-[10px] text-gray-500 font-sans">Ejemplo: $40.00 de envío total</p>
+                        <p class="text-[10px] text-zinc-500 font-sans">Ejemplo: $40.00 de envío total</p>
                     </div>
 
                     <!-- Flete prorrateado por cada prenda -->
-                    <div class="bg-sky-950/30 p-3.5 rounded-xl border border-sky-500/30 space-y-1">
-                        <span class="text-sky-300 font-sans font-medium block text-[11px]">Envío Prorrateado por Prenda:</span>
-                        <div class="text-2xl font-black text-sky-400" x-text="'$' + fleteProrrateadoPorPrenda.toFixed(2)"></div>
-                        <p class="text-[10px] text-gray-400 font-sans" x-text="'($' + (calcUnit.envioTotalLote || 0) + ' ÷ ' + (calcUnit.cantidadLote || 1) + ' prendas)'"></p>
+                    <div class="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800 space-y-1">
+                        <span class="text-zinc-400 font-sans font-medium block text-[11px]">Envío Prorrateado por Prenda:</span>
+                        <div class="text-2xl font-bold text-white font-mono" x-text="'$' + fleteProrrateadoPorPrenda.toFixed(2)"></div>
+                        <p class="text-[10px] text-zinc-500 font-sans" x-text="'($' + (calcUnit.envioTotalLote || 0) + ' ÷ ' + (calcUnit.cantidadLote || 1) + ' prendas)'"></p>
                     </div>
 
                     <!-- Costo de la prenda individual en fábrica -->
-                    <div class="bg-gray-950/70 p-3.5 rounded-xl border border-gray-800 space-y-1.5">
-                        <label class="text-amber-300 font-sans font-medium block">Costo Prenda en Fábrica:</label>
+                    <div class="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800 space-y-1.5">
+                        <label class="text-zinc-300 font-sans font-medium block">Costo Prenda en Fábrica:</label>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">$</span>
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-500">$</span>
                             <input 
                                 type="number" 
                                 min="1" 
                                 step="0.5" 
                                 x-model.number="calcUnit.costoPrendaFabrica" 
-                                class="w-full pl-7 pr-3 py-2 rounded-lg bg-gray-900 border border-amber-500/50 text-amber-300 font-bold text-sm focus:outline-none">
+                                class="w-full pl-7 pr-3 py-2 rounded-lg bg-zinc-900 border border-zinc-700 text-white font-bold text-sm focus:border-zinc-500 focus:outline-none">
                         </div>
-                        <p class="text-[10px] text-gray-500 font-sans">Precio pagado por esta prenda</p>
+                        <p class="text-[10px] text-zinc-500 font-sans">Precio pagado por esta prenda</p>
                     </div>
                 </div>
 
                 <!-- BANNER RESUMEN: COSTO TOTAL REAL PUESTO EN TIENDA -->
-                <div class="p-3.5 rounded-xl bg-gray-950 border border-brand-500/40 flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 flex flex-wrap items-center justify-between gap-3 text-xs">
                     <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-black">
+                        <div class="w-10 h-10 rounded-xl bg-zinc-800 text-zinc-300 flex items-center justify-center font-bold">
                             <i data-lucide="tag" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <span class="text-gray-400 uppercase font-mono text-[10px] block">Costo Total Real Puesto en Tienda por Prenda:</span>
-                            <div class="text-xl font-black font-mono text-amber-300">
+                            <span class="text-zinc-400 uppercase font-mono text-[10px] block">Costo Total Real Puesto en Tienda por Prenda:</span>
+                            <div class="text-xl font-bold font-mono text-white">
                                 <span x-text="'$' + costoTotalRealPrenda.toFixed(2)"></span>
-                                <span class="text-xs text-gray-400 font-normal font-sans ml-2">
+                                <span class="text-xs text-zinc-400 font-normal font-sans ml-2">
                                     (Fábrica $<span x-text="calcUnit.costoPrendaFabrica.toFixed(2)"></span> + Envío $<span x-text="fleteProrrateadoPorPrenda.toFixed(2)"></span> + Packaging $<span x-text="calcUnit.costoPackaging.toFixed(2)"></span>)
                                 </span>
                             </div>
@@ -1193,13 +1193,13 @@
                     </div>
 
                     <div class="flex items-center space-x-2">
-                        <span class="text-gray-400 font-mono text-[11px]">Packaging/Extras:</span>
+                        <span class="text-zinc-400 font-mono text-[11px]">Packaging/Extras:</span>
                         <input 
                             type="number" 
                             step="0.5" 
                             min="0" 
                             x-model.number="calcUnit.costoPackaging" 
-                            class="w-16 px-2 py-1 rounded bg-gray-900 border border-gray-700 text-white font-mono text-xs text-center">
+                            class="w-16 px-2 py-1 rounded bg-zinc-900 border border-zinc-700 text-white font-mono text-xs text-center focus:border-zinc-500 focus:outline-none">
                     </div>
                 </div>
             </div>
@@ -1208,25 +1208,25 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
                 <!-- COLUMNA IZQUIERDA: RECOMENDADOR DE PVP PARA SISTEMA DE REFERIDOS -->
-                <div class="lg:col-span-6 bg-brand-900/40 p-5 sm:p-6 rounded-2xl border border-gray-800/80 backdrop-blur-sm space-y-5">
+                <div class="lg:col-span-6 bg-zinc-900/60 p-5 sm:p-6 rounded-2xl border border-zinc-800 space-y-5 shadow-sm">
                     
                     <div>
-                        <h2 class="text-xs font-semibold tracking-wider text-gray-200 uppercase flex items-center gap-2 font-mono">
-                            <i data-lucide="help-circle" class="w-4 h-4 text-brand-400"></i> ¿A Cuánto Debo Venderlo para el Sistema de Referidos?
+                        <h2 class="text-xs font-semibold tracking-wider text-zinc-200 uppercase flex items-center gap-2 font-mono">
+                            <i data-lucide="help-circle" class="w-4 h-4 text-zinc-400"></i> ¿A Cuánto Debo Venderlo para el Sistema de Referidos?
                         </h2>
-                        <p class="text-xs text-gray-400 mt-1">
+                        <p class="text-xs text-zinc-400 mt-1">
                             Calculamos el PVP para que cubras el descuento de bienvenida al amigo, el fondo del premio del embajador y te quede la ganancia neta deseada.
                         </p>
                     </div>
 
                     <!-- AJUSTE DE REGLAS DE REFERIDOS -->
-                    <div class="p-3.5 rounded-xl bg-gray-950/70 border border-gray-800 space-y-3 text-xs">
-                        <span class="text-indigo-300 font-semibold block font-mono">Parámetros del Sistema de Referidos:</span>
+                    <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-3 text-xs">
+                        <span class="text-zinc-200 font-semibold block font-mono">Parámetros del Sistema de Referidos:</span>
                         
                         <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="text-gray-400 block mb-1">Descuento al Referido (Amigo):</label>
-                                <select x-model.number="calcUnit.descuentoReferidoPct" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-white font-mono text-xs">
+                                <label class="text-zinc-400 block mb-1">Descuento al Referido (Amigo):</label>
+                                <select x-model.number="calcUnit.descuentoReferidoPct" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2 text-white font-mono text-xs focus:border-zinc-500 focus:outline-none">
                                     <option :value="10">10% OFF de Bienvenida</option>
                                     <option :value="15">15% OFF de Bienvenida</option>
                                     <option :value="20">20% OFF de Bienvenida</option>
@@ -1234,8 +1234,8 @@
                             </div>
 
                             <div>
-                                <label class="text-gray-400 block mb-1">Premio al Embajador:</label>
-                                <select x-model.number="calcUnit.premioEmbajadorMonto" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-white font-mono text-xs">
+                                <label class="text-zinc-400 block mb-1">Premio al Embajador:</label>
+                                <select x-model.number="calcUnit.premioEmbajadorMonto" class="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2 text-white font-mono text-xs focus:border-zinc-500 focus:outline-none">
                                     <option :value="5">$5.00 OFF</option>
                                     <option :value="10">$10.00 OFF (Meta 5)</option>
                                     <option :value="20">$20.00 OFF (Meta 8)</option>
@@ -1243,16 +1243,16 @@
                             </div>
                         </div>
 
-                        <div class="flex justify-between items-center pt-1 text-[11px] text-gray-400 border-t border-gray-800/80 font-mono">
+                        <div class="flex justify-between items-center pt-1 text-[11px] text-zinc-400 border-t border-zinc-800 font-mono">
                             <span>Aporte por prenda vendida para el premio:</span>
-                            <span class="font-bold text-purple-300" x-text="'$' + aportePremioPorPrenda.toFixed(2) + ' por venta'"></span>
+                            <span class="font-bold text-zinc-200" x-text="'$' + aportePremioPorPrenda.toFixed(2) + ' por venta'"></span>
                         </div>
                     </div>
 
                     <!-- RECOMENDACIONES DE PRECIO DE VENTA -->
                     <div class="space-y-2.5">
-                        <label class="text-xs font-semibold text-gray-300 uppercase tracking-wider font-mono flex items-center gap-1.5">
-                            <i data-lucide="target" class="w-3.5 h-3.5 text-brand-400"></i>
+                        <label class="text-xs font-semibold text-zinc-300 uppercase tracking-wider font-mono flex items-center gap-1.5">
+                            <i data-lucide="target" class="w-3.5 h-3.5 text-zinc-400"></i>
                             Precios Sugeridos por Nivel de Margen Neto:
                         </label>
 
@@ -1261,45 +1261,45 @@
                             <button 
                                 type="button"
                                 @click="calcUnit.pvp = pvpMinimoViable"
-                                class="p-3 rounded-xl border text-left transition hover:border-amber-400"
-                                :class="calcUnit.pvp === pvpMinimoViable ? 'bg-amber-950/40 border-amber-500 shadow-md' : 'bg-gray-950/70 border-gray-800'">
-                                <span class="text-[10px] text-amber-400 block font-mono font-semibold">MÍNIMO VIABLE</span>
-                                <div class="text-lg font-black font-mono text-white mt-0.5" x-text="'$' + pvpMinimoViable.toFixed(2)"></div>
-                                <span class="text-[10px] text-gray-400 block mt-1">Margen neto: ~35%</span>
+                                class="p-3 rounded-xl border text-left transition"
+                                :class="calcUnit.pvp === pvpMinimoViable ? 'bg-zinc-800 border-zinc-400 shadow-sm' : 'bg-zinc-950 border-zinc-800 hover:border-zinc-700'">
+                                <span class="text-[10px] text-zinc-400 block font-mono font-semibold">MÍNIMO VIABLE</span>
+                                <div class="text-lg font-bold font-mono text-white mt-0.5" x-text="'$' + pvpMinimoViable.toFixed(2)"></div>
+                                <span class="text-[10px] text-zinc-500 block mt-1">Margen: ~35%</span>
                             </button>
 
                             <!-- Nivel 2: Recomendado aura.mgta -->
                             <button 
                                 type="button"
                                 @click="calcUnit.pvp = pvpRecomendadoAura"
-                                class="p-3 rounded-xl border text-left transition hover:border-brand-400"
-                                :class="calcUnit.pvp === pvpRecomendadoAura ? 'bg-brand-600/30 border-brand-500 shadow-md ring-1 ring-brand-500' : 'bg-gray-950/70 border-gray-800'">
-                                <span class="text-[10px] text-brand-300 block font-mono font-semibold">RECOMENDADO</span>
-                                <div class="text-lg font-black font-mono text-white mt-0.5" x-text="'$' + pvpRecomendadoAura.toFixed(2)"></div>
-                                <span class="text-[10px] text-emerald-400 block mt-1">Margen neto: ~45%</span>
+                                class="p-3 rounded-xl border text-left transition"
+                                :class="calcUnit.pvp === pvpRecomendadoAura ? 'bg-zinc-800 border-zinc-300 shadow-sm ring-1 ring-zinc-400' : 'bg-zinc-950 border-zinc-800 hover:border-zinc-700'">
+                                <span class="text-[10px] text-zinc-300 block font-mono font-semibold">RECOMENDADO</span>
+                                <div class="text-lg font-bold font-mono text-white mt-0.5" x-text="'$' + pvpRecomendadoAura.toFixed(2)"></div>
+                                <span class="text-[10px] text-zinc-400 block mt-1">Margen: ~45%</span>
                             </button>
 
                             <!-- Nivel 3: Alto Margen -->
                             <button 
                                 type="button"
                                 @click="calcUnit.pvp = pvpAltoMargen"
-                                class="p-3 rounded-xl border text-left transition hover:border-purple-400"
-                                :class="calcUnit.pvp === pvpAltoMargen ? 'bg-purple-950/40 border-purple-500 shadow-md' : 'bg-gray-950/70 border-gray-800'">
-                                <span class="text-[10px] text-purple-300 block font-mono font-semibold">ALTO MARGEN</span>
-                                <div class="text-lg font-black font-mono text-white mt-0.5" x-text="'$' + pvpAltoMargen.toFixed(2)"></div>
-                                <span class="text-[10px] text-purple-300 block mt-1">Margen neto: ~55%</span>
+                                class="p-3 rounded-xl border text-left transition"
+                                :class="calcUnit.pvp === pvpAltoMargen ? 'bg-zinc-800 border-zinc-400 shadow-sm' : 'bg-zinc-950 border-zinc-800 hover:border-zinc-700'">
+                                <span class="text-[10px] text-zinc-400 block font-mono font-semibold">ALTO MARGEN</span>
+                                <div class="text-lg font-bold font-mono text-white mt-0.5" x-text="'$' + pvpAltoMargen.toFixed(2)"></div>
+                                <span class="text-[10px] text-zinc-500 block mt-1">Margen: ~55%</span>
                             </button>
                         </div>
                     </div>
 
                     <!-- SLIDER PARA AJUSTAR TU PVP A GUSTO -->
-                    <div class="space-y-2 pt-2 border-t border-gray-800">
+                    <div class="space-y-2 pt-2 border-t border-zinc-800">
                         <div class="flex justify-between items-center text-xs">
-                            <label class="text-gray-300 font-medium">PVP Fijado para esta Prenda:</label>
-                            <span class="font-mono font-black text-indigo-400 text-lg" x-text="'$' + calcUnit.pvp.toFixed(2)"></span>
+                            <label class="text-zinc-300 font-medium">PVP Fijado para esta Prenda:</label>
+                            <span class="font-mono font-bold text-white text-lg" x-text="'$' + calcUnit.pvp.toFixed(2)"></span>
                         </div>
-                        <input type="range" min="15" max="120" step="1" x-model.number="calcUnit.pvp" class="w-full">
-                        <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                        <input type="range" min="15" max="120" step="1" x-model.number="calcUnit.pvp" class="w-full accent-zinc-200">
+                        <div class="flex justify-between text-[10px] text-zinc-500 font-mono">
                             <span>$15.00</span>
                             <span x-text="'$' + pvpRecomendadoAura.toFixed(2) + ' (Óptimo)'"></span>
                             <span>$120.00</span>
@@ -1319,100 +1319,99 @@
                 <!-- COLUMNA DERECHA: DEMOSTRACIÓN EXACTA DE GANANCIA -->
                 <div class="lg:col-span-6 space-y-4">
                     
-                    <div class="bg-gray-900/90 border border-gray-800 p-5 rounded-2xl space-y-4">
-                        <div class="flex items-center justify-between pb-2 border-b border-gray-800">
-                            <h3 class="text-xs font-semibold tracking-wider text-gray-200 uppercase font-mono flex items-center gap-1.5">
-                                <i data-lucide="scale" class="w-4 h-4 text-emerald-400"></i> ¿Cuánto Ganas Vendiendo a $<span x-text="calcUnit.pvp.toFixed(2)"></span>?
+                    <div class="bg-zinc-900/60 border border-zinc-800 p-5 rounded-2xl space-y-4 shadow-sm">
+                        <div class="flex items-center justify-between pb-2 border-b border-zinc-800">
+                            <h3 class="text-xs font-semibold tracking-wider text-zinc-200 uppercase font-mono flex items-center gap-1.5">
+                                <i data-lucide="scale" class="w-4 h-4 text-zinc-400"></i> ¿Cuánto Ganas Vendiendo a $<span x-text="calcUnit.pvp.toFixed(2)"></span>?
                             </h3>
-                            <span class="text-[10px] text-gray-400 font-mono">Comparativa de escenarios</span>
+                            <span class="text-[10px] text-zinc-500 font-mono">Comparativa de escenarios</span>
                         </div>
 
                         <!-- ESCENARIO A: VENTA CON CÓDIGO DE REFERIDO -->
-                        <div class="p-3.5 rounded-xl border border-brand-500/30 bg-brand-950/20 space-y-2 text-xs font-mono">
+                        <div class="p-3.5 rounded-xl border border-zinc-800 bg-zinc-950 space-y-2 text-xs font-mono">
                             <div class="flex items-center justify-between">
                                 <span class="font-bold text-white flex items-center gap-1.5 font-sans">
-                                    <i data-lucide="gift" class="w-4 h-4 text-brand-400"></i> Si la compra un Referido (con código):
+                                    <i data-lucide="gift" class="w-4 h-4 text-zinc-400"></i> Si la compra un Referido (con código):
                                 </span>
-                                <span class="text-sky-300 font-semibold" x-text="'-' + calcUnit.descuentoReferidoPct + '% OFF'"></span>
+                                <span class="text-zinc-300 font-semibold" x-text="'-' + calcUnit.descuentoReferidoPct + '% OFF'"></span>
                             </div>
 
-                            <div class="space-y-1 text-gray-300 text-[11px] pt-1">
+                            <div class="space-y-1 text-zinc-300 text-[11px] pt-1">
                                 <div class="flex justify-between">
                                     <span>Cliente paga en caja:</span>
                                     <span class="text-white font-bold" x-text="'$' + precioCobradoReferido.toFixed(2)"></span>
                                 </div>
-                                <div class="flex justify-between text-gray-400">
+                                <div class="flex justify-between text-zinc-400">
                                     <span>Costo real prenda + flete prorrateado:</span>
-                                    <span class="text-amber-300" x-text="'-$' + costoTotalRealPrenda.toFixed(2)"></span>
+                                    <span class="text-zinc-300" x-text="'-$' + costoTotalRealPrenda.toFixed(2)"></span>
                                 </div>
-                                <div class="flex justify-between text-gray-400">
+                                <div class="flex justify-between text-zinc-400">
                                     <span>Aporte al fondo premio del embajador:</span>
-                                    <span class="text-purple-300" x-text="'-$' + aportePremioPorPrenda.toFixed(2)"></span>
+                                    <span class="text-zinc-300" x-text="'-$' + aportePremioPorPrenda.toFixed(2)"></span>
                                 </div>
                             </div>
 
-                            <div class="pt-2 border-t border-gray-800/80 flex justify-between items-center text-xs">
-                                <span class="font-bold text-emerald-300 font-sans">Tu Ganancia Neta Limpia:</span>
+                            <div class="pt-2 border-t border-zinc-800 flex justify-between items-center text-xs">
+                                <span class="font-bold text-zinc-200 font-sans">Tu Ganancia Neta Limpia:</span>
                                 <div class="text-right">
-                                    <span class="text-base font-black text-emerald-400" x-text="'+$' + gananciaNetaReferido.toFixed(2)"></span>
-                                    <span class="text-[10px] text-gray-400 block" x-text="'Margen neto: ' + margenNetoReferidoPct.toFixed(1) + '%'"></span>
+                                    <span class="text-base font-bold text-white font-mono" x-text="'+$' + gananciaNetaReferido.toFixed(2)"></span>
+                                    <span class="text-[10px] text-zinc-400 block" x-text="'Margen neto: ' + margenNetoReferidoPct.toFixed(1) + '%'"></span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- ESCENARIO B: VENTA REGULAR SIN CÓDIGO -->
-                        <div class="p-3.5 rounded-xl border border-gray-800 bg-gray-950/70 space-y-2 text-xs font-mono">
+                        <div class="p-3.5 rounded-xl border border-zinc-800 bg-zinc-950 space-y-2 text-xs font-mono">
                             <div class="flex items-center justify-between">
                                 <span class="font-bold text-white flex items-center gap-1.5 font-sans">
-                                    <i data-lucide="shopping-bag" class="w-4 h-4 text-gray-400"></i> Si la compra un Cliente Regular (PVP completo):
+                                    <i data-lucide="shopping-bag" class="w-4 h-4 text-zinc-400"></i> Si la compra un Cliente Regular (PVP completo):
                                 </span>
-                                <span class="text-gray-400 font-semibold">Sin Descuento</span>
+                                <span class="text-zinc-400 font-semibold">Sin Descuento</span>
                             </div>
 
-                            <div class="space-y-1 text-gray-300 text-[11px] pt-1">
+                            <div class="space-y-1 text-zinc-300 text-[11px] pt-1">
                                 <div class="flex justify-between">
                                     <span>Cliente paga regular:</span>
                                     <span class="text-white font-bold" x-text="'$' + calcUnit.pvp.toFixed(2)"></span>
                                 </div>
-                                <div class="flex justify-between text-gray-400">
+                                <div class="flex justify-between text-zinc-400">
                                     <span>Costo real prenda + flete prorrateado:</span>
-                                    <span class="text-amber-300" x-text="'-$' + costoTotalRealPrenda.toFixed(2)"></span>
+                                    <span class="text-zinc-300" x-text="'-$' + costoTotalRealPrenda.toFixed(2)"></span>
                                 </div>
                             </div>
 
-                            <div class="pt-2 border-t border-gray-800/80 flex justify-between items-center text-xs">
-                                <span class="font-bold text-emerald-300 font-sans">Tu Ganancia Neta Regular:</span>
+                            <div class="pt-2 border-t border-zinc-800 flex justify-between items-center text-xs">
+                                <span class="font-bold text-zinc-200 font-sans">Tu Ganancia Neta Regular:</span>
                                 <div class="text-right">
-                                    <span class="text-base font-black text-emerald-400" x-text="'+$' + gananciaNetaRegular.toFixed(2)"></span>
-                                    <span class="text-[10px] text-gray-400 block" x-text="'Margen: ' + margenNetoRegularPct.toFixed(1) + '%'"></span>
+                                    <span class="text-base font-bold text-white font-mono" x-text="'+$' + gananciaNetaRegular.toFixed(2)"></span>
+                                    <span class="text-[10px] text-zinc-400 block" x-text="'Margen: ' + margenNetoRegularPct.toFixed(1) + '%'"></span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- CICLO COMPLETO DE 5 REFERIDOS -->
-                        <div class="p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 text-xs font-mono flex items-center justify-between">
+                        <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800 text-xs font-mono flex items-center justify-between">
                             <div class="space-y-0.5">
-                                <span class="font-bold text-purple-200 block font-sans">Resultado al completar 5 referidos:</span>
-                                <span class="text-[10px] text-purple-300">5 compras con código menos entrega de premio</span>
+                                <span class="font-bold text-zinc-200 block font-sans">Resultado al completar 5 referidos:</span>
+                                <span class="text-[10px] text-zinc-400">5 compras con código menos entrega de premio</span>
                             </div>
                             <div class="text-right">
-                                <span class="text-lg font-black text-purple-300" x-text="'+$' + gananciaCiclo5Ventas.toFixed(2)"></span>
-                                <span class="text-[10px] text-gray-400 block">Ganancia acumulada</span>
+                                <span class="text-lg font-bold text-white" x-text="'+$' + gananciaCiclo5Ventas.toFixed(2)"></span>
+                                <span class="text-[10px] text-zinc-400 block">Ganancia acumulada</span>
                             </div>
                         </div>
 
                     </div>
 
                     <!-- SEMÁFORO DE DIAGNÓSTICO FINANCIERO -->
-                    <div class="p-4 rounded-xl border text-xs"
-                         :class="gananciaNetaReferido >= 8 ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-200' : (gananciaNetaReferido >= 4 ? 'bg-amber-950/30 border-amber-500/40 text-amber-200' : 'bg-rose-950/30 border-rose-500/40 text-rose-200')">
+                    <div class="p-4 rounded-xl border border-zinc-800 bg-zinc-950 text-xs text-zinc-200">
                         <template x-if="gananciaNetaReferido >= 8">
                             <div class="flex items-start space-x-2">
-                                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5"></i>
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-zinc-300 flex-shrink-0 mt-0.5"></i>
                                 <div>
-                                    <p class="font-bold">¡PRECIO PERFECTO PARA REFERIDOS!</p>
-                                    <p class="text-[11px] text-gray-300 mt-0.5">
-                                        Vendiendo a <strong>$<span x-text="calcUnit.pvp.toFixed(2)"></span></strong> absorbes fácilmente los $40 de envío del lote (cubriendo los $<span x-text="fleteProrrateadoPorPrenda.toFixed(2)"></span> de esta prenda), el descuento de bienvenida al amigo, el premio del embajador y te quedan <strong>+$<span x-text="gananciaNetaReferido.toFixed(2)"></span></strong> limpios en el bolsillo.
+                                    <p class="font-bold text-white">PRECIO PERFECTO PARA REFERIDOS</p>
+                                    <p class="text-[11px] text-zinc-400 mt-0.5">
+                                        Vendiendo a <strong class="text-zinc-200">$<span x-text="calcUnit.pvp.toFixed(2)"></span></strong> absorbes fácilmente los $40 de envío del lote (cubriendo los $<span x-text="fleteProrrateadoPorPrenda.toFixed(2)"></span> de esta prenda), el descuento de bienvenida al amigo, el premio del embajador y te quedan <strong class="text-white">+$<span x-text="gananciaNetaReferido.toFixed(2)"></span></strong> limpios.
                                     </p>
                                 </div>
                             </div>
@@ -1420,11 +1419,11 @@
 
                         <template x-if="gananciaNetaReferido >= 4 && gananciaNetaReferido < 8">
                             <div class="flex items-start space-x-2">
-                                <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"></i>
+                                <i data-lucide="alert-triangle" class="w-5 h-5 text-zinc-400 flex-shrink-0 mt-0.5"></i>
                                 <div>
-                                    <p class="font-bold">PRECIO CON MARGEN AJUSTADO</p>
-                                    <p class="text-[11px] text-gray-300 mt-0.5">
-                                        Cubre los costos pero tu ganancia neta queda en $<span x-text="gananciaNetaReferido.toFixed(2)"></span> por prenda. Te sugerimos subir el precio al menos a <strong>$<span x-text="pvpRecomendadoAura.toFixed(2)"></span></strong> para mayor rentabilidad.
+                                    <p class="font-bold text-white">PRECIO CON MARGEN AJUSTADO</p>
+                                    <p class="text-[11px] text-zinc-400 mt-0.5">
+                                        Cubre los costos pero tu ganancia neta queda en $<span x-text="gananciaNetaReferido.toFixed(2)"></span> por prenda. Te sugerimos subir el precio al menos a <strong class="text-zinc-200">$<span x-text="pvpRecomendadoAura.toFixed(2)"></span></strong> para mayor rentabilidad.
                                     </p>
                                 </div>
                             </div>
@@ -1432,11 +1431,11 @@
 
                         <template x-if="gananciaNetaReferido < 4">
                             <div class="flex items-start space-x-2">
-                                <i data-lucide="x-circle" class="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5"></i>
+                                <i data-lucide="x-circle" class="w-5 h-5 text-zinc-400 flex-shrink-0 mt-0.5"></i>
                                 <div>
-                                    <p class="font-bold">¡PRECIO DEMASIADO BAJO!</p>
-                                    <p class="text-[11px] text-gray-300 mt-0.5">
-                                        No vendas por debajo de <strong>$<span x-text="pvpMinimoViable.toFixed(2)"></span></strong> porque el flete del proveedor y el cupón de referidos se comerán tu ganancia.
+                                    <p class="font-bold text-white">PRECIO DEMASIADO BAJO</p>
+                                    <p class="text-[11px] text-zinc-400 mt-0.5">
+                                        No vendas por debajo de <strong class="text-zinc-200">$<span x-text="pvpMinimoViable.toFixed(2)"></span></strong> porque el flete del proveedor y el cupón de referidos reducirán sensiblemente tu margen.
                                     </p>
                                 </div>
                             </div>
@@ -1458,7 +1457,7 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-gray-800">
                 <div>
                     <h1 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                        <i data-lucide="shirt" class="w-6 h-6 text-brand-400"></i>
+                        <i data-lucide="shirt" class="w-6 h-6 text-zinc-300"></i>
                         Catálogo de Prendas Disponibles
                     </h1>
                     <p class="text-xs sm:text-sm text-gray-400 mt-1">
@@ -1544,10 +1543,10 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-gray-800">
                 <div>
                     <h1 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                        <i data-lucide="folder-check" class="w-6 h-6 text-brand-400"></i>
+                        <i data-lucide="folder-check" class="w-6 h-6 text-zinc-400"></i>
                         Registro Histórico de Planillas y Pedidos
                     </h1>
-                    <p class="text-xs sm:text-sm text-gray-400 mt-1">
+                    <p class="text-xs sm:text-sm text-zinc-400 mt-1">
                         Cada venta procesada queda resguardada aquí con su número de planilla, cliente, cupón aplicado, prendas y desglose financiero.
                     </p>
                 </div>
@@ -1563,10 +1562,10 @@
             <!-- LISTADO DE PLANILLAS -->
             <div class="space-y-4">
                 <template x-if="pedidosGuardados.length === 0">
-                    <div class="text-center py-12 border-2 border-dashed border-gray-800 rounded-2xl space-y-3 bg-brand-900/20">
-                        <i data-lucide="file-question" class="w-10 h-10 text-gray-600 mx-auto"></i>
-                        <h3 class="text-sm font-semibold text-gray-300">Aún no hay planillas resguardadas</h3>
-                        <p class="text-xs text-gray-500 max-w-sm mx-auto">
+                    <div class="text-center py-12 border border-dashed border-zinc-800 rounded-2xl space-y-3 bg-zinc-950/40">
+                        <i data-lucide="file-question" class="w-10 h-10 text-zinc-600 mx-auto"></i>
+                        <h3 class="text-sm font-semibold text-zinc-300">Aún no hay planillas resguardadas</h3>
+                        <p class="text-xs text-zinc-500 max-w-sm mx-auto">
                             Cuando armes una cuenta con sus prendas y cupón, haz clic en el botón <strong>"Crear Planilla y Guardar Pedido"</strong> para resguardarla permanentemente.
                         </p>
                     </div>
@@ -1574,96 +1573,101 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     <template x-for="(p, index) in pedidosGuardados" :key="p.id">
-                        <div class="bg-brand-900/40 p-5 rounded-2xl border border-gray-800 hover:border-gray-700 transition flex flex-col justify-between space-y-4 shadow-xl">
+                        <div class="bg-zinc-900/60 p-5 rounded-2xl border border-zinc-800 hover:border-zinc-700 transition flex flex-col justify-between space-y-4 shadow-sm">
                             
                             <div>
                                 <!-- Cabecera de la Planilla -->
-                                <div class="flex items-start justify-between gap-2 pb-2.5 border-b border-gray-800">
+                                <div class="flex items-start justify-between gap-2 pb-2.5 border-b border-zinc-800">
                                     <div>
-                                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-500/20 text-brand-300 border border-brand-500/30 font-bold" x-text="p.numeroPlanilla"></span>
+                                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700 font-bold" x-text="p.numeroPlanilla"></span>
                                         <h3 class="text-base font-bold text-white mt-1.5" x-text="p.cliente || 'Cliente sin nombre'"></h3>
-                                        <p class="text-[11px] text-gray-400 font-mono" x-text="p.fecha"></p>
+                                        <p class="text-[11px] text-zinc-400 font-mono" x-text="p.fecha"></p>
                                     </div>
 
                                     <div class="text-right">
-                                        <span class="text-xs font-mono font-bold text-gray-400 block">Total Cobrado</span>
-                                        <span class="text-lg font-black font-mono text-brand-400" x-text="'$' + p.totalAPagarCliente.toFixed(2)"></span>
+                                        <span class="text-xs font-mono font-medium text-zinc-400 block">Total Cobrado</span>
+                                        <span class="text-lg font-bold font-mono text-white" x-text="'$' + p.totalAPagarCliente.toFixed(2)"></span>
                                     </div>
                                 </div>
 
                                 <!-- Datos del Cupón / Embajador -->
-                                <div class="py-2.5 text-xs font-mono space-y-1.5 border-b border-gray-800/80">
+                                <div class="py-2.5 text-xs font-mono space-y-1.5 border-b border-zinc-800/80">
                                     <div class="flex justify-between items-center">
-                                        <span class="text-gray-400 font-sans">Cupón aplicado:</span>
+                                        <span class="text-zinc-400 font-sans">Cupón aplicado:</span>
                                         <template x-if="p.codigoEmbajador">
-                                            <span class="font-bold text-indigo-300 px-2 py-0.5 rounded bg-indigo-950/60 border border-indigo-500/30" x-text="p.codigoEmbajador"></span>
+                                            <span class="font-bold text-white px-2 py-0.5 rounded bg-zinc-800 border border-zinc-700" x-text="p.codigoEmbajador"></span>
                                         </template>
                                         <template x-if="!p.codigoEmbajador">
-                                            <span class="text-gray-500">Ninguno</span>
+                                            <span class="text-zinc-500">Ninguno</span>
                                         </template>
                                     </div>
 
                                     <template x-if="p.embajadorNombre">
                                         <div class="flex justify-between items-center text-[11px]">
-                                            <span class="text-gray-400 font-sans">Embajador acreditado:</span>
-                                            <span class="text-emerald-300 font-medium" x-text="p.embajadorNombre"></span>
+                                            <span class="text-zinc-400 font-sans">Embajador acreditado:</span>
+                                            <span class="text-zinc-200 font-medium" x-text="p.embajadorNombre"></span>
                                         </div>
                                     </template>
 
                                     <div class="flex justify-between items-center text-[11px]">
-                                        <span class="text-gray-400 font-sans">Tipo cliente:</span>
-                                        <span class="text-gray-300" x-text="p.tipoCliente"></span>
+                                        <span class="text-zinc-400 font-sans">Tipo cliente:</span>
+                                        <span class="text-zinc-300" x-text="p.tipoCliente"></span>
                                     </div>
                                 </div>
 
                                 <!-- Resumen de Prendas -->
                                 <div class="py-2.5 space-y-1.5">
-                                    <span class="text-[10px] uppercase font-mono text-gray-400 tracking-wider block">Prendas (<span x-text="p.items.length"></span>):</span>
+                                    <span class="text-[10px] uppercase font-mono text-zinc-400 tracking-wider block">Prendas (<span x-text="p.items.length"></span>):</span>
                                     <div class="space-y-1 max-h-24 overflow-y-auto text-xs font-mono pr-1">
                                         <template x-for="item in p.items" :key="item.id">
-                                            <div class="flex justify-between items-center text-gray-300 text-[11px] bg-gray-950/60 px-2 py-1 rounded">
+                                            <div class="flex justify-between items-center text-zinc-300 text-[11px] bg-zinc-950 px-2 py-1 rounded border border-zinc-800/50">
                                                 <span class="truncate max-w-[160px]" x-text="(item.cantidad || 1) + 'x ' + item.nombre"></span>
-                                                <span class="font-semibold" x-text="'$' + (item.pvp * (item.cantidad || 1)).toFixed(2)"></span>
+                                                <span class="font-semibold text-white" x-text="'$' + (item.pvp * (item.cantidad || 1)).toFixed(2)"></span>
                                             </div>
                                         </template>
                                     </div>
                                 </div>
 
                                 <!-- Métricas Financieras del Pedido -->
-                                <div class="p-2.5 rounded-xl bg-gray-950/80 border border-gray-800 space-y-1 text-xs font-mono">
-                                    <div class="flex justify-between text-gray-400">
+                                <div class="p-2.5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1 text-xs font-mono">
+                                    <div class="flex justify-between text-zinc-400">
                                         <span class="font-sans">Costo prendas + envío:</span>
-                                        <span class="text-amber-300" x-text="'$' + p.gastoTotalTienda.toFixed(2)"></span>
+                                        <span class="text-zinc-300" x-text="'$' + p.gastoTotalTienda.toFixed(2)"></span>
                                     </div>
-                                    <div class="flex justify-between font-bold pt-1 border-t border-gray-800/80">
-                                        <span class="font-sans text-emerald-300">Ganancia neta tienda:</span>
-                                        <span class="text-emerald-400" x-text="'+$' + p.gananciaNetaCuenta.toFixed(2)"></span>
+                                    <div class="flex justify-between font-bold pt-1 border-t border-zinc-800">
+                                        <span class="font-sans text-zinc-200">Ganancia neta tienda:</span>
+                                        <span class="text-white" x-text="'+$' + p.gananciaNetaCuenta.toFixed(2)"></span>
                                     </div>
                                 </div>
 
                             </div>
 
                             <!-- Acciones de la Planilla -->
-                            <div class="pt-2 border-t border-gray-800 flex items-center justify-between gap-2">
+                            <div class="pt-2 border-t border-zinc-800 flex items-center justify-between gap-2">
                                 <button 
                                     @click="copiarAlPortapapeles(p.ticketTexto, 'Ticket de la planilla copiado')"
-                                    class="px-2.5 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-mono flex items-center gap-1 transition">
-                                    <i data-lucide="copy" class="w-3.5 h-3.5 text-emerald-400"></i> Copiar Ticket
+                                    class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-mono flex items-center gap-1 transition">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5 text-zinc-300"></i> Copiar Ticket
                                 </button>
 
                                 <button 
                                     @click="cargarPlanillaEnCotizador(p)"
-                                    class="px-2.5 py-1.5 rounded-lg bg-indigo-950/60 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 text-xs font-mono flex items-center gap-1 transition">
+                                    class="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 text-xs font-mono flex items-center gap-1 transition">
                                     <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Abrir
                                 </button>
 
                                 <button 
                                     @click="eliminarPlanillaPedido(p.id)"
-                                    class="text-gray-500 hover:text-rose-400 p-1 transition"
+                                    class="text-zinc-500 hover:text-rose-400 p-1 transition"
                                     title="Eliminar registro">
                                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                                 </button>
                             </div>
+
+                        </div>
+                    </template>
+                </div>
+            </div>
 
                         </div>
                     </template>
@@ -1678,35 +1682,35 @@
         <!-- ============================================================== -->
         <section x-show="activeTab === 'simulador'" x-transition class="space-y-6">
             
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-gray-800">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-zinc-800">
                 <div>
                     <h1 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                        <i data-lucide="calculator" class="w-6 h-6 text-brand-400"></i>
+                        <i data-lucide="calculator" class="w-6 h-6 text-zinc-400"></i>
                         Simulador Financiero del Ciclo de Referidos
                     </h1>
-                    <p class="text-xs sm:text-sm text-gray-400 mt-1">Calcula la rentabilidad neta considerando que <strong>los premios solo aplican a ciertos clientes seleccionados</strong>.</p>
+                    <p class="text-xs sm:text-sm text-zinc-400 mt-1">Calcula la rentabilidad neta considerando que <strong>los premios solo aplican a ciertos clientes seleccionados</strong>.</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <span class="text-xs text-gray-400 font-mono">Modo de cálculo:</span>
-                    <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-gray-800 text-indigo-300 border border-gray-700">Margen por Ciclo Completo</span>
+                    <span class="text-xs text-zinc-500 font-mono">Modo de cálculo:</span>
+                    <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-zinc-800 text-zinc-300 border border-zinc-700">Margen por Ciclo Completo</span>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 <!-- CONTROLES SLIDERS -->
-                <div class="lg:col-span-7 space-y-5 bg-brand-900/40 p-5 sm:p-6 rounded-2xl border border-gray-800/80 backdrop-blur-sm">
-                    <h2 class="text-sm font-semibold tracking-wider text-gray-300 uppercase flex items-center gap-2 font-mono">
-                        <i data-lucide="sliders" class="w-4 h-4 text-brand-400"></i> Parámetros de la Tienda
+                <div class="lg:col-span-7 space-y-5 bg-zinc-900/60 p-5 sm:p-6 rounded-2xl border border-zinc-800 shadow-sm">
+                    <h2 class="text-sm font-semibold tracking-wider text-zinc-200 uppercase flex items-center gap-2 font-mono">
+                        <i data-lucide="sliders" class="w-4 h-4 text-zinc-400"></i> Parámetros de la Tienda
                     </h2>
 
                     <!-- PVP -->
                     <div class="space-y-2">
                         <div class="flex justify-between items-center text-sm">
-                            <label class="text-gray-300 font-medium">Precio de Venta Regular (PVP):</label>
-                            <span class="font-mono font-bold text-indigo-400 text-base" x-text="'$' + simPvp.toFixed(2)"></span>
+                            <label class="text-zinc-300 font-medium">Precio de Venta Regular (PVP):</label>
+                            <span class="font-mono font-bold text-white text-base" x-text="'$' + simPvp.toFixed(2)"></span>
                         </div>
-                        <input type="range" min="15" max="100" step="1" x-model.number="simPvp" class="w-full">
-                        <div class="flex justify-between text-[11px] text-gray-500 font-mono">
+                        <input type="range" min="15" max="100" step="1" x-model.number="simPvp" class="w-full accent-zinc-200">
+                        <div class="flex justify-between text-[11px] text-zinc-500 font-mono">
                             <span>$15.00</span>
                             <span>$50.00</span>
                             <span>$100.00</span>
@@ -1716,57 +1720,57 @@
                     <!-- COSTO PRENDA + ENVIO -->
                     <div class="space-y-2">
                         <div class="flex justify-between items-center text-sm">
-                            <label class="text-gray-300 font-medium">Costo Total (Prenda + Envío):</label>
-                            <span class="font-mono font-bold text-amber-400 text-base" x-text="'$' + simCostoTotal.toFixed(2)"></span>
+                            <label class="text-zinc-300 font-medium">Costo Total (Prenda + Envío):</label>
+                            <span class="font-mono font-bold text-zinc-300 text-base" x-text="'$' + simCostoTotal.toFixed(2)"></span>
                         </div>
-                        <input type="range" min="5" max="80" step="1" x-model.number="simCostoTotal" class="w-full">
-                        <p class="text-[11px] text-gray-400">Margen base regular por prenda: <span class="font-mono font-semibold" :class="(simPvp - simCostoTotal) >= 0 ? 'text-emerald-400' : 'text-rose-400'" x-text="'$' + (simPvp - simCostoTotal).toFixed(2)"></span></p>
+                        <input type="range" min="5" max="80" step="1" x-model.number="simCostoTotal" class="w-full accent-zinc-200">
+                        <p class="text-[11px] text-zinc-400">Margen base regular por prenda: <span class="font-mono font-bold text-white" x-text="'$' + (simPvp - simCostoTotal).toFixed(2)"></span></p>
                     </div>
 
-                    <hr class="border-gray-800/80 my-2">
+                    <hr class="border-zinc-800 my-2">
 
                     <!-- DESCUENTO AL REFERIDO (AMIGO NUEVO) -->
                     <div class="space-y-2">
                         <div class="flex justify-between items-center text-sm">
-                            <label class="text-gray-300 font-medium">Descuento Bienvenida al Referido (%):</label>
-                            <span class="font-mono font-bold text-sky-400 text-base" x-text="simDescuentoReferido + '%'"></span>
+                            <label class="text-zinc-300 font-medium">Descuento Bienvenida al Referido (%):</label>
+                            <span class="font-mono font-bold text-white text-base" x-text="simDescuentoReferido + '%'"></span>
                         </div>
-                        <input type="range" min="0" max="25" step="5" x-model.number="simDescuentoReferido" class="w-full">
+                        <input type="range" min="0" max="25" step="5" x-model.number="simDescuentoReferido" class="w-full accent-zinc-200">
                     </div>
 
                     <!-- RESTRICCIÓN: MONTO DEL PREMIO Y A QUIÉN APLICA -->
-                    <div class="p-3.5 rounded-xl bg-gray-950/70 border border-gray-800 space-y-3">
+                    <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-3">
                         <div class="flex justify-between items-center text-sm">
-                            <label class="text-purple-300 font-medium flex items-center gap-1.5">
-                                <i data-lucide="award" class="w-4 h-4 text-purple-400"></i> Monto Cupón de Premio para el Referente ($ OFF):
+                            <label class="text-zinc-200 font-medium flex items-center gap-1.5">
+                                <i data-lucide="award" class="w-4 h-4 text-zinc-400"></i> Monto Cupón de Premio para el Referente ($ OFF):
                             </label>
-                            <span class="font-mono font-bold text-purple-400 text-base" x-text="'$' + simDescuentoPremio + ' OFF'"></span>
+                            <span class="font-mono font-bold text-white text-base" x-text="'$' + simDescuentoPremio + ' OFF'"></span>
                         </div>
-                        <input type="range" min="5" max="40" step="1" x-model.number="simDescuentoPremio" class="w-full">
+                        <input type="range" min="5" max="40" step="1" x-model.number="simDescuentoPremio" class="w-full accent-zinc-200">
 
                         <!-- TOGGLE: SÓLO APLICA A CIERTOS CLIENTES -->
-                        <div class="pt-2 border-t border-gray-800/80 flex items-center justify-between">
+                        <div class="pt-2 border-t border-zinc-800 flex items-center justify-between">
                             <div>
-                                <span class="text-xs text-gray-200 font-medium block">¿Aplica solo a ciertos clientes seleccionados?</span>
-                                <span class="text-[10px] text-gray-400 block">Solo referentes que cumplan con los requisitos reciben el premio</span>
+                                <span class="text-xs text-zinc-200 font-medium block">¿Aplica solo a ciertos clientes seleccionados?</span>
+                                <span class="text-[10px] text-zinc-500 block">Solo referentes que cumplan con los requisitos reciben el premio</span>
                             </div>
                             <button 
                                 type="button"
                                 @click="simSoloCiertosClientes = !simSoloCiertosClientes"
                                 class="px-3 py-1 rounded-lg text-xs font-mono font-semibold transition"
-                                :class="simSoloCiertosClientes ? 'bg-emerald-600/30 text-emerald-300 border border-emerald-500/40' : 'bg-gray-800 text-gray-400'">
+                                :class="simSoloCiertosClientes ? 'bg-zinc-800 text-white border border-zinc-600' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'">
                                 <span x-text="simSoloCiertosClientes ? 'SÍ (Restringido)' : 'NO (Aplica a todos)'"></span>
                             </button>
                         </div>
 
                         <template x-if="simSoloCiertosClientes">
-                            <div class="p-2.5 rounded-lg bg-indigo-950/30 border border-indigo-500/20 text-[11px] text-indigo-200 space-y-1">
+                            <div class="p-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-[11px] text-zinc-300 space-y-1">
                                 <div class="flex justify-between">
                                     <span>Tasa de referentes aprobados para el premio:</span>
-                                    <span class="font-mono font-bold text-indigo-300" x-text="simPorcentajeCanje + '%'"></span>
+                                    <span class="font-mono font-bold text-white" x-text="simPorcentajeCanje + '%'"></span>
                                 </div>
-                                <input type="range" min="20" max="100" step="10" x-model.number="simPorcentajeCanje" class="w-full">
-                                <p class="text-[10px] text-gray-400">Al filtrar a qué clientes se les entrega, tu ganancia neta se protege y aumenta.</p>
+                                <input type="range" min="20" max="100" step="10" x-model.number="simPorcentajeCanje" class="w-full accent-zinc-200">
+                                <p class="text-[10px] text-zinc-500">Al filtrar a qué clientes se les entrega, tu ganancia neta se protege y aumenta.</p>
                             </div>
                         </template>
                     </div>
@@ -1774,14 +1778,14 @@
                     <!-- NUMERO DE REFERIDOS REQUERIDOS -->
                     <div class="space-y-2">
                         <div class="flex justify-between items-center text-sm">
-                            <label class="text-gray-300 font-medium">Amigos Requeridos para Desbloquear Premio:</label>
-                            <span class="font-mono font-bold text-brand-400 text-base" x-text="simNumReferidos + ' Compras'"></span>
+                            <label class="text-zinc-300 font-medium">Amigos Requeridos para Desbloquear Premio:</label>
+                            <span class="font-mono font-bold text-white text-base" x-text="simNumReferidos + ' Compras'"></span>
                         </div>
                         <div class="grid grid-cols-4 gap-2 pt-1">
                             <template x-for="n in [3, 5, 8, 10]" :key="n">
                                 <button 
                                     @click="simNumReferidos = n"
-                                    :class="simNumReferidos === n ? 'bg-brand-600 text-white border-brand-400' : 'bg-gray-800 text-gray-400 border-gray-700 hover:bg-gray-700'"
+                                    :class="simNumReferidos === n ? 'bg-zinc-100 text-zinc-950 font-bold border-white' : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:bg-zinc-800'"
                                     class="py-1.5 rounded-lg text-xs font-mono font-semibold border transition-all">
                                     <span x-text="n + ' Amigos'"></span>
                                 </button>
@@ -1794,66 +1798,66 @@
                 <!-- RESULTADOS & IMPACTO DEL CICLO -->
                 <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
                     
-                    <div class="bg-gray-900/80 border border-gray-800 p-5 rounded-2xl space-y-4">
-                        <div class="flex items-center justify-between pb-2 border-b border-gray-800">
-                            <h2 class="text-xs font-semibold tracking-wider text-gray-300 uppercase font-mono flex items-center gap-1.5">
-                                <i data-lucide="split" class="w-4 h-4 text-brand-400"></i>
+                    <div class="bg-zinc-900/60 border border-zinc-800 p-5 rounded-2xl space-y-4 shadow-sm">
+                        <div class="flex items-center justify-between pb-2 border-b border-zinc-800">
+                            <h2 class="text-xs font-semibold tracking-wider text-zinc-200 uppercase font-mono flex items-center gap-1.5">
+                                <i data-lucide="split" class="w-4 h-4 text-zinc-400"></i>
                                 <span>Desglose de Ganancia: Negocio vs. Financiamiento</span>
                             </h2>
-                            <span class="text-[10px] text-gray-500 font-mono">Separación Real</span>
+                            <span class="text-[10px] text-zinc-500 font-mono">Separación Real</span>
                         </div>
 
                         <div class="space-y-3 font-mono text-xs">
                             <!-- Precio Pagado por Referido -->
-                            <div class="flex justify-between items-center p-2.5 rounded-xl bg-gray-950/60 border border-gray-800/50">
-                                <span class="text-gray-400 font-sans">Precio cobrado a cada amigo (con 10% OFF):</span>
-                                <span class="font-bold text-gray-200" x-text="'$' + simPvpReferido.toFixed(2)"></span>
+                            <div class="flex justify-between items-center p-2.5 rounded-xl bg-zinc-950 border border-zinc-800/80">
+                                <span class="text-zinc-400 font-sans">Precio cobrado a cada amigo (con 10% OFF):</span>
+                                <span class="font-bold text-white" x-text="'$' + simPvpReferido.toFixed(2)"></span>
                             </div>
 
                             <!-- Costo Real de la Prenda -->
-                            <div class="flex justify-between items-center p-2.5 rounded-xl bg-gray-950/60 border border-gray-800/50">
-                                <span class="text-gray-400 font-sans">Costo de reposición (Prenda + Envío):</span>
-                                <span class="font-bold text-amber-300" x-text="'$' + simCostoTotal.toFixed(2)"></span>
+                            <div class="flex justify-between items-center p-2.5 rounded-xl bg-zinc-950 border border-zinc-800/80">
+                                <span class="text-zinc-400 font-sans">Costo de reposición (Prenda + Envío):</span>
+                                <span class="font-bold text-zinc-300" x-text="'$' + simCostoTotal.toFixed(2)"></span>
                             </div>
 
                             <!-- Margen Bruto antes de cupón -->
-                            <div class="flex justify-between items-center p-2.5 rounded-xl bg-gray-950/80 border border-gray-700/60">
-                                <span class="text-gray-300 font-sans">Margen por prenda vendida con código:</span>
-                                <span class="font-bold text-emerald-400" x-text="'+$' + simGananciaPorReferido.toFixed(2)"></span>
+                            <div class="flex justify-between items-center p-2.5 rounded-xl bg-zinc-950 border border-zinc-800/80">
+                                <span class="text-zinc-300 font-sans">Margen por prenda vendida con código:</span>
+                                <span class="font-bold text-white" x-text="'+$' + simGananciaPorReferido.toFixed(2)"></span>
                             </div>
 
                             <!-- Separación: Aporte al fondo de cupón -->
-                            <div class="p-3 rounded-xl bg-purple-950/20 border border-purple-500/30 space-y-1.5">
-                                <div class="flex justify-between items-center text-purple-200">
+                            <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1.5">
+                                <div class="flex justify-between items-center text-zinc-200">
                                     <span class="font-sans font-medium flex items-center gap-1">
-                                        <i data-lucide="piggy-bank" class="w-3.5 h-3.5 text-purple-400"></i>
+                                        <i data-lucide="piggy-bank" class="w-3.5 h-3.5 text-zinc-400"></i>
                                         Fondo apartado para el premio:
                                     </span>
-                                    <span class="font-bold text-purple-300" x-text="'-$' + aportePremioPorVenta.toFixed(2) + ' / prenda'"></span>
+                                    <span class="font-bold text-zinc-300" x-text="'-$' + aportePremioPorVenta.toFixed(2) + ' / prenda'"></span>
                                 </div>
-                                <p class="text-[10px] text-gray-400 font-sans">
+                                <p class="text-[10px] text-zinc-500 font-sans">
                                     De cada venta apartas $<span x-text="aportePremioPorVenta.toFixed(2)"></span> para pagar el premio de $<span x-text="simDescuentoPremio"></span> sin tocar tu ganancia del negocio.
                                 </p>
                             </div>
 
                             <!-- Ganancia Intocable de la Tienda por Prenda -->
-                            <div class="flex justify-between items-center p-2.5 rounded-xl bg-emerald-950/30 border border-emerald-500/30">
+                            <div class="flex justify-between items-center p-2.5 rounded-xl bg-zinc-950 border border-zinc-800">
                                 <div>
-                                    <span class="text-emerald-300 font-sans font-semibold block">Tu Ganancia Neta Intocable por Venta:</span>
-                                    <span class="text-[10px] text-gray-400 font-sans">Ya descontado costo, envío y fondo de premio</span>
+                                    <span class="text-zinc-200 font-sans font-semibold block">Tu Ganancia Neta Intocable por Venta:</span>
+                                    <span class="text-[10px] text-zinc-500 font-sans">Ya descontado costo, envío y fondo de premio</span>
                                 </div>
-                                <span class="font-bold text-emerald-400 text-sm" x-text="'+$' + gananciaNetaIntocablePorPrenda.toFixed(2)"></span>
+                                <span class="font-bold text-white text-sm" x-text="'+$' + gananciaNetaIntocablePorPrenda.toFixed(2)"></span>
                             </div>
 
                             <!-- Total Acumulado en el Ciclo -->
-                            <div class="pt-2 border-t border-gray-800 space-y-1.5 text-[11px]">
-                                <div class="flex justify-between text-gray-400">
+                            <div class="pt-2 border-t border-zinc-800 space-y-1.5 text-[11px]">
+                                <div class="flex justify-between text-zinc-400">
                                     <span>Ventas del grupo (<span x-text="simNumReferidos"></span> personas):</span>
-                                    <span class="text-gray-200" x-text="'$' + (simPvpReferido * simNumReferidos).toFixed(2)"></span>
+                                    <span class="text-zinc-200" x-text="'$' + (simPvpReferido * simNumReferidos).toFixed(2)"></span>
                                 </div>
-                                <div class="flex justify-between text-gray-400">
+                                <div class="flex justify-between text-zinc-400">
                                     <span>Fondo total apartado para el premio:</span>
-                                    <span class="text-purple-300" x-text="'-$' + (aportePremioPorVenta * simNumReferidos).toFixed(2)"></span>
+                                    <span class="text-zinc-300" x-text="'-$' + (aportePremioPorVenta * simNumReferidos).toFixed(2)"></span>
                                 </div>
                             </div>
 
@@ -1861,38 +1865,35 @@
                     </div>
 
                     <!-- TARJETA FINAL DE GANANCIA NETA DEL NEGOCIO -->
-                    <div class="p-5 rounded-2xl border transition-all duration-300"
-                        :class="gananciaNetaTiendaCiclo >= 0 ? 'bg-emerald-950/30 border-emerald-500/40 shadow-xl shadow-emerald-950/50' : 'bg-rose-950/30 border-rose-500/40 shadow-xl shadow-rose-950/50'">
+                    <div class="p-5 rounded-2xl border border-zinc-800 bg-zinc-950 shadow-sm">
                         
                         <div class="flex items-center justify-between">
                             <div>
-                                <span class="text-xs uppercase font-mono font-semibold text-gray-400">Ganancia Neta Limpia de tu Negocio</span>
-                                <div class="text-2xl sm:text-3xl font-extrabold font-mono mt-1"
-                                     :class="gananciaNetaTiendaCiclo >= 0 ? 'text-emerald-400' : 'text-rose-400'">
+                                <span class="text-xs uppercase font-mono font-semibold text-zinc-400">Ganancia Neta Limpia de tu Negocio</span>
+                                <div class="text-2xl sm:text-3xl font-bold font-mono mt-1 text-white">
                                     <span x-text="(gananciaNetaTiendaCiclo >= 0 ? '+$' : '-$') + Math.abs(gananciaNetaTiendaCiclo).toFixed(2)"></span>
                                 </div>
-                                <span class="text-[11px] text-gray-400 font-sans block mt-0.5">
+                                <span class="text-[11px] text-zinc-500 font-sans block mt-0.5">
                                     Dinero libre para aura.mgta tras pagar prendas, flete y el cupón de $<span x-text="simDescuentoPremio"></span>
                                 </span>
                             </div>
 
-                            <div class="w-12 h-12 rounded-2xl flex items-center justify-center font-bold"
-                                 :class="gananciaNetaTiendaCiclo >= 0 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'">
+                            <div class="w-12 h-12 rounded-2xl flex items-center justify-center font-bold bg-zinc-900 text-zinc-200 border border-zinc-800">
                                 <template x-if="gananciaNetaTiendaCiclo >= 0"><i data-lucide="trending-up" class="w-6 h-6"></i></template>
                                 <template x-if="gananciaNetaTiendaCiclo < 0"><i data-lucide="trending-down" class="w-6 h-6"></i></template>
                             </div>
                         </div>
 
-                        <div class="mt-4 pt-3 border-t border-gray-800/80 text-xs">
+                        <div class="mt-4 pt-3 border-t border-zinc-800 text-xs">
                             <template x-if="gananciaNetaTiendaCiclo > 0">
-                                <p class="text-emerald-300 flex items-center gap-1.5">
-                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+                                <p class="text-zinc-300 flex items-center gap-1.5">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-zinc-400 flex-shrink-0"></i>
                                     <span><strong>Tu negocio no financia al cliente:</strong> Cada venta aporta $<span x-text="aportePremioPorVenta.toFixed(2)"></span> y te quedan $<span x-text="gananciaNetaTiendaCiclo.toFixed(2)"></span> libres.</span>
                                 </p>
                             </template>
                             <template x-if="gananciaNetaTiendaCiclo <= 0">
-                                <p class="text-rose-300 flex items-center gap-1.5">
-                                    <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-400 flex-shrink-0"></i>
+                                <p class="text-zinc-400 flex items-center gap-1.5">
+                                    <i data-lucide="alert-triangle" class="w-4 h-4 text-zinc-500 flex-shrink-0"></i>
                                     <span><strong>Alerta de Margen:</strong> El premio o descuento es muy alto para el costo actual de la prenda. Sube el PVP o ajusta la meta.</span>
                                 </p>
                             </template>
@@ -1940,7 +1941,7 @@
                         x-model="nuevoEmbajador.nombre" 
                         @input="generarCodigoSugerido()"
                         placeholder="Ej. Carlos Vender o Camila Torres"
-                        class="w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 text-white focus:border-brand-500 focus:outline-none">
+                        class="w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 text-white focus:border-zinc-500 focus:outline-none">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
@@ -1950,7 +1951,7 @@
                             type="text" 
                             x-model="nuevoEmbajador.telefono" 
                             placeholder="+58 412..."
-                            class="w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 text-white focus:border-brand-500 focus:outline-none">
+                            class="w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 text-white focus:border-zinc-500 focus:outline-none">
                     </div>
                     <div>
                         <label class="text-gray-300 font-medium block mb-1">Instagram (@usuario):</label>
@@ -1958,7 +1959,7 @@
                             type="text" 
                             x-model="nuevoEmbajador.instagram" 
                             placeholder="@carlos.style"
-                            class="w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 text-white focus:border-brand-500 focus:outline-none">
+                            class="w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 text-white focus:border-zinc-500 focus:outline-none">
                     </div>
                 </div>
 
@@ -1970,7 +1971,7 @@
                             type="text" 
                             x-model="nuevoEmbajador.codigo" 
                             placeholder="CARLOS5 o CAMI8"
-                            class="uppercase font-mono font-bold text-brand-400 w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 focus:border-brand-500 focus:outline-none">
+                            class="uppercase font-mono font-bold text-zinc-300 w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 focus:border-zinc-500 focus:outline-none">
                         <button 
                             @click="generarCodigoSugerido()" 
                             class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl font-mono text-xs transition flex-shrink-0">
@@ -2153,7 +2154,7 @@
                         type="text" 
                         x-model="configSupabase.url" 
                         placeholder="https://xyzcompany.supabase.co" 
-                        class="w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 text-white font-mono text-xs focus:outline-none focus:border-brand-500">
+                        class="w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 text-white font-mono text-xs focus:outline-none focus:border-zinc-500">
                 </div>
 
                 <div>
@@ -2162,7 +2163,7 @@
                         type="password" 
                         x-model="configSupabase.anonKey" 
                         placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." 
-                        class="w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 text-white font-mono text-xs focus:outline-none focus:border-brand-500">
+                        class="w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 text-white font-mono text-xs focus:outline-none focus:border-zinc-500">
                 </div>
 
                 <div class="p-3 rounded-xl bg-gray-950/70 border border-gray-800 text-[11px] space-y-1.5">
