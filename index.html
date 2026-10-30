@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
@@ -367,8 +367,8 @@
                                             type="text" 
                                             x-model="cuenta.nuevoCodigoReferido" 
                                             @input="cuenta.codigoPersonalizadoManualmente = true"
-                                            placeholder="EJ. MARIAPEREZ" 
-                                            class="uppercase font-mono font-bold px-3 py-1 h-8 rounded-lg bg-zinc-950 border border-zinc-700 text-zinc-100 text-xs focus:border-zinc-400 focus:outline-none w-36">
+                                            placeholder="EJ. AURA-6345" 
+                                            class="uppercase font-mono font-bold px-3 py-1 h-8 rounded-lg bg-zinc-950 border border-zinc-700 text-zinc-100 text-xs focus:border-zinc-400 focus:outline-none w-40">
                                         <button 
                                             type="button" 
                                             @click="onInputCliente(true)"
@@ -1970,7 +1970,7 @@
                         <input 
                             type="text" 
                             x-model="nuevoEmbajador.codigo" 
-                            placeholder="CARLOS5 o CAMI8"
+                            placeholder="EJ. AURA-6345"
                             class="uppercase font-mono font-bold text-zinc-300 w-full px-3 py-2 rounded-xl bg-gray-950 border border-gray-800 focus:border-zinc-500 focus:outline-none">
                         <button 
                             @click="generarCodigoSugerido()" 
@@ -2338,8 +2338,7 @@
                 },
 
                 generarCodigoSugerido() {
-                    const primerNombre = (this.nuevoEmbajador.nombre.trim().split(' ')[0] || 'AURA').toUpperCase().replace(/[^A-Z]/g, '');
-                    this.nuevoEmbajador.codigo = `${primerNombre}${this.nuevoEmbajador.meta}`;
+                    this.nuevoEmbajador.codigo = this.generarSugerenciaCodigoReferido(this.nuevoEmbajador.nombre, this.nuevoEmbajador.telefono, 0);
                 },
 
                 guardarNuevoEmbajador() {
@@ -2594,7 +2593,7 @@
                     telefono: "+58 412-5550000",
                     tipoCliente: "nuevo",
                     autoCrearEmbajador: true,
-                    nuevoCodigoReferido: "MARIAPEREZ",
+                    nuevoCodigoReferido: "AURA-5000",
                     codigoPersonalizadoManualmente: false,
                     codigoEmbajador: "",
                     embajadorValido: null,
@@ -2937,77 +2936,35 @@
                 },
 
                 generarSugerenciaCodigoReferido(nombre, telefono = '', indiceVariante = 0) {
-                    if (!nombre || !nombre.trim()) return '';
-
-                    const normalizar = (txt) => (txt || '')
-                        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-                        .replace(/[^a-zA-Z0-9\s]/g, "")
-                        .trim();
-
-                    const palabras = normalizar(nombre).split(/\s+/).filter(Boolean);
-                    if (palabras.length === 0) return 'AURA5';
-
-                    const p1 = palabras[0].toUpperCase();
-                    const p2 = palabras.length > 1 ? palabras[1].toUpperCase() : '';
-                    const apellido = palabras.length > 1 ? palabras[palabras.length - 1].toUpperCase() : '';
-
-                    const digitosTel = (telefono || '').replace(/[^0-9]/g, '');
-                    const ultimos2Tel = digitosTel.length >= 2 ? digitosTel.slice(-2) : '';
-
-                    const candidatos = [];
-
-                    if (palabras.length >= 2) {
-                        const inApellido = apellido[0];
-                        // 1. Nombre + Apellido real (Estilo embajadora oficial: MARIAPEREZ)
-                        if ((p1 + apellido).length <= 15) {
-                            candidatos.push(`${p1}${apellido}`);
-                        }
-                        // 2. Nombre + Inicial Apellido + 5 (MARIAP5)
-                        candidatos.push(`${p1}${inApellido}5`);
-                        // 3. Nombre + Inicial Apellido (MARIAP)
-                        candidatos.push(`${p1}${inApellido}`);
-                        // 4. Inicial Nombre + Apellido + 5 (MPEREZ5)
-                        candidatos.push(`${p1[0]}${apellido}5`);
-                        // 5. Iniciales compuestas si hay 2 nombres (MALE5 o MALEJANDRA)
-                        if (palabras.length >= 3 && p2) {
-                            candidatos.push(`${p1[0]}${p2[0]}${apellido}`);
-                            candidatos.push(`${p1.slice(0, 4)}${inApellido}5`);
-                        }
-                        // 6. Con terminación de teléfono real de la clienta (personalizado y auténtico)
-                        if (ultimos2Tel) {
-                            candidatos.push(`${p1}${inApellido}${ultimos2Tel}`);
-                            candidatos.push(`${p1}${ultimos2Tel}`);
-                        }
-                        // 7. Nombre + Inicial Apellido + AURA
-                        candidatos.push(`${p1}${inApellido}AURA`);
-                    } else {
-                        // Solo se escribió un nombre (ej. "María")
-                        candidatos.push(`${p1}5`);
-                        if (ultimos2Tel) {
-                            candidatos.push(`${p1}${ultimos2Tel}`);
-                        }
-                        candidatos.push(`${p1}AURA`);
-                        candidatos.push(`AURA${p1}`);
-                        candidatos.push(`${p1}8`);
-                    }
-
                     const codigosExistentes = new Set(this.embajadores.map(e => (e.codigo || '').toUpperCase()));
-                    const candidatosDisponibles = candidatos.filter(c => !codigosExistentes.has(c));
 
-                    if (candidatosDisponibles.length > 0) {
-                        const idx = Math.abs(indiceVariante) % candidatosDisponibles.length;
-                        return candidatosDisponibles[idx];
+                    // Extraer los últimos 4 dígitos del número de teléfono si existen
+                    const digitosTel = (telefono || '').replace(/[^0-9]/g, '');
+                    const ultimos4 = digitosTel.length >= 4 ? digitosTel.slice(-4) : (digitosTel.length >= 3 ? ('0' + digitosTel.slice(-3)) : '');
+
+                    // Si es la sugerencia inicial y hay 4 dígitos de teléfono, asignar AURA-XXXX (donde XXXX es el fin de su número)
+                    if (indiceVariante === 0 && ultimos4 && ultimos4.length === 4) {
+                        const codTel = `AURA-${ultimos4}`;
+                        if (!codigosExistentes.has(codTel)) {
+                            return codTel;
+                        }
                     }
 
-                    // Fallback garantizado único y profesional
-                    let base = palabras.length >= 2 ? `${p1}${apellido[0]}` : p1.slice(0, 6);
-                    let fallback = `${base}${ultimos2Tel || 'VIP'}`;
-                    let count = 1;
-                    while (codigosExistentes.has(fallback)) {
-                        fallback = `${base}${count}`;
-                        count++;
+                    // Generación determinista y rotativa con prefijo AURA-XXXX
+                    const baseSeed = (digitosTel ? (parseInt(digitosTel.slice(-4)) || 1200) : 1200) + ((nombre || '').length * 37);
+                    const offsets = [0, 1845, 3421, 5190, 7234, 8612, 4390, 6128, 2571, 9143];
+                    const offset = offsets[Math.abs(indiceVariante) % offsets.length];
+
+                    let num = ((baseSeed + offset + (Math.abs(indiceVariante) * 431)) % 8999) + 1000;
+                    let candidato = `AURA-${num}`;
+
+                    // Garantizar unicidad absoluta
+                    while (codigosExistentes.has(candidato)) {
+                        num = ((num + 17) % 8999) + 1000;
+                        candidato = `AURA-${num}`;
                     }
-                    return fallback;
+
+                    return candidato;
                 },
 
                 onInputCliente(esRegeneracionManual = false) {
