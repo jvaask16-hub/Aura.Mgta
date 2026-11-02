@@ -433,12 +433,12 @@
                                             type="text" 
                                             x-model="cuenta.nuevoCodigoReferido" 
                                             @input="cuenta.codigoPersonalizadoManualmente = true"
-                                            placeholder="EJ. AURA-7241" 
+                                            placeholder="EJ. ACS-345" 
                                             class="uppercase font-mono font-bold px-3 py-1 h-8 rounded-lg bg-zinc-950 border border-zinc-700 text-zinc-100 text-xs focus:border-zinc-400 focus:outline-none w-36">
                                         <button 
                                             type="button" 
                                             @click="onInputCliente(true)"
-                                            title="Generar otro código AURA-XXXX"
+                                            title="Generar otra variación del código"
                                             class="h-8 px-2.5 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-700 transition flex items-center gap-1 text-[11px] font-mono">
                                             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
                                             <span class="hidden sm:inline">Variar</span>
@@ -2068,7 +2068,8 @@
                     <input 
                         type="text" 
                         x-model="nuevoEmbajador.nombre" 
-                        placeholder="Ej. Carlos Vender o Camila Torres"
+                        @input="generarCodigoSugerido()"
+                        placeholder="Ej. Carolina Santini"
                         class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-white focus:border-zinc-500 focus:outline-none">
                 </div>
 
@@ -2078,15 +2079,16 @@
                         <input 
                             type="text" 
                             x-model="nuevoEmbajador.telefono" 
-                            placeholder="+58 412..."
-                            class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-white focus:border-zinc-500 focus:outline-none">
+                            @input="generarCodigoSugerido()"
+                            placeholder="04148006345"
+                            class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-white focus:border-zinc-500 focus:outline-none font-mono">
                     </div>
                     <div>
                         <label class="text-zinc-300 font-medium block mb-1">Instagram (@usuario):</label>
                         <input 
                             type="text" 
                             x-model="nuevoEmbajador.instagram" 
-                            placeholder="@carlos.style"
+                            placeholder="@carolina.santini"
                             class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-white focus:border-zinc-500 focus:outline-none">
                     </div>
                 </div>
@@ -2098,10 +2100,10 @@
                         <input 
                             type="text" 
                             x-model="nuevoEmbajador.codigo" 
-                            placeholder="EJ. AURA-7241"
+                            placeholder="EJ. ACS-345"
                             class="uppercase font-mono font-bold text-zinc-100 w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 focus:border-zinc-500 focus:outline-none">
                         <button 
-                            @click="generarCodigoSugerido()" 
+                            @click="generarCodigoSugerido(true)" 
                             class="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 rounded-xl font-mono text-xs transition flex-shrink-0">
                             Auto
                         </button>
@@ -2466,11 +2468,12 @@
                 },
 
                 abrirModalNuevoEmbajador() {
+                    this.varianteCodigoModal = 0;
                     this.nuevoEmbajador = {
                         nombre: '',
                         telefono: '',
                         instagram: '',
-                        codigo: this.generarSugerenciaCodigoReferido(),
+                        codigo: this.generarSugerenciaCodigoReferido('', '', 0),
                         invitadoPorCodigo: '',
                         meta: 5,
                         premio: '$10.00 OFF en su compra',
@@ -2482,8 +2485,13 @@
                     this.$nextTick(() => this.refreshLucide());
                 },
 
-                generarCodigoSugerido() {
-                    this.nuevoEmbajador.codigo = this.generarSugerenciaCodigoReferido();
+                generarCodigoSugerido(esRegeneracionManual = false) {
+                    if (esRegeneracionManual) {
+                        this.varianteCodigoModal = (this.varianteCodigoModal || 0) + 1;
+                    } else {
+                        this.varianteCodigoModal = 0;
+                    }
+                    this.nuevoEmbajador.codigo = this.generarSugerenciaCodigoReferido(this.nuevoEmbajador.nombre, this.nuevoEmbajador.telefono, this.varianteCodigoModal);
                 },
 
                 guardarNuevoEmbajador() {
@@ -2738,7 +2746,7 @@
                     telefono: "+58 412-5550000",
                     tipoCliente: "nuevo",
                     autoCrearEmbajador: true,
-                    nuevoCodigoReferido: "AURA-7241",
+                    nuevoCodigoReferido: "AMP-000",
                     codigoPersonalizadoManualmente: false,
                     codigoEmbajador: "",
                     embajadorValido: null,
@@ -3080,25 +3088,83 @@
                     this.mostrarToast("Descuento Asignado", `El cupón se aplicó específicamente a la prenda seleccionada.`);
                 },
 
-                generarSugerenciaCodigoReferido() {
+                generarSugerenciaCodigoReferido(nombre = '', telefono = '', indiceVariacion = 0) {
+                    const normalizar = (txt) => (txt || '')
+                        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                        .replace(/[^a-zA-Z0-9\s]/g, "")
+                        .trim();
+
+                    const palabras = normalizar(nombre).split(/\s+/).filter(Boolean);
+                    
+                    // 1. Sigla de 3 letras:
+                    // A = Aura
+                    // 2da letra = Inicial del primer nombre (ej. C de Carolina)
+                    // 3ra letra = Inicial del apellido (ej. S de Santini)
+                    // En caso de tener solo el primer nombre: A + 2 letras del nombre (ej. Carolina -> ACA)
+                    let letras = 'AUR';
+                    if (palabras.length >= 2) {
+                        const inNombre = palabras[0][0].toUpperCase();
+                        const inApellido = palabras[palabras.length - 1][0].toUpperCase();
+                        letras = `A${inNombre}${inApellido}`;
+                    } else if (palabras.length === 1) {
+                        const inNombre = palabras[0][0].toUpperCase();
+                        const segLetra = palabras[0].length > 1 ? palabras[0][1].toUpperCase() : 'A';
+                        letras = `A${inNombre}${segLetra}`;
+                    }
+
+                    // 2. Números: Últimos 3 dígitos del teléfono
+                    const digitosTel = (telefono || '').replace(/\D/g, '');
+                    let numBase = '';
+                    if (digitosTel.length >= 3) {
+                        if (indiceVariacion > 0 && digitosTel.length >= 3 + indiceVariacion) {
+                            numBase = digitosTel.slice(-(3 + indiceVariacion), -indiceVariacion || undefined);
+                        } else if (indiceVariacion > 0) {
+                            const ultimos3 = parseInt(digitosTel.slice(-3)) || 100;
+                            numBase = ((ultimos3 + indiceVariacion) % 1000).toString().padStart(3, '0');
+                        } else {
+                            numBase = digitosTel.slice(-3);
+                        }
+                    } else {
+                        // Solución cuando solo se tiene el nombre (sin número de teléfono aún):
+                        // Generar 3 dígitos calculados consistentemente a partir del nombre
+                        let hash = 0;
+                        const seed = nombre || 'AURA';
+                        for (let i = 0; i < seed.length; i++) {
+                            hash = ((hash << 5) - hash) + seed.charCodeAt(i);
+                            hash |= 0;
+                        }
+                        const numCalculado = Math.abs((hash + (indiceVariacion * 47)) % 900) + 100;
+                        numBase = numCalculado.toString();
+                    }
+
+                    let codigo = `${letras}-${numBase}`;
+
+                    // 3. Garantía anti-colisión: Si ya existe en la lista de embajadores, incrementar número
                     const codigosExistentes = new Set(this.embajadores.map(e => (e.codigo || '').toUpperCase()));
                     let intentos = 0;
-                    while (intentos < 500) {
-                        const num = Math.floor(1000 + Math.random() * 9000); // 4 dígitos aleatorios (1000 a 9999)
-                        const candidato = `AURA-${num}`;
-                        if (!codigosExistentes.has(candidato)) {
-                            return candidato;
-                        }
+                    let numActual = parseInt(numBase) || 100;
+                    while (codigosExistentes.has(codigo) && intentos < 100) {
+                        numActual = (numActual + 1) % 1000;
+                        if (numActual < 100) numActual += 100;
+                        codigo = `${letras}-${numActual.toString().padStart(3, '0')}`;
                         intentos++;
                     }
-                    return `AURA-${Date.now().toString().slice(-4)}`;
+
+                    return codigo;
                 },
 
                 onInputCliente(esRegeneracionManual = false) {
                     if (this.cuenta.tipoCliente === 'nuevo') {
-                        if (!this.cuenta.nuevoCodigoReferido || esRegeneracionManual) {
-                            this.cuenta.nuevoCodigoReferido = this.generarSugerenciaCodigoReferido();
-                            this.cuenta.codigoPersonalizadoManualmente = false;
+                        if (!this.cuenta.codigoPersonalizadoManualmente || esRegeneracionManual) {
+                            if (esRegeneracionManual) {
+                                this.varianteCodigoActual = (this.varianteCodigoActual || 0) + 1;
+                            } else {
+                                this.varianteCodigoActual = 0;
+                            }
+                            this.cuenta.nuevoCodigoReferido = this.generarSugerenciaCodigoReferido(this.cuenta.cliente, this.cuenta.telefono, this.varianteCodigoActual);
+                            if (esRegeneracionManual) {
+                                this.cuenta.codigoPersonalizadoManualmente = false;
+                            }
                         }
                     }
                     this.revalidarElegibilidad();
@@ -3107,7 +3173,7 @@
                 onCambioTipoCliente() {
                     if (this.cuenta.tipoCliente === 'nuevo') {
                         if (!this.cuenta.nuevoCodigoReferido || !this.cuenta.codigoPersonalizadoManualmente) {
-                            this.cuenta.nuevoCodigoReferido = this.generarSugerenciaCodigoReferido();
+                            this.cuenta.nuevoCodigoReferido = this.generarSugerenciaCodigoReferido(this.cuenta.cliente, this.cuenta.telefono, 0);
                         }
                     }
                     this.revalidarElegibilidad();
@@ -3143,7 +3209,7 @@
                     this.cuenta.telefono = '';
                     this.cuenta.tipoCliente = 'nuevo';
                     this.cuenta.autoCrearEmbajador = true;
-                    this.cuenta.nuevoCodigoReferido = this.generarSugerenciaCodigoReferido();
+                    this.cuenta.nuevoCodigoReferido = '';
                     this.cuenta.codigoPersonalizadoManualmente = false;
                     this.cuenta.codigoEmbajador = '';
                     this.cuenta.embajadorValido = null;
@@ -3162,7 +3228,7 @@
                     this.cuenta.telefono = "+58 412-1234567";
                     this.cuenta.tipoCliente = "nuevo";
                     this.cuenta.autoCrearEmbajador = true;
-                    this.cuenta.nuevoCodigoReferido = "AURA-5820";
+                    this.cuenta.nuevoCodigoReferido = "ACR-567";
                     this.cuenta.codigoPersonalizadoManualmente = false;
                     this.cuenta.codigoEmbajador = "CARLOS5";
                     this.cuenta.autorizadoManualmente = false;
@@ -3694,8 +3760,8 @@
                         console.error("Error al cargar local storage", e);
                     }
 
-                    if (!this.cuenta.nuevoCodigoReferido || this.cuenta.nuevoCodigoReferido === 'MARIAPEREZ') {
-                        this.cuenta.nuevoCodigoReferido = this.generarSugerenciaCodigoReferido();
+                    if (!this.cuenta.nuevoCodigoReferido || this.cuenta.nuevoCodigoReferido === 'MARIAPEREZ' || this.cuenta.nuevoCodigoReferido.startsWith('AURA-')) {
+                        this.cuenta.nuevoCodigoReferido = this.generarSugerenciaCodigoReferido(this.cuenta.cliente, this.cuenta.telefono, 0);
                     }
 
                     this.refreshLucide();
