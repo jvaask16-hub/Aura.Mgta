@@ -1536,11 +1536,17 @@
                         Controla qué prendas tienes en aura.mgta, sus costos base, PVP fijado y añádelas con 1 clic al cotizador de cuenta entera.
                     </p>
                 </div>
-                <button 
-                    @click="abrirModalNuevaPrenda()" 
-                    class="px-4 py-2 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-xs sm:text-sm font-semibold flex items-center gap-2 transition shadow-sm">
-                    <i data-lucide="plus" class="w-4 h-4"></i> Añadir Prenda al Catálogo
-                </button>
+                <div class="flex flex-wrap items-center gap-2">
+                    <a href="/tienda/" target="_blank" rel="noopener"
+                        class="px-3.5 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 text-xs sm:text-sm font-medium flex items-center gap-2 transition">
+                        <i data-lucide="external-link" class="w-4 h-4 text-zinc-400"></i> Ver Tienda Web
+                    </a>
+                    <button 
+                        @click="abrirModalNuevaPrenda()" 
+                        class="px-4 py-2 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-xs sm:text-sm font-semibold flex items-center gap-2 transition shadow-sm">
+                        <i data-lucide="plus" class="w-4 h-4"></i> Añadir Prenda al Catálogo
+                    </button>
+                </div>
             </div>
 
             <!-- TABLA Y TARJETAS DE PRENDAS -->
@@ -1549,15 +1555,24 @@
                 <div class="sm:hidden p-3 space-y-3">
                     <template x-for="(prenda, idx) in inventario" :key="'mob-' + prenda.id">
                         <div class="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800/90 space-y-3">
-                            <div class="flex items-start justify-between gap-2">
-                                <div>
-                                    <h4 class="font-semibold text-white text-sm flex items-center gap-1.5">
-                                        <i data-lucide="sparkle" class="w-3.5 h-3.5 text-zinc-500"></i>
-                                        <span x-text="prenda.nombre"></span>
-                                    </h4>
-                                    <span class="text-[11px] text-zinc-400 font-sans" x-text="prenda.categoria || 'Colección'"></span>
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <button type="button" @click="abrirModalEditarPrenda(prenda)" title="Subir o editar foto"
+                                        class="w-12 h-15 rounded-lg bg-zinc-900 border border-zinc-800 overflow-hidden shrink-0 flex items-center justify-center relative group"
+                                        style="aspect-ratio: 4/5;">
+                                        <img x-show="prenda.imagen_url" :src="prenda.imagen_url" :alt="prenda.nombre" class="w-full h-full object-cover" />
+                                        <span x-show="!prenda.imagen_url" class="text-[10px] font-mono text-zinc-500">FOTO</span>
+                                    </button>
+                                    <div class="min-w-0">
+                                        <h4 class="font-semibold text-white text-sm truncate" x-text="prenda.nombre"></h4>
+                                        <div class="flex flex-wrap items-center gap-1.5 mt-0.5">
+                                            <span class="text-[11px] text-zinc-400 font-sans" x-text="prenda.categoria || 'Colección'"></span>
+                                            <span class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 font-mono" x-text="prenda.genero || 'Unisex'"></span>
+                                            <span x-show="prenda.visible === false" class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500 font-mono">Oculta en web</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="px-2 py-0.5 rounded text-[10px] font-mono border"
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono border shrink-0"
                                     :class="prenda.stock > 0 ? 'bg-zinc-800 text-zinc-200 border-zinc-700' : 'bg-zinc-900 text-zinc-500 border-zinc-800'"
                                     x-text="prenda.stock + ' disp.'">
                                 </span>
@@ -1587,9 +1602,10 @@
                                 </button>
                                 <button 
                                     @click="abrirModalEditarPrenda(prenda)"
-                                    class="p-2 text-zinc-400 hover:text-white bg-zinc-900 hover:bg-zinc-800 rounded-lg transition border border-zinc-800"
-                                    title="Modificar prenda">
-                                    <i data-lucide="pencil" class="w-4 h-4"></i>
+                                    class="px-2.5 py-2 text-zinc-300 hover:text-white bg-zinc-900 hover:bg-zinc-800 rounded-lg transition border border-zinc-800 text-xs flex items-center gap-1.5"
+                                    title="Modificar prenda y foto">
+                                    <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                                    <span>Foto / Editar</span>
                                 </button>
                                 <button 
                                     @click="eliminarPrendaCatalogo(prenda.id)"
@@ -1607,8 +1623,8 @@
                     <table class="w-full text-left text-xs font-mono">
                         <thead class="bg-zinc-950 text-zinc-400 uppercase text-[10px] tracking-wider border-b border-zinc-800">
                             <tr>
-                                <th class="p-3.5">Prenda / Modelo</th>
-                                <th class="p-3.5">Categoría</th>
+                                <th class="p-3.5">Prenda / Foto Web</th>
+                                <th class="p-3.5">Categoría / Corte</th>
                                 <th class="p-3.5 text-right">Costo Base Real</th>
                                 <th class="p-3.5 text-right">PVP Tienda</th>
                                 <th class="p-3.5 text-right">Margen Bruto</th>
@@ -1619,11 +1635,30 @@
                         <tbody class="divide-y divide-zinc-800/80 text-zinc-200">
                             <template x-for="(prenda, idx) in inventario" :key="prenda.id">
                                 <tr class="hover:bg-zinc-800/40 transition">
-                                    <td class="p-3.5 font-sans font-medium text-white flex items-center gap-2">
-                                        <i data-lucide="sparkle" class="w-3.5 h-3.5 text-zinc-500"></i>
-                                        <span x-text="prenda.nombre"></span>
+                                    <td class="p-3.5 font-sans font-medium text-white">
+                                        <div class="flex items-center gap-3">
+                                            <button type="button" @click="abrirModalEditarPrenda(prenda)" title="Haz clic para subir o ajustar la foto"
+                                                class="w-10 rounded-lg bg-zinc-950 border border-zinc-800 hover:border-zinc-500 overflow-hidden shrink-0 flex items-center justify-center transition"
+                                                style="aspect-ratio: 4/5;">
+                                                <img x-show="prenda.imagen_url" :src="prenda.imagen_url" :alt="prenda.nombre" class="w-full h-full object-cover" />
+                                                <span x-show="!prenda.imagen_url" class="text-[9px] font-mono text-zinc-500">+FOTO</span>
+                                            </button>
+                                            <div>
+                                                <div class="flex items-center gap-1.5">
+                                                    <span x-text="prenda.nombre"></span>
+                                                    <span x-show="prenda.destacado" class="text-[9px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-200 font-mono">Destacada</span>
+                                                    <span x-show="prenda.visible === false" class="text-[9px] px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-500 font-mono">Oculta</span>
+                                                </div>
+                                                <span class="text-[10px] text-zinc-500 font-mono" x-text="'Tallas: ' + (prenda.tallas || 'S, M, L')"></span>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td class="p-3.5 text-zinc-400 font-sans" x-text="prenda.categoria || 'Colección'"></td>
+                                    <td class="p-3.5 text-zinc-400 font-sans">
+                                        <div class="flex flex-col gap-0.5">
+                                            <span x-text="prenda.categoria || 'Colección'"></span>
+                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="prenda.genero || 'Unisex'"></span>
+                                        </div>
+                                    </td>
                                     <td class="p-3.5 text-right text-zinc-300 font-mono" x-text="'$' + prenda.costo.toFixed(2)"></td>
                                     <td class="p-3.5 text-right font-semibold text-white font-mono" x-text="'$' + prenda.pvp.toFixed(2)"></td>
                                     <td class="p-3.5 text-right text-zinc-300 font-mono" x-text="'+$' + (prenda.pvp - prenda.costo).toFixed(2) + ' (' + (((prenda.pvp - prenda.costo)/prenda.pvp)*100).toFixed(0) + '%)'"></td>
@@ -1643,9 +1678,9 @@
                                             </button>
                                             <button 
                                                 @click="abrirModalEditarPrenda(prenda)"
-                                                class="text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg p-1.5 transition border border-transparent hover:border-zinc-700"
-                                                title="Modificar prenda y precio">
-                                                <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                                                class="px-2.5 py-1 text-zinc-300 hover:text-white bg-zinc-900 hover:bg-zinc-800 rounded-lg transition border border-zinc-800 hover:border-zinc-700 text-[11px] font-sans flex items-center gap-1"
+                                                title="Subir o editar foto y datos de la prenda">
+                                                <i data-lucide="camera" class="w-3.5 h-3.5"></i> Foto / Editar
                                             </button>
                                             <button 
                                                 @click="eliminarPrendaCatalogo(prenda.id)"
@@ -2203,7 +2238,7 @@
         
         <div 
             @click.away="mostrarModalNuevaPrenda = false" 
-            class="bg-zinc-900 border border-zinc-800 w-full max-w-md p-5 sm:p-6 rounded-2xl space-y-4 shadow-2xl max-h-[92vh] overflow-y-auto">
+            class="bg-zinc-900 border border-zinc-800 w-full max-w-lg p-5 sm:p-6 rounded-2xl space-y-4 shadow-2xl max-h-[92vh] overflow-y-auto">
             
             <div class="flex items-center justify-between pb-3 border-b border-zinc-800">
                 <h3 class="text-base font-bold text-white flex items-center gap-2">
@@ -2216,6 +2251,63 @@
             </div>
 
             <div class="space-y-3 text-xs">
+                <!-- FOTO DE LA PRENDA (editor para la tienda web) -->
+                <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-zinc-200 font-semibold flex items-center gap-1.5"><i data-lucide="image" class="w-3.5 h-3.5 text-zinc-400"></i> Foto para la tienda web</span>
+                        <span class="text-[10px] text-zinc-500 font-mono">Formato 4:5 · 1000x1250</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="relative w-36 sm:w-40 flex-shrink-0">
+                            <canvas x-ref="cvFoto" width="320" height="400"
+                                class="w-full rounded-lg border border-zinc-800 bg-zinc-900 touch-none"
+                                :class="foto.tiene ? 'cursor-grab' : ''"
+                                @pointerdown="iniciarArrastreFoto($event)"
+                                @pointermove="moverFoto($event)"
+                                @pointerup="foto.arrastrando = false"
+                                @pointercancel="foto.arrastrando = false"></canvas>
+                            <div x-show="!foto.tiene" class="absolute inset-0 flex items-center justify-center text-[11px] text-zinc-500 text-center px-3 pointer-events-none">Sin foto</div>
+                        </div>
+                        <div class="flex-grow space-y-2.5 min-w-0">
+                            <label class="h-9 px-3 rounded-lg bg-zinc-100 hover:bg-white text-zinc-950 text-[11px] font-semibold inline-flex items-center gap-1.5 cursor-pointer transition">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                                <span x-text="foto.tiene ? 'Cambiar foto' : 'Subir foto'"></span>
+                                <input type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="elegirFoto($event)">
+                            </label>
+                            <p class="text-[10px] leading-snug" :class="foto.alerta ? 'text-amber-400' : 'text-zinc-500'" x-text="foto.info || 'JPG, PNG o WebP. Se ajusta automáticamente al formato de la web.'"></p>
+
+                            <div x-show="foto.tiene" class="space-y-2">
+                                <div>
+                                    <div class="flex justify-between text-[10px] text-zinc-400 font-mono"><span>Zoom</span><span x-text="foto.zoom.toFixed(2) + 'x'"></span></div>
+                                    <input type="range" min="0.5" max="4" step="0.01" :value="foto.zoom" @input="foto.zoom = +$event.target.value; foto.modificada = true; dibujarFoto()" class="w-full accent-zinc-200">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-[10px] text-zinc-400 font-mono"><span>Brillo</span><span x-text="foto.brillo + '%'"></span></div>
+                                    <input type="range" min="60" max="140" step="1" :value="foto.brillo" @input="foto.brillo = +$event.target.value; foto.modificada = true; dibujarFoto()" class="w-full accent-zinc-200">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-[10px] text-zinc-400 font-mono"><span>Contraste</span><span x-text="foto.contraste + '%'"></span></div>
+                                    <input type="range" min="60" max="140" step="1" :value="foto.contraste" @input="foto.contraste = +$event.target.value; foto.modificada = true; dibujarFoto()" class="w-full accent-zinc-200">
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="text-[10px] text-zinc-400 font-mono mr-1">Fondo</span>
+                                    <template x-for="c in ['#18181b', '#000000', '#ffffff', '#e7e0d6', '#d4d4d8']" :key="c">
+                                        <button type="button" @click="foto.fondo = c; foto.modificada = true; dibujarFoto()"
+                                            :style="'background:' + c" class="w-6 h-6 rounded-full border"
+                                            :class="foto.fondo === c ? 'border-white ring-1 ring-white' : 'border-zinc-700'"></button>
+                                    </template>
+                                </div>
+                                <div class="flex flex-wrap gap-1.5 pt-1">
+                                    <button type="button" @click="encuadrarFoto('cubrir')" class="px-2.5 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-[10px] border border-zinc-700">Llenar marco</button>
+                                    <button type="button" @click="encuadrarFoto('ajustar')" class="px-2.5 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-[10px] border border-zinc-700">Ver completa</button>
+                                    <button type="button" @click="quitarFoto()" class="px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-rose-400 text-[10px] border border-zinc-800">Quitar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p x-show="foto.tiene" class="text-[10px] text-zinc-500">Arrastra la imagen para encuadrarla. Se guarda en formato WebP optimizado.</p>
+                </div>
+
                 <div>
                     <label class="text-zinc-300 font-medium block mb-1">Nombre o Modelo:</label>
                     <input type="text" x-model="nuevaPrenda.nombre" placeholder="Ej. Body Seamless Beige" class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-white focus:outline-none focus:border-zinc-500">
@@ -2240,6 +2332,30 @@
                 <div>
                     <label class="text-zinc-300 font-medium block mb-1">Stock Disponible:</label>
                     <input type="number" min="0" x-model.number="nuevaPrenda.stock" class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-white font-mono focus:outline-none focus:border-zinc-500">
+                </div>
+
+                <!-- DATOS PARA LA TIENDA WEB -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-zinc-300 font-medium block mb-1">Género:</label>
+                        <select x-model="nuevaPrenda.genero" class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-white focus:outline-none focus:border-zinc-500">
+                            <option value="Mujer">Mujer</option>
+                            <option value="Hombre">Hombre</option>
+                            <option value="Unisex">Unisex</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-zinc-300 font-medium block mb-1">Tallas (separadas por coma):</label>
+                        <input type="text" x-model="nuevaPrenda.tallas" placeholder="S, M, L" class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-white focus:outline-none focus:border-zinc-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-zinc-300 font-medium block mb-1">Descripción para la web:</label>
+                    <textarea x-model="nuevaPrenda.descripcion" rows="3" placeholder="Tela, corte, cómo se siente al usarla..." class="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-white focus:outline-none focus:border-zinc-500 resize-none"></textarea>
+                </div>
+                <div class="flex flex-wrap gap-x-5 gap-y-2 text-zinc-300">
+                    <label class="flex items-center gap-2"><input type="checkbox" x-model="nuevaPrenda.visible" class="accent-zinc-200"> Visible en la tienda</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" x-model="nuevaPrenda.destacado" class="accent-zinc-200"> Destacada en inicio</label>
                 </div>
             </div>
 
@@ -2337,9 +2453,12 @@
 
     <!-- LÓGICA PRINCIPAL JAVASCRIPT CON SUPABASE + LOCALSTORAGE FALLBACK -->
     <script>
+        let AURA_FOTO_IMG = null;
+
         function auraApp() {
             return {
                 activeTab: 'cuenta',
+                guardandoPrenda: false,
 
                 // Configuración y Cliente Supabase (Conectado a tu proyecto oficial)
                 mostrarModalSupabase: false,
@@ -2652,20 +2771,30 @@
                     categoria: 'Tops',
                     costo: 12,
                     pvp: 28,
-                    stock: 5
+                    stock: 5,
+                    imagen_url: '', descripcion: '', tallas: 'S, M, L', genero: 'Unisex', visible: true, destacado: false
+                },
+
+                // Estado del editor de foto (la imagen real vive en AURA_FOTO_IMG, fuera del estado reactivo)
+                foto: { tiene: false, modificada: false, zoom: 1, x: 0, y: 0, brillo: 100, contraste: 100,
+                        fondo: '#18181b', info: '', alerta: false, arrastrando: false, px: 0, py: 0 },
+
+                prendaVacia() {
+                    return { id: null, nombre: '', categoria: 'Tops', costo: 12, pvp: 28, stock: 5,
+                             imagen_url: '', descripcion: '', tallas: 'S, M, L', genero: 'Unisex', visible: true, destacado: false };
+                },
+
+                resetFoto() {
+                    AURA_FOTO_IMG = null;
+                    this.foto = { tiene: false, modificada: false, zoom: 1, x: 0, y: 0, brillo: 100, contraste: 100,
+                                  fondo: '#18181b', info: '', alerta: false, arrastrando: false, px: 0, py: 0 };
                 },
 
                 abrirModalNuevaPrenda() {
-                    this.nuevaPrenda = {
-                        id: null,
-                        nombre: '',
-                        categoria: 'Tops',
-                        costo: 12,
-                        pvp: 28,
-                        stock: 5
-                    };
+                    this.nuevaPrenda = this.prendaVacia();
+                    this.resetFoto();
                     this.mostrarModalNuevaPrenda = true;
-                    this.$nextTick(() => this.refreshLucide());
+                    this.$nextTick(() => { this.refreshLucide(); this.dibujarFoto(); });
                 },
 
                 abrirModalEditarPrenda(prenda) {
@@ -2675,10 +2804,192 @@
                         categoria: prenda.categoria || 'General',
                         costo: Number(prenda.costo) || 0,
                         pvp: Number(prenda.pvp) || 0,
-                        stock: Number(prenda.stock) || 0
+                        stock: Number(prenda.stock) || 0,
+                        imagen_url: prenda.imagen_url || '',
+                        descripcion: prenda.descripcion || '',
+                        tallas: prenda.tallas || 'S, M, L',
+                        genero: prenda.genero || 'Unisex',
+                        visible: prenda.visible !== false,
+                        destacado: !!prenda.destacado
                     };
+                    this.resetFoto();
                     this.mostrarModalNuevaPrenda = true;
-                    this.$nextTick(() => this.refreshLucide());
+                    this.$nextTick(() => { this.refreshLucide(); this.dibujarFoto(); });
+                    if (this.nuevaPrenda.imagen_url) this.cargarFotoExistente(this.nuevaPrenda.imagen_url);
+                },
+
+                // ---------- EDITOR DE FOTO ----------
+                dibujarFotoEn(ctx, W, H) {
+                    const f = this.foto;
+                    ctx.save();
+                    ctx.fillStyle = f.fondo;
+                    ctx.fillRect(0, 0, W, H);
+                    const img = AURA_FOTO_IMG;
+                    if (img) {
+                        const contain = Math.min(W / img.naturalWidth, H / img.naturalHeight);
+                        const s = contain * f.zoom;
+                        const w = img.naturalWidth * s, h = img.naturalHeight * s;
+                        ctx.filter = `brightness(${f.brillo}%) contrast(${f.contraste}%)`;
+                        ctx.imageSmoothingQuality = 'high';
+                        ctx.drawImage(img, W / 2 + f.x * W - w / 2, H / 2 + f.y * H - h / 2, w, h);
+                    }
+                    ctx.restore();
+                },
+
+                dibujarFoto() {
+                    const cv = this.$refs.cvFoto;
+                    if (!cv) return;
+                    this.dibujarFotoEn(cv.getContext('2d'), cv.width, cv.height);
+                },
+
+                encuadrarFoto(modo) {
+                    const img = AURA_FOTO_IMG;
+                    if (!img) return;
+                    const W = 4, H = 5;
+                    const contain = Math.min(W / img.naturalWidth, H / img.naturalHeight);
+                    const cover = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+                    this.foto.zoom = modo === 'cubrir' ? cover / contain : 1;
+                    this.foto.x = 0; this.foto.y = 0;
+                    this.foto.modificada = true;
+                    this.dibujarFoto();
+                },
+
+                iniciarArrastreFoto(e) {
+                    if (!this.foto.tiene) return;
+                    this.foto.arrastrando = true;
+                    this.foto.px = e.clientX; this.foto.py = e.clientY;
+                    e.target.setPointerCapture(e.pointerId);
+                },
+
+                moverFoto(e) {
+                    if (!this.foto.arrastrando) return;
+                    const r = e.target.getBoundingClientRect();
+                    this.foto.x += (e.clientX - this.foto.px) / r.width;
+                    this.foto.y += (e.clientY - this.foto.py) / r.height;
+                    this.foto.px = e.clientX; this.foto.py = e.clientY;
+                    this.foto.modificada = true;
+                    this.dibujarFoto();
+                },
+
+                quitarFoto() {
+                    this.resetFoto();
+                    this.nuevaPrenda.imagen_url = '';
+                    this.dibujarFoto();
+                },
+
+                cargarFotoExistente(url) {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.onload = () => {
+                        AURA_FOTO_IMG = img;
+                        this.foto.tiene = true;
+                        this.foto.modificada = false;
+                        this.foto.info = `Foto actual: ${img.naturalWidth}x${img.naturalHeight}px`;
+                        this.dibujarFoto();
+                    };
+                    img.onerror = () => {
+                        this.foto.info = 'No se pudo cargar la foto actual para editarla. Sube una nueva para reemplazarla.';
+                        this.foto.alerta = true;
+                    };
+                    img.src = url;
+                },
+
+                elegirFoto(e) {
+                    const file = e.target.files && e.target.files[0];
+                    e.target.value = '';
+                    if (!file) return;
+                    const tiposOk = ['image/jpeg', 'image/png', 'image/webp'];
+                    if (!tiposOk.includes(file.type)) {
+                        this.foto.info = 'Formato no válido. Usa JPG, PNG o WebP.'; this.foto.alerta = true; return;
+                    }
+                    if (file.size > 20 * 1024 * 1024) {
+                        this.foto.info = 'La imagen pesa más de 20 MB. Usa una más liviana.'; this.foto.alerta = true; return;
+                    }
+                    const url = URL.createObjectURL(file);
+                    const img = new Image();
+                    img.onload = () => {
+                        URL.revokeObjectURL(url);
+                        const menor = Math.min(img.naturalWidth, img.naturalHeight);
+                        if (menor < 400) {
+                            this.foto.info = `Resolución muy baja (${img.naturalWidth}x${img.naturalHeight}px). Se necesita al menos 400px por lado.`;
+                            this.foto.alerta = true; return;
+                        }
+                        AURA_FOTO_IMG = img;
+                        const ratio = img.naturalWidth / img.naturalHeight;
+                        this.foto.tiene = true;
+                        this.foto.modificada = true;
+                        this.foto.x = 0; this.foto.y = 0; this.foto.brillo = 100; this.foto.contraste = 100;
+                        // Si la proporcion es cercana a 4:5 llena el marco; si no, se ve completa sobre el fondo
+                        const contain = Math.min(4 / img.naturalWidth, 5 / img.naturalHeight);
+                        const cover = Math.max(4 / img.naturalWidth, 5 / img.naturalHeight);
+                        this.foto.zoom = Math.abs(ratio - 0.8) < 0.12 ? cover / contain : 1;
+                        const aviso = menor < 800 ? ' Calidad justa: mejor una foto de al menos 800px.' : '';
+                        this.foto.info = `Original ${img.naturalWidth}x${img.naturalHeight}px. Se ajustará a 4:5.` + aviso;
+                        this.foto.alerta = menor < 800;
+                        this.dibujarFoto();
+                    };
+                    img.onerror = () => { URL.revokeObjectURL(url); this.foto.info = 'No se pudo leer la imagen.'; this.foto.alerta = true; };
+                    img.src = url;
+                },
+
+                async subirFotoPrenda(id) {
+                    const cv = document.createElement('canvas');
+                    cv.width = 1000; cv.height = 1250;
+                    this.dibujarFotoEn(cv.getContext('2d'), 1000, 1250);
+
+                    const exportarDataUrlOptimizado = () => {
+                        const cvLite = document.createElement('canvas');
+                        cvLite.width = 800; cvLite.height = 1000;
+                        this.dibujarFotoEn(cvLite.getContext('2d'), 800, 1000);
+                        let dataUrl = cvLite.toDataURL('image/webp', 0.80);
+                        if (!dataUrl.startsWith('data:image/webp')) {
+                            dataUrl = cvLite.toDataURL('image/jpeg', 0.82);
+                        }
+                        return dataUrl;
+                    };
+
+                    if (!this.supabaseClient || !this.supabaseConectado) {
+                        return exportarDataUrlOptimizado();
+                    }
+
+                    let blob = await new Promise(r => cv.toBlob(r, 'image/webp', 0.85));
+                    let ext = 'webp';
+                    if (!blob || blob.type !== 'image/webp') {
+                        blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.88));
+                        ext = 'jpg';
+                    }
+                    if (!blob) { this.mostrarToast('Error', 'No se pudo procesar la imagen.', 'error'); return null; }
+                    if (blob.size > 3 * 1024 * 1024) {
+                        this.mostrarToast('Imagen muy pesada', 'Tras optimizar sigue sobre 3 MB. Prueba con otra foto.', 'error');
+                        return null;
+                    }
+                    const ruta = `${id}.${ext}`;
+                    const { error } = await this.supabaseClient.storage.from('prendas')
+                        .upload(ruta, blob, { upsert: true, contentType: blob.type, cacheControl: '31536000' });
+                    if (error) {
+                        console.warn('Bucket prendas no disponible en Storage, usando respaldo directo optimizado:', error.message);
+                        return exportarDataUrlOptimizado();
+                    }
+                    const { data } = this.supabaseClient.storage.from('prendas').getPublicUrl(ruta);
+                    return data.publicUrl + '?v=' + Date.now();
+                },
+
+                // Registra la prenda en Supabase y VERIFICA que quedó guardada con su foto
+                async registrarPrendaEnSupabase(p) {
+                    if (!this.supabaseClient || !this.supabaseConectado) return { ok: false, motivo: 'offline' };
+                    const base = { id: p.id, nombre: p.nombre, categoria: p.categoria || 'General', costo: p.costo, pvp: p.pvp, stock: p.stock };
+                    const extra = { imagen_url: p.imagen_url || '', descripcion: p.descripcion || '', tallas: p.tallas || 'S, M, L',
+                                    genero: p.genero || 'Unisex', visible: p.visible !== false, destacado: !!p.destacado };
+                    let { error } = await this.supabaseClient.from('inventario').upsert({ ...base, ...extra }, { onConflict: 'id' });
+                    if (error) {
+                        const { error: e2 } = await this.supabaseClient.from('inventario').upsert(base, { onConflict: 'id' });
+                        if (e2) return { ok: false, motivo: e2.message };
+                        return { ok: false, motivo: 'columnas', detalle: error.message };
+                    }
+                    const { data, error: eV } = await this.supabaseClient.from('inventario').select('id,imagen_url').eq('id', p.id).maybeSingle();
+                    if (eV || !data) return { ok: false, motivo: 'verificacion' };
+                    if ((p.imagen_url || '') !== (data.imagen_url || '')) return { ok: false, motivo: 'verificacion' };
+                    return { ok: true };
                 },
 
                 inventario: [
@@ -2689,39 +3000,73 @@
                     { id: 105, nombre: "Blazer Oversize Classic", categoria: "Chaquetas", costo: 26.00, pvp: 60.00, stock: 2 }
                 ],
 
-                guardarNuevaPrendaEnCatalogo() {
+                async guardarNuevaPrendaEnCatalogo() {
                     if (!this.nuevaPrenda.nombre.trim()) {
                         alert("Coloca un nombre a la prenda.");
                         return;
                     }
-                    if (this.nuevaPrenda.id) {
-                        // MODIFICAR PRENDA EXISTENTE
-                        const idx = this.inventario.findIndex(p => p.id === this.nuevaPrenda.id);
-                        if (idx !== -1) {
-                            this.inventario[idx].nombre = this.nuevaPrenda.nombre.trim();
-                            this.inventario[idx].categoria = this.nuevaPrenda.categoria.trim() || 'General';
-                            this.inventario[idx].costo = parseFloat(this.nuevaPrenda.costo) || 0;
-                            this.inventario[idx].pvp = parseFloat(this.nuevaPrenda.pvp) || 0;
-                            this.inventario[idx].stock = parseInt(this.nuevaPrenda.stock) || 0;
-                            this.guardarEnStorage();
-                            this.mostrarToast("Prenda Actualizada", `${this.nuevaPrenda.nombre} modificada con éxito.`);
+                    if (this.guardandoPrenda) return;
+                    this.guardandoPrenda = true;
+                    try {
+                        const np = this.nuevaPrenda;
+                        const id = np.id || Date.now();
+
+                        // 1. Subir la foto (si se cargó o modificó) al almacén de Supabase
+                        let imagenUrl = np.imagen_url || '';
+                        if (this.foto.tiene && this.foto.modificada) {
+                            const url = await this.subirFotoPrenda(id);
+                            if (!url) { this.guardandoPrenda = false; return; }
+                            imagenUrl = url;
+                        } else if (!this.foto.tiene) {
+                            imagenUrl = '';
                         }
-                    } else {
-                        // CREAR NUEVA PRENDA
-                        const prenda = {
-                            id: Date.now(),
-                            nombre: this.nuevaPrenda.nombre.trim(),
-                            categoria: this.nuevaPrenda.categoria.trim() || 'General',
-                            costo: parseFloat(this.nuevaPrenda.costo) || 0,
-                            pvp: parseFloat(this.nuevaPrenda.pvp) || 0,
-                            stock: parseInt(this.nuevaPrenda.stock) || 0
+
+                        const datos = {
+                            nombre: np.nombre.trim(),
+                            categoria: (np.categoria || '').trim() || 'General',
+                            costo: parseFloat(np.costo) || 0,
+                            pvp: parseFloat(np.pvp) || 0,
+                            stock: parseInt(np.stock) || 0,
+                            imagen_url: imagenUrl,
+                            descripcion: (np.descripcion || '').trim(),
+                            tallas: (np.tallas || '').trim() || 'S, M, L',
+                            genero: np.genero || 'Unisex',
+                            visible: np.visible !== false,
+                            destacado: !!np.destacado
                         };
-                        this.inventario.unshift(prenda);
-                        this.guardarEnStorage();
-                        this.mostrarToast("Prenda Registrada", `${prenda.nombre} añadida al catálogo.`);
+
+                        // 2. Guardar localmente
+                        let prenda;
+                        if (np.id) {
+                            const idx = this.inventario.findIndex(p => p.id === np.id);
+                            if (idx === -1) { this.guardandoPrenda = false; return; }
+                            Object.assign(this.inventario[idx], datos);
+                            prenda = this.inventario[idx];
+                        } else {
+                            prenda = { id, ...datos };
+                            this.inventario.unshift(prenda);
+                        }
+                        this.guardarEnStorage(false);
+
+                        // 3. Registrar en Supabase y verificar
+                        const res = await this.registrarPrendaEnSupabase(prenda);
+                        const accion = np.id ? 'actualizada' : 'registrada';
+                        if (res.ok) {
+                            this.mostrarToast("Prenda " + accion, `${prenda.nombre} guardada y verificada en Supabase.`);
+                        } else if (res.motivo === 'columnas') {
+                            this.mostrarToast("Falta preparar Supabase", "La prenda se guardó, pero sin foto ni datos web. Ejecuta schema_tienda.sql en el SQL Editor de Supabase.", "warning");
+                        } else if (res.motivo === 'offline') {
+                            this.mostrarToast("Guardada en este equipo", "Sin conexión a Supabase: se sincronizará al reconectar.", "warning");
+                        } else {
+                            this.mostrarToast("No se pudo verificar", "Revisa la conexión con Supabase e inténtalo de nuevo.", "error");
+                        }
+
+                        this.mostrarModalNuevaPrenda = false;
+                        this.nuevaPrenda = this.prendaVacia();
+                        this.resetFoto();
+                    } finally {
+                        this.guardandoPrenda = false;
                     }
-                    this.mostrarModalNuevaPrenda = false;
-                    this.nuevaPrenda = { id: null, nombre: '', categoria: 'Tops', costo: 12, pvp: 28, stock: 5 };
                     this.refreshLucide();
                 },
 
@@ -3845,7 +4190,13 @@
                                 categoria: p.categoria || 'General',
                                 costo: parseFloat(p.costo) || 0,
                                 pvp: parseFloat(p.pvp) || 0,
-                                stock: p.stock || 0
+                                stock: p.stock || 0,
+                                imagen_url: p.imagen_url || '',
+                                descripcion: p.descripcion || '',
+                                tallas: p.tallas || 'S, M, L',
+                                genero: p.genero || 'Unisex',
+                                visible: p.visible !== false,
+                                destacado: !!p.destacado
                             }));
                         }
 
@@ -3923,17 +4274,34 @@
                             await this.supabaseClient.from('embajadores').upsert(embPayload, { onConflict: 'id' });
                         }
 
-                        // Sincronizar Inventario (Upsert)
-                        const invPayload = this.inventario.map(p => ({
+                        // Sincronizar Inventario (Upsert con campos web + respaldo a columnas base)
+                        const invPayloadExt = this.inventario.map(p => ({
                             id: p.id,
                             nombre: p.nombre,
                             categoria: p.categoria || 'General',
                             costo: p.costo,
                             pvp: p.pvp,
-                            stock: p.stock
+                            stock: p.stock,
+                            imagen_url: p.imagen_url || '',
+                            descripcion: p.descripcion || '',
+                            tallas: p.tallas || 'S, M, L',
+                            genero: p.genero || 'Unisex',
+                            visible: p.visible !== false,
+                            destacado: !!p.destacado
                         }));
-                        if (invPayload.length > 0) {
-                            await this.supabaseClient.from('inventario').upsert(invPayload, { onConflict: 'id' });
+                        if (invPayloadExt.length > 0) {
+                            const { error: invSyncErr } = await this.supabaseClient.from('inventario').upsert(invPayloadExt, { onConflict: 'id' });
+                            if (invSyncErr) {
+                                const invPayloadBase = this.inventario.map(p => ({
+                                    id: p.id,
+                                    nombre: p.nombre,
+                                    categoria: p.categoria || 'General',
+                                    costo: p.costo,
+                                    pvp: p.pvp,
+                                    stock: p.stock
+                                }));
+                                await this.supabaseClient.from('inventario').upsert(invPayloadBase, { onConflict: 'id' });
+                            }
                         }
 
                         // Sincronizar Pedidos (Upsert)

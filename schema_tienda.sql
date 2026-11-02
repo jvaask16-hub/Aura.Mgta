@@ -64,3 +64,24 @@ DROP POLICY IF EXISTS "suite lee solicitudes" ON solicitudes;
 CREATE POLICY "suite lee solicitudes" ON solicitudes FOR SELECT USING (true);
 DROP POLICY IF EXISTS "suite actualiza solicitudes" ON solicitudes;
 CREATE POLICY "suite actualiza solicitudes" ON solicitudes FOR UPDATE USING (true);
+
+-- 5. Almacenamiento de imagenes de prendas (Supabase Storage: bucket "prendas")
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('prendas', 'prendas', true)
+ON CONFLICT (id) DO UPDATE SET public = true;
+
+DROP POLICY IF EXISTS "lectura publica fotos prendas" ON storage.objects;
+CREATE POLICY "lectura publica fotos prendas" ON storage.objects
+  FOR SELECT USING (bucket_id = 'prendas');
+
+DROP POLICY IF EXISTS "suite sube fotos prendas" ON storage.objects;
+CREATE POLICY "suite sube fotos prendas" ON storage.objects
+  FOR INSERT WITH CHECK (bucket_id = 'prendas');
+
+DROP POLICY IF EXISTS "suite actualiza fotos prendas" ON storage.objects;
+CREATE POLICY "suite actualiza fotos prendas" ON storage.objects
+  FOR UPDATE USING (bucket_id = 'prendas');
+
+DROP POLICY IF EXISTS "suite elimina fotos prendas" ON storage.objects;
+CREATE POLICY "suite elimina fotos prendas" ON storage.objects
+  FOR DELETE USING (bucket_id = 'prendas');
