@@ -16,7 +16,7 @@
             sans: ['Outfit', 'sans-serif'], serif: ['Outfit', 'sans-serif'] } } } }
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="contenido.js"></script>
+    <script src="contenido.js?v=2"></script>
     <style>
         [x-cloak] { display: none !important; }
         html { scroll-behavior: smooth; }
@@ -171,7 +171,7 @@
 
                             <!-- Miniaturas de estudio -->
                             <template x-if="imagenesDe(actual).length > 1">
-                                <div class="grid grid-cols-4 gap-2.5">
+                                <div class="grid grid-cols-5 gap-2">
                                     <template x-for="(imgUrl, idx) in imagenesDe(actual)" :key="imgUrl">
                                         <button type="button" @click="fotoActiva = idx"
                                                 :class="fotoActiva === idx ? 'border-white ring-1 ring-white/40 opacity-100' : 'border-zinc-900 opacity-60 hover:opacity-90'"
@@ -476,9 +476,9 @@
                         return {
                             ...ref,
                             ...p,
-                            imagen_url: p.imagen_url || ref.imagen_url,
-                            imagenes: (Array.isArray(p.imagenes) && p.imagenes.length) ? p.imagenes : ref.imagenes,
-                            colores: (Array.isArray(p.colores) && p.colores.length) ? p.colores : ref.colores,
+                            imagen_url: ref.imagen_url || p.imagen_url,
+                            imagenes: (Array.isArray(ref.imagenes) && ref.imagenes.length >= ((p.imagenes && p.imagenes.length) || 0)) ? ref.imagenes : p.imagenes,
+                            colores: (Array.isArray(ref.colores) && ref.colores.length >= ((p.colores && p.colores.length) || 0)) ? ref.colores : p.colores,
                             descripcion: p.descripcion || ref.descripcion,
                             tallas: p.tallas || ref.tallas,
                             genero: p.genero || ref.genero,

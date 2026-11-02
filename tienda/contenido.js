@@ -65,7 +65,7 @@ window.AURA_CONTENIDO = {
         ]
     },
 
-    // Catalogo de prendas y galerias de estudio unificadas (fondo #141416, formato 4:5)
+    // Catalogo de prendas y galerias de estudio unificadas (42 fotos en formato estudio 4:5)
     catalogoEstudio: [
         {
             id: 1793641003024,
@@ -77,14 +77,16 @@ window.AURA_CONTENIDO = {
             genero: 'Unisex',
             tallas: 'S, M, L, XL',
             destacado: true,
-            imagen_url: '/tienda/fotos/baggy-styles-1.jpg',
+            imagen_url: '/tienda/fotos/baggy-styles-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/baggy-styles-1.jpg',
-                '/tienda/fotos/baggy-styles-2.jpg',
-                '/tienda/fotos/baggy-styles-3.jpg'
+                '/tienda/fotos/baggy-styles-1.jpg?v=2',
+                '/tienda/fotos/baggy-styles-2.jpg?v=2',
+                '/tienda/fotos/baggy-styles-3.jpg?v=2',
+                '/tienda/fotos/baggy-styles-4.jpg?v=2',
+                '/tienda/fotos/baggy-styles-5.jpg?v=2'
             ],
-            colores: ['Taupe', 'Crema', 'Gris'],
-            descripcion: 'Pantalón corte baggy de caída amplia y cintura elástica con cordón ajustable. Disponible en tonos neutros de alta versatilidad.'
+            colores: ['Taupe', 'Crema', 'Gris Jaspeado', 'Gris Claro', 'Negro'],
+            descripcion: 'Pantalón corte baggy de caída amplia y cintura elástica con cordón ajustable. Disponible en 5 tonos de alta versatilidad.'
         },
         {
             id: 1793646300001,
@@ -96,14 +98,14 @@ window.AURA_CONTENIDO = {
             genero: 'Unisex',
             tallas: '28, 30, 32, 34',
             destacado: true,
-            imagen_url: '/tienda/fotos/baggy-jeans-oen-1.jpg',
+            imagen_url: '/tienda/fotos/baggy-jeans-oen-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/baggy-jeans-oen-1.jpg',
-                '/tienda/fotos/baggy-jeans-oen-2.jpg',
-                '/tienda/fotos/baggy-jeans-oen-3.jpg',
-                '/tienda/fotos/baggy-jeans-oen-4.jpg'
+                '/tienda/fotos/baggy-jeans-oen-1.jpg?v=2',
+                '/tienda/fotos/baggy-jeans-oen-2.jpg?v=2',
+                '/tienda/fotos/baggy-jeans-oen-3.jpg?v=2',
+                '/tienda/fotos/baggy-jeans-oen-4.jpg?v=2'
             ],
-            colores: ['Negro Whiskers', 'Gris Acid Wash', 'Gris Claro', 'Negro Sólido'],
+            colores: ['Negro Whiskers', 'Gris Acid Wash', 'Gris Claro Acid', 'Negro Sólido'],
             descripcion: 'Denim pesado de corte baggy relajado con lavado de carácter y estructura firme. Diseñado para un fit urbano limpio.'
         },
         {
@@ -116,12 +118,12 @@ window.AURA_CONTENIDO = {
             genero: 'Unisex',
             tallas: 'S, M, L',
             destacado: true,
-            imagen_url: '/tienda/fotos/baggy-premium-oen-1.jpg',
+            imagen_url: '/tienda/fotos/baggy-premium-oen-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/baggy-premium-oen-1.jpg',
-                '/tienda/fotos/baggy-premium-oen-2.jpg',
-                '/tienda/fotos/baggy-premium-oen-3.jpg',
-                '/tienda/fotos/baggy-premium-oen-4.jpg'
+                '/tienda/fotos/baggy-premium-oen-1.jpg?v=2',
+                '/tienda/fotos/baggy-premium-oen-2.jpg?v=2',
+                '/tienda/fotos/baggy-premium-oen-3.jpg?v=2',
+                '/tienda/fotos/baggy-premium-oen-4.jpg?v=2'
             ],
             colores: ['Rosa / Vivo Blanco', 'Gris / Vivo Negro', 'Crema / Vivo Negro', 'Negro / Vivo Blanco'],
             descripcion: 'Baggy jogging premium con costuras curvas en contraste (piping) y pretina elástica con cordón.'
@@ -136,12 +138,12 @@ window.AURA_CONTENIDO = {
             genero: 'Unisex',
             tallas: 'S, M, L, XL',
             destacado: false,
-            imagen_url: '/tienda/fotos/baggy-unicolor-oen-1.jpg',
+            imagen_url: '/tienda/fotos/baggy-unicolor-oen-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/baggy-unicolor-oen-1.jpg',
-                '/tienda/fotos/baggy-unicolor-oen-2.jpg',
-                '/tienda/fotos/baggy-unicolor-oen-3.jpg',
-                '/tienda/fotos/baggy-unicolor-oen-4.jpg'
+                '/tienda/fotos/baggy-unicolor-oen-1.jpg?v=2',
+                '/tienda/fotos/baggy-unicolor-oen-2.jpg?v=2',
+                '/tienda/fotos/baggy-unicolor-oen-3.jpg?v=2',
+                '/tienda/fotos/baggy-unicolor-oen-4.jpg?v=2'
             ],
             colores: ['Gris Melange', 'Vinotinto', 'Marrón Camel', 'Negro'],
             descripcion: 'Baggy unicolor de algodón suave con caída fluida y bota ancha. Un esencial diario para combinar sin esfuerzo.'
@@ -156,14 +158,14 @@ window.AURA_CONTENIDO = {
             genero: 'Unisex',
             tallas: 'S, M, L',
             destacado: true,
-            imagen_url: '/tienda/fotos/sueter-boxy-oen-1.jpg',
+            imagen_url: '/tienda/fotos/sueter-boxy-oen-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/sueter-boxy-oen-1.jpg',
-                '/tienda/fotos/sueter-boxy-oen-2.jpg',
-                '/tienda/fotos/sueter-boxy-oen-3.jpg'
+                '/tienda/fotos/sueter-boxy-oen-1.jpg?v=2',
+                '/tienda/fotos/sueter-boxy-oen-2.jpg?v=2',
+                '/tienda/fotos/sueter-boxy-oen-3.jpg?v=2'
             ],
             colores: ['Gris Melange', 'Marrón Camel', 'Negro'],
-            descripcion: 'Suéter cuello redondo con silueta boxy fit de hombros caídos y puños acanalados. Ideal en conjunto o por separado.'
+            descripcion: 'Hoodie con capucha y bolsillo canguro en silueta boxy fit de hombros caídos y puños acanalados.'
         },
         {
             id: 1793646300003,
@@ -172,16 +174,16 @@ window.AURA_CONTENIDO = {
             costo: 17.00,
             pvp: 34.00,
             stock: 6,
-            genero: 'Mujer',
-            tallas: '26, 28, 30, 32',
+            genero: 'Unisex',
+            tallas: '28, 30, 32, 34',
             destacado: false,
-            imagen_url: '/tienda/fotos/mom-jeans-oen-1.jpg',
+            imagen_url: '/tienda/fotos/mom-jeans-oen-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/mom-jeans-oen-1.jpg',
-                '/tienda/fotos/mom-jeans-oen-2.jpg'
+                '/tienda/fotos/mom-jeans-oen-1.jpg?v=2',
+                '/tienda/fotos/mom-jeans-oen-2.jpg?v=2'
             ],
             colores: ['Azul Clásico', 'Negro'],
-            descripcion: 'Mom jeans de tiro alto con entalle favorecedor en cintura y pierna recta relajada.'
+            descripcion: 'Jeans de corte recto clásico con entalle limpio en cintura y caída estructurada.'
         },
         {
             id: 1793646300004,
@@ -191,17 +193,28 @@ window.AURA_CONTENIDO = {
             pvp: 28.00,
             stock: 6,
             genero: 'Unisex',
-            tallas: 'S, M, L',
+            tallas: 'S, M, L, XL',
             destacado: false,
-            imagen_url: '/tienda/fotos/track-pants-style-1.jpg',
+            imagen_url: '/tienda/fotos/track-pants-style-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/track-pants-style-1.jpg',
-                '/tienda/fotos/track-pants-style-2.jpg',
-                '/tienda/fotos/track-pants-style-3.jpg',
-                '/tienda/fotos/track-pants-style-4.jpg'
+                '/tienda/fotos/track-pants-style-1.jpg?v=2',
+                '/tienda/fotos/track-pants-style-2.jpg?v=2',
+                '/tienda/fotos/track-pants-style-3.jpg?v=2',
+                '/tienda/fotos/track-pants-style-4.jpg?v=2',
+                '/tienda/fotos/track-pants-style-5.jpg?v=2',
+                '/tienda/fotos/track-pants-style-6.jpg?v=2',
+                '/tienda/fotos/track-pants-style-7.jpg?v=2'
             ],
-            colores: ['Beige / Negro', 'Gris / Blanco', 'Negro / Blanco', 'Blanco / Negro'],
-            descripcion: 'Track pants de corte recto con líneas laterales en contraste e inspiración streetwear.'
+            colores: [
+                'Beige / Línea Negra',
+                'Gris / Línea Blanca',
+                'Negro / Línea Blanca',
+                'Blanco / Línea Negra',
+                'Dúo Negro y Blanco',
+                'Trío Negro / Verde Militar / Beige',
+                'Trío Negro / Azul Marino / Beige'
+            ],
+            descripcion: 'Track pants de tela ligera con líneas laterales en contraste y cintura elástica con cordón.'
         },
         {
             id: 1793646300005,
@@ -211,15 +224,18 @@ window.AURA_CONTENIDO = {
             pvp: 30.00,
             stock: 6,
             genero: 'Unisex',
-            tallas: 'S, M, L',
+            tallas: 'S, M, L, XL',
             destacado: false,
-            imagen_url: '/tienda/fotos/track-pants-arac-1.jpg',
+            imagen_url: '/tienda/fotos/track-pants-arac-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/track-pants-arac-1.jpg',
-                '/tienda/fotos/track-pants-arac-2.jpg'
+                '/tienda/fotos/track-pants-arac-1.jpg?v=2',
+                '/tienda/fotos/track-pants-arac-2.jpg?v=2'
             ],
-            colores: ['Línea Vibrante (Verde / Rojo / Azul / Negro)', 'Línea Tierra (Terracota / Marrón / Beige / Gris)'],
-            descripcion: 'Track pants ligeros con doble franja lateral en contraste y ajuste cómodo.'
+            colores: [
+                'Gama Vibrante (Fucsia, Rosa, Morado, Verde Esmeralda, Oliva)',
+                'Gama Clásica (Negro, Gris, Blanco, Marrón, Beige, Rojo)'
+            ],
+            descripcion: 'Track pants ligeros con vivo lateral en contraste. Disponibles en 11 colores entre la gama vibrante y la gama clásica.'
         },
         {
             id: 1793646300006,
@@ -231,13 +247,32 @@ window.AURA_CONTENIDO = {
             genero: 'Unisex',
             tallas: 'S, M, L, XL',
             destacado: false,
-            imagen_url: '/tienda/fotos/kit-5-nike-ccs-1.jpg',
+            imagen_url: '/tienda/fotos/kit-5-nike-ccs-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/kit-5-nike-ccs-1.jpg',
-                '/tienda/fotos/kit-5-nike-ccs-2.jpg'
+                '/tienda/fotos/kit-5-nike-ccs-1.jpg?v=2',
+                '/tienda/fotos/kit-5-nike-ccs-2.jpg?v=2',
+                '/tienda/fotos/kit-5-nike-ccs-3.jpg?v=2',
+                '/tienda/fotos/kit-5-nike-ccs-4.jpg?v=2',
+                '/tienda/fotos/kit-5-nike-ccs-5.jpg?v=2',
+                '/tienda/fotos/kit-5-nike-ccs-6.jpg?v=2',
+                '/tienda/fotos/kit-5-nike-ccs-7.jpg?v=2',
+                '/tienda/fotos/kit-5-nike-ccs-8.jpg?v=2',
+                '/tienda/fotos/kit-5-nike-ccs-9.jpg?v=2',
+                '/tienda/fotos/kit-5-nike-ccs-10.jpg?v=2'
             ],
-            colores: ['Pack Surtido Neutro', 'Pack Blanco Clásico'],
-            descripcion: 'Kit de 5 franelas básicas con logo bordado en pecho y cuello redondo reforzado.'
+            colores: [
+                'Blanco + Gris Carbón',
+                'Azul Rey + Blanco',
+                'Negro + Azul Marino',
+                'Gris + Blanco + Verde Menta',
+                'Blanco + Celeste',
+                'Blanco Total',
+                'Negro Total',
+                'Negro + Verde Neón',
+                'Negro + Lila',
+                'Negro + Rojo'
+            ],
+            descripcion: 'Kit completo de 5 piezas (jogger con capucha, franela algodón, franela deportiva, short y medias) disponible en 10 combinaciones de color.'
         },
         {
             id: 1793646300007,
@@ -249,12 +284,12 @@ window.AURA_CONTENIDO = {
             genero: 'Unisex',
             tallas: 'S, M, L, XL',
             destacado: false,
-            imagen_url: '/tienda/fotos/kit-perchado-ccs-1.jpg',
+            imagen_url: '/tienda/fotos/kit-perchado-ccs-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/kit-perchado-ccs-1.jpg'
+                '/tienda/fotos/kit-perchado-ccs-1.jpg?v=2'
             ],
-            colores: ['Pack Dúo Negro + Blanco'],
-            descripcion: 'Kit de 2 hoodies perchados con capucha ajustable y bolsillo canguro en negro y blanco.'
+            colores: ['Negro + Short Blanco'],
+            descripcion: 'Kit perchado completo (conjunto negro con capucha, franela, short perchado blanco y medias).'
         }
     ]
 };
