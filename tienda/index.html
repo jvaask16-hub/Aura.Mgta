@@ -25,7 +25,7 @@
         .serif { font-family: 'Outfit', sans-serif; font-weight: 300; letter-spacing: -0.01em; line-height: 1.08; font-variant-numeric: lining-nums; }
         .label-ui { font-size: 12px; letter-spacing: .24em; text-transform: uppercase; font-weight: 400; }
         .no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { scrollbar-width: none; }
-        .tile { background: radial-gradient(120% 90% at 30% 15%, #27272a 0%, #18181b 55%, #0c0c0e 100%); }
+        .tile { background: #141416; }
         .fade-in { animation: fade .5s ease both; }
         @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
     </style>
@@ -146,15 +146,61 @@
                         <i data-lucide="arrow-left" class="w-4 h-4"></i> Colección
                     </a>
                     <div class="grid md:grid-cols-2 gap-8 lg:gap-14">
-                        <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900 tile flex items-center justify-center">
-                            <template x-if="actual.imagen_url"><img :src="actual.imagen_url" :alt="actual.nombre" class="w-full h-full object-cover"></template>
-                            <template x-if="!actual.imagen_url"><span class="serif text-8xl text-zinc-700" x-text="iniciales(actual.nombre)"></span></template>
+                        <div class="space-y-3">
+                            <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative group">
+                                <template x-if="imagenesDe(actual).length > 0">
+                                    <img :src="imagenesDe(actual)[fotoActiva] || actual.imagen_url" :alt="actual.nombre" class="w-full h-full object-cover transition duration-300">
+                                </template>
+                                <template x-if="imagenesDe(actual).length === 0">
+                                    <span class="serif text-8xl text-zinc-700" x-text="iniciales(actual.nombre)"></span>
+                                </template>
+
+                                <template x-if="imagenesDe(actual).length > 1">
+                                    <div>
+                                        <button type="button" @click="cambiarFoto(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/60 hover:bg-black/85 border border-zinc-700/80 text-white flex items-center justify-center transition">
+                                            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                                        </button>
+                                        <button type="button" @click="cambiarFoto(1)" class="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/60 hover:bg-black/85 border border-zinc-700/80 text-white flex items-center justify-center transition">
+                                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                        </button>
+                                        <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/70 border border-zinc-800 text-[11px] text-zinc-300"
+                                              x-text="(fotoActiva + 1) + ' / ' + imagenesDe(actual).length"></span>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- Miniaturas de estudio -->
+                            <template x-if="imagenesDe(actual).length > 1">
+                                <div class="grid grid-cols-4 gap-2.5">
+                                    <template x-for="(imgUrl, idx) in imagenesDe(actual)" :key="imgUrl">
+                                        <button type="button" @click="fotoActiva = idx"
+                                                :class="fotoActiva === idx ? 'border-white ring-1 ring-white/40 opacity-100' : 'border-zinc-900 opacity-60 hover:opacity-90'"
+                                                class="aspect-[4/5] rounded-xl overflow-hidden border tile transition">
+                                            <img :src="imgUrl" :alt="actual.nombre + ' ' + (idx + 1)" class="w-full h-full object-cover">
+                                        </button>
+                                    </template>
+                                </div>
+                            </template>
                         </div>
+
                         <div class="md:py-6">
                             <p class="label-ui text-zinc-500" x-text="actual.categoria"></p>
                             <h1 class="serif text-4xl sm:text-5xl mt-3 leading-tight" x-text="actual.nombre"></h1>
                             <p class="text-2xl mt-4" x-text="'$' + Number(actual.pvp).toFixed(2)"></p>
                             <p class="text-zinc-400 mt-6 leading-relaxed" x-text="actual.descripcion || 'Una pieza seleccionada por nuestro equipo. Escríbenos y te asesoramos con la talla y el estilo.'"></p>
+
+                            <template x-if="coloresDe(actual).length > 0">
+                                <div class="mt-7">
+                                    <p class="label-ui text-zinc-500 mb-3">Tono / Variante: <span class="text-zinc-200" x-text="coloresDe(actual)[fotoActiva] || coloresDe(actual)[0]"></span></p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <template x-for="(col, idx) in coloresDe(actual)" :key="col">
+                                            <button type="button" @click="fotoActiva = idx" x-text="col"
+                                                    :class="fotoActiva === idx ? 'bg-zinc-100 text-zinc-950 border-zinc-100' : 'border-zinc-800 text-zinc-300 hover:border-zinc-500'"
+                                                    class="h-10 px-4 rounded-xl border text-xs transition"></button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
 
                             <div class="mt-8" x-show="actual.stock > 0">
                                 <p class="label-ui text-zinc-500 mb-3">Talla</p>
@@ -398,7 +444,7 @@
                 ],
                 vista: 'inicio', idPrenda: null,
                 prendas: [], cargando: true, filtro: 'Todas', genero: 'Todos',
-                tallaSel: '', menuAbierto: false, bolsaAbierta: false,
+                tallaSel: '', fotoActiva: 0, menuAbierto: false, bolsaAbierta: false,
                 bolsa: [], cliente: '', telefono: '', codigoBolsa: '',
                 codigo: '', resultado: null, consultandoCodigo: false,
 
@@ -417,21 +463,51 @@
                     this.idPrenda = partes[1] || null;
                     this.menuAbierto = false;
                     window.scrollTo({ top: 0 });
-                    if (this.vista === 'prenda') this.tallaSel = '';
+                    if (this.vista === 'prenda') { this.tallaSel = ''; this.fotoActiva = 0; }
                     this.refrescarIconos();
+                },
+
+                enriquecerConEstudio(lista) {
+                    const base = Array.isArray(this.c.catalogoEstudio) ? this.c.catalogoEstudio : [];
+                    const normalizar = s => String(s || '').trim().toLowerCase();
+                    const resultado = (lista || []).map(p => {
+                        const ref = base.find(b => String(b.id) === String(p.id) || normalizar(b.nombre) === normalizar(p.nombre));
+                        if (!ref) return p;
+                        return {
+                            ...ref,
+                            ...p,
+                            imagen_url: p.imagen_url || ref.imagen_url,
+                            imagenes: (Array.isArray(p.imagenes) && p.imagenes.length) ? p.imagenes : ref.imagenes,
+                            colores: (Array.isArray(p.colores) && p.colores.length) ? p.colores : ref.colores,
+                            descripcion: p.descripcion || ref.descripcion,
+                            tallas: p.tallas || ref.tallas,
+                            genero: p.genero || ref.genero,
+                            destacado: p.destacado !== undefined ? p.destacado : ref.destacado
+                        };
+                    });
+                    for (const ref of base) {
+                        const existe = resultado.some(p => String(p.id) === String(ref.id) || normalizar(p.nombre) === normalizar(ref.nombre));
+                        if (!existe) resultado.push({ ...ref });
+                    }
+                    return resultado;
                 },
 
                 async cargar() {
                     const intentos = [
                         '/rest/v1/catalogo_publico?select=*&order=destacado.desc,id.desc',
-                        '/rest/v1/inventario?select=id,nombre,categoria,pvp,stock&order=id.desc'
+                        '/rest/v1/inventario?select=*&order=id.desc'
                     ];
+                    let cargadas = [];
                     for (const u of intentos) {
                         try {
                             const r = await fetch(SUPA + u, { headers: H });
-                            if (r.ok) { this.prendas = (await r.json()).filter(p => p.stock === undefined || p.stock >= 0); break; }
+                            if (r.ok) {
+                                cargadas = (await r.json()).filter(p => p.visible !== false && (p.stock === undefined || p.stock >= 0));
+                                break;
+                            }
                         } catch (e) {}
                     }
+                    this.prendas = this.enriquecerConEstudio(cargadas);
                     this.cargando = false;
                     this.refrescarIconos();
                 },
@@ -449,17 +525,37 @@
 
                 iniciales(n) { return (n || '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase(); },
                 tallasDe(p) { return (p.tallas || 'S, M, L').split(',').map(t => t.trim()).filter(Boolean); },
+                imagenesDe(p) {
+                    if (!p) return [];
+                    if (Array.isArray(p.imagenes) && p.imagenes.length) return p.imagenes;
+                    return p.imagen_url ? [p.imagen_url] : [];
+                },
+                coloresDe(p) {
+                    if (!p || !Array.isArray(p.colores)) return [];
+                    return p.colores;
+                },
+                cambiarFoto(dir) {
+                    const imgs = this.imagenesDe(this.actual);
+                    if (imgs.length <= 1) return;
+                    this.fotoActiva = (this.fotoActiva + dir + imgs.length) % imgs.length;
+                },
                 esc(t) { return String(t ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])); },
 
                 tarjeta(p) {
                     const agotada = p.stock <= 0;
-                    const media = p.imagen_url
-                        ? `<img src="${this.esc(p.imagen_url)}" alt="${this.esc(p.nombre)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">`
+                    const imgs = this.imagenesDe(p);
+                    const portada = imgs[0] || p.imagen_url || '';
+                    const media = portada
+                        ? `<img src="${this.esc(portada)}" alt="${this.esc(p.nombre)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">`
                         : `<span class="serif text-6xl text-zinc-700">${this.esc(this.iniciales(p.nombre))}</span>`;
+                    const badgeTonos = imgs.length > 1
+                        ? `<span class="absolute bottom-3 right-3 text-[11px] px-2.5 py-0.5 rounded-full bg-black/65 border border-zinc-800/90 text-zinc-300">${imgs.length} fotos</span>`
+                        : '';
                     return `<a href="#/prenda/${p.id}" class="group block">
                         <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative">
                             ${media}
                             ${agotada ? '<span class="absolute top-3 left-3 text-[10px] label-ui px-2.5 py-1 rounded-full bg-black/70 text-zinc-300">Agotado</span>' : ''}
+                            ${badgeTonos}
                         </div>
                         <p class="mt-3 label-ui text-zinc-500">${this.esc(p.categoria)}</p>
                         <h3 class="serif text-xl sm:text-2xl leading-tight mt-0.5">${this.esc(p.nombre)}</h3>
@@ -469,9 +565,14 @@
 
                 agregar(p) {
                     if (!this.tallaSel) { alert('Elige una talla para continuar.'); return; }
-                    const ex = this.bolsa.find(i => i.id === p.id && i.talla === this.tallaSel);
+                    const cols = this.coloresDe(p);
+                    const imgs = this.imagenesDe(p);
+                    const colorElegido = cols[this.fotoActiva] || '';
+                    const etiquetaTalla = colorElegido ? `${this.tallaSel} · ${colorElegido}` : this.tallaSel;
+                    const imgElegida = imgs[this.fotoActiva] || p.imagen_url || '';
+                    const ex = this.bolsa.find(i => i.id === p.id && i.talla === etiquetaTalla);
                     if (ex) ex.cantidad++;
-                    else this.bolsa.push({ id: p.id, nombre: p.nombre, pvp: Number(p.pvp), talla: this.tallaSel, cantidad: 1, imagen_url: p.imagen_url || '' });
+                    else this.bolsa.push({ id: p.id, nombre: p.nombre, pvp: Number(p.pvp), talla: etiquetaTalla, cantidad: 1, imagen_url: imgElegida });
                     this.guardarBolsa();
                     this.bolsaAbierta = true;
                     this.refrescarIconos();
