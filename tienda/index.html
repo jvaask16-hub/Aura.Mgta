@@ -16,7 +16,7 @@
             sans: ['Outfit', 'sans-serif'], serif: ['Outfit', 'sans-serif'] } } } }
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="contenido.js?v=2"></script>
+    <script src="contenido.js?v=3"></script>
     <style>
         [x-cloak] { display: none !important; }
         html { scroll-behavior: smooth; }
@@ -76,7 +76,7 @@
                     <a href="#/coleccion" class="h-12 px-7 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold flex items-center gap-2 hover:bg-white transition">
                         Ver la colección <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
-                    <a href="#/historia" class="h-12 px-7 rounded-full border border-zinc-700 text-sm flex items-center hover:border-zinc-400 transition">Por qué nacimos</a>
+                    <a href="#/nosotros" class="h-12 px-7 rounded-full border border-zinc-700 text-sm flex items-center hover:border-zinc-400 transition">Quiénes somos y por qué nacimos</a>
                 </div>
             </div>
 
@@ -217,6 +217,49 @@
                                 <p x-show="actual.stock <= 3" class="mt-4 text-xs text-zinc-500" x-text="'Quedan ' + actual.stock + ' unidades'"></p>
                             </div>
                             <div x-show="actual.stock <= 0" class="mt-8 text-sm text-zinc-500">Agotado por ahora. Escríbenos para avisarte cuando regrese.</div>
+
+                            <!-- Ficha Técnica y Transparencia (Pilar 1) -->
+                            <template x-if="actual.ficha">
+                                <div class="mt-9 pt-8 border-t border-zinc-900 space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <p class="label-ui text-zinc-400">Ficha Técnica y Transparencia</p>
+                                        <span class="text-[11px] text-zinc-500">Sin rodeos</span>
+                                    </div>
+                                    <div class="grid gap-3 text-sm">
+                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900">
+                                            <span class="text-xs uppercase tracking-wider text-zinc-500 block">Tela y densidad</span>
+                                            <span class="text-zinc-200 mt-0.5 block" x-text="actual.ficha.tela"></span>
+                                        </div>
+                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900">
+                                            <span class="text-xs uppercase tracking-wider text-zinc-500 block">Caída y calce</span>
+                                            <span class="text-zinc-200 mt-0.5 block" x-text="actual.ficha.caida"></span>
+                                        </div>
+                                        <div class="grid sm:grid-cols-2 gap-3">
+                                            <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900">
+                                                <span class="text-xs uppercase tracking-wider text-zinc-500 block">Sensación al tacto</span>
+                                                <span class="text-zinc-300 mt-0.5 block text-xs leading-relaxed" x-text="actual.ficha.tacto"></span>
+                                            </div>
+                                            <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900">
+                                                <span class="text-xs uppercase tracking-wider text-zinc-500 block">Elasticidad</span>
+                                                <span class="text-zinc-300 mt-0.5 block text-xs leading-relaxed" x-text="actual.ficha.elasticidad"></span>
+                                            </div>
+                                        </div>
+                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900">
+                                            <span class="text-xs uppercase tracking-wider text-zinc-500 block">Cuidado y lavado</span>
+                                            <span class="text-zinc-300 mt-0.5 block text-xs leading-relaxed" x-text="actual.ficha.cuidado"></span>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 rounded-xl bg-zinc-900/40 border border-zinc-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                        <div>
+                                            <p class="text-xs font-medium text-zinc-200">Asesoría directa de tallas en centímetros</p>
+                                            <p class="text-xs text-zinc-400 mt-0.5">¿Dudas entre dos tallas o cómo te queda según tu contextura? Te medimos la prenda en vivo antes de pagar.</p>
+                                        </div>
+                                        <button type="button" @click="consultarTallaWhatsApp(actual)" class="flex-shrink-0 h-9 px-4 rounded-full border border-zinc-700 hover:border-zinc-400 text-xs font-medium text-zinc-100 transition">
+                                            Pedir medidas en cm
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -226,46 +269,83 @@
             </template>
         </section>
 
-        <!-- ================= NOSOTROS ================= -->
+        <!-- ================= QUIÉNES SOMOS Y POR QUÉ NACIMOS (UNIFICADO) ================= -->
         <section x-show="vista === 'nosotros'" x-cloak class="fade-in">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 sm:py-24">
-                <p class="label-ui text-zinc-500">aura.mgta</p>
-                <h1 class="serif text-5xl sm:text-7xl mt-3" x-text="c.nosotros.titulo"></h1>
-                <div class="mt-10 space-y-5 text-zinc-300 text-[17px] leading-[1.75] max-w-2xl">
-                    <template x-for="(t, i) in c.nosotros.parrafos" :key="i"><p x-text="t"></p></template>
-                </div>
-                <div class="mt-16 grid sm:grid-cols-3 gap-4">
-                    <template x-for="v in c.nosotros.valores" :key="v.titulo">
-                        <div class="p-6 rounded-2xl border border-zinc-900 bg-zinc-950">
-                            <h3 class="serif text-2xl" x-text="v.titulo"></h3>
-                            <p class="text-sm text-zinc-400 mt-2 leading-relaxed" x-text="v.texto"></p>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </section>
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-24">
+                <p class="label-ui text-zinc-500" x-text="c.nosotros.etiqueta || 'aura.mgta'"></p>
+                <h1 class="serif text-4xl sm:text-6xl lg:text-7xl mt-3 max-w-4xl" x-text="c.nosotros.titulo"></h1>
+                <p class="serif text-xl sm:text-2xl text-zinc-200 mt-8 max-w-3xl leading-relaxed" x-text="c.nosotros.intro"></p>
 
-        <!-- ================= HISTORIA ================= -->
-        <section x-show="vista === 'historia'" x-cloak class="fade-in">
-            <div class="max-w-3xl mx-auto px-4 sm:px-6 py-14 sm:py-24">
-                <p class="label-ui text-zinc-500">Nuestra historia</p>
-                <h1 class="serif text-5xl sm:text-7xl mt-3" x-text="c.historia.titulo"></h1>
-                <p class="serif text-2xl sm:text-3xl text-zinc-300 mt-8 leading-snug" x-text="c.historia.intro"></p>
-
-                <div class="mt-14 space-y-12 border-l border-zinc-800 pl-6 sm:pl-10">
-                    <template x-for="(cap, i) in c.historia.capitulos" :key="i">
-                        <div class="relative">
-                            <span class="absolute -left-[31px] sm:-left-[47px] top-2 w-2.5 h-2.5 rounded-full bg-zinc-100"></span>
-                            <p class="label-ui text-zinc-500" x-text="'Capítulo ' + (i + 1)"></p>
-                            <h3 class="serif text-3xl mt-1" x-text="cap.titulo"></h3>
-                            <p class="text-zinc-400 mt-3 leading-relaxed" x-text="cap.texto"></p>
-                        </div>
+                <div class="mt-6 space-y-4 text-zinc-400 text-base sm:text-[17px] leading-[1.75] max-w-3xl">
+                    <template x-for="(t, i) in c.nosotros.parrafos" :key="i">
+                        <p x-text="t"></p>
                     </template>
                 </div>
 
-                <a href="#/coleccion" class="mt-16 inline-flex h-12 px-7 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold items-center gap-2 hover:bg-white transition">
-                    Descubre la colección <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </a>
+                <!-- Los 4 Pilares Fundamentales -->
+                <div class="mt-16 space-y-8">
+                    <div class="border-b border-zinc-900 pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                        <div>
+                            <p class="label-ui text-zinc-500">Nuestros 4 Pilares</p>
+                            <h2 class="serif text-3xl sm:text-4xl mt-1">Por qué nacimos y hacia dónde vamos</h2>
+                        </div>
+                        <span class="text-xs text-zinc-500">Transparencia · Curaduría · Comunidad · Impacto Local</span>
+                    </div>
+
+                    <div class="grid gap-6">
+                        <template x-for="pilar in c.nosotros.pilares" :key="pilar.numero">
+                            <div class="p-6 sm:p-8 rounded-2xl border border-zinc-900 bg-zinc-950/90 space-y-6">
+                                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-zinc-900 pb-5">
+                                    <div class="flex items-baseline gap-4">
+                                        <span class="serif text-3xl sm:text-4xl text-zinc-600" x-text="pilar.numero"></span>
+                                        <div>
+                                            <p class="label-ui text-zinc-500" x-text="pilar.categoria"></p>
+                                            <h3 class="serif text-2xl sm:text-3xl text-white mt-1" x-text="pilar.titulo"></h3>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-zinc-400 max-w-md" x-text="pilar.resumen"></p>
+                                </div>
+
+                                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <template x-for="pt in pilar.puntos" :key="pt.subtitulo">
+                                        <div class="p-5 rounded-xl bg-[#0d0d10] border border-zinc-900/90 flex flex-col justify-between">
+                                            <div>
+                                                <h4 class="text-base font-medium text-zinc-100" x-text="pt.subtitulo"></h4>
+                                                <p class="text-sm text-zinc-400 mt-2 leading-relaxed" x-text="pt.texto"></p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Protocolo de Atención y Laboratorio DEMO -->
+                <template x-if="c.nosotros.compromisos && c.nosotros.compromisos.length">
+                    <div class="mt-14 grid md:grid-cols-2 gap-6">
+                        <template x-for="comp in c.nosotros.compromisos" :key="comp.titulo">
+                            <div class="p-6 sm:p-8 rounded-2xl border border-zinc-800/80 bg-zinc-950 space-y-4">
+                                <p class="label-ui text-zinc-500" x-text="comp.etiqueta"></p>
+                                <h3 class="serif text-2xl sm:text-3xl text-white" x-text="comp.titulo"></h3>
+                                <div class="space-y-2.5 pt-2">
+                                    <template x-for="paso in comp.pasos" :key="paso">
+                                        <p class="text-sm text-zinc-300 leading-relaxed" x-text="paso"></p>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <div class="mt-14 flex flex-wrap gap-3">
+                    <a href="#/coleccion" class="h-12 px-7 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold inline-flex items-center gap-2 hover:bg-white transition">
+                        Explorar la colección <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#/embajadoras" class="h-12 px-7 rounded-full border border-zinc-700 text-sm inline-flex items-center hover:border-zinc-400 transition">
+                        Programa de Embajadores y Aliados
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -439,7 +519,6 @@
                 links: [
                     { ruta: 'coleccion', texto: 'Colección' },
                     { ruta: 'nosotros', texto: 'Quiénes somos' },
-                    { ruta: 'historia', texto: 'Por qué nacimos' },
                     { ruta: 'embajadoras', texto: 'Embajadores' }
                 ],
                 vista: 'inicio', idPrenda: null,
@@ -458,8 +537,9 @@
 
                 ruta() {
                     const partes = (location.hash || '#/').replace('#/', '').split('/');
-                    const v = partes[0] || 'inicio';
-                    this.vista = ['coleccion', 'prenda', 'nosotros', 'historia', 'embajadoras'].includes(v) ? v : 'inicio';
+                    const vRaw = partes[0] || 'inicio';
+                    const v = vRaw === 'historia' ? 'nosotros' : vRaw;
+                    this.vista = ['coleccion', 'prenda', 'nosotros', 'embajadoras'].includes(v) ? v : 'inicio';
                     this.idPrenda = partes[1] || null;
                     this.menuAbierto = false;
                     window.scrollTo({ top: 0 });
@@ -480,6 +560,7 @@
                             imagenes: (Array.isArray(ref.imagenes) && ref.imagenes.length >= ((p.imagenes && p.imagenes.length) || 0)) ? ref.imagenes : p.imagenes,
                             colores: (Array.isArray(ref.colores) && ref.colores.length >= ((p.colores && p.colores.length) || 0)) ? ref.colores : p.colores,
                             descripcion: p.descripcion || ref.descripcion,
+                            ficha: p.ficha || ref.ficha,
                             tallas: p.tallas || ref.tallas,
                             genero: p.genero || ref.genero,
                             destacado: p.destacado !== undefined ? p.destacado : ref.destacado
@@ -640,6 +721,17 @@
                         }
                     } catch (e) {}
                     return { valido: false };
+                },
+
+                consultarTallaWhatsApp(p) {
+                    if (!p) return;
+                    const cols = this.coloresDe(p);
+                    const tono = cols[this.fotoActiva] || cols[0] || '';
+                    const talla = this.tallaSel ? `, talla ${this.tallaSel}` : '';
+                    const variante = tono ? ` (${tono}${talla})` : talla;
+                    const msg = `Hola aura.mgta, quisiera asesoría de talla y medidas exactas en centímetros para la prenda: ${p.nombre}${variante}.`;
+                    const num = (this.c.whatsapp || '').replace(/\D/g, '');
+                    window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
                 },
 
                 async enviarPedido() {

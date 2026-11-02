@@ -1,7 +1,6 @@
 /* ============================================================
    CONTENIDO EDITABLE DE LA TIENDA aura.mgta
-   Todo el texto de "Nosotros" y "Nuestra historia" vive aqui.
-   Edita libremente; no hace falta tocar index.html.
+   Todo el texto de "Quiénes somos y por qué nacimos", pilares y catálogo vive aquí.
    ============================================================ */
 window.AURA_CONTENIDO = {
     // Numero de WhatsApp de la tienda en formato internacional, solo digitos. Ej: '584121234567'
@@ -9,59 +8,125 @@ window.AURA_CONTENIDO = {
     instagram: '',
 
     hero: {
-        etiqueta: 'aura.mgta',
-        titulo: 'Ropa que se siente como tu mejor versión.',
-        subtitulo: 'Ropa de mujer y de hombre, seleccionada con cuidado para quienes se visten para sí mismos.'
+        etiqueta: 'aura.mgta · Isla de Margarita',
+        titulo: 'Ropa con criterio, transparencia técnica y trato humano.',
+        subtitulo: 'Ropa de mujer y de hombre seleccionada con filtro real. Conoce qué tela vistes, cómo cae y cómo te queda antes de pagar.'
     },
 
     manifiesto: [
-        'Creemos que vestirse bien no es una obligación, es una forma de hablar sin decir nada.',
-        'Elegimos cada prenda una por una: su caída, su tela, la manera en que te hace sentir al ponértela.',
-        'No hacemos mucho. Hacemos lo que nos gustaría usar.'
+        'Rompemos con el patrón de ropa cara, anticuada y traída sin filtro en la isla.',
+        'Cada prenda tiene su ficha clara: tela, grosor, caída, elasticidad y medidas reales sin rodeos.',
+        'Más que una tienda, construimos comunidad, alianzas locales y el camino hacia nuestra propia confección en Margarita.'
     ],
 
-    // "Quiénes somos"
+    // Pestaña unificada: "Quiénes somos" (incluye "Por qué nacimos" y los 4 pilares estratégicos)
     nosotros: {
-        titulo: 'Quiénes somos',
+        etiqueta: 'Identidad y Propósito · Margarita',
+        titulo: 'Quiénes somos y por qué nacimos',
+        intro: 'Nacimos de una incomodidad real en la Isla de Margarita: encontrar ropa con buen corte sin pagar precios inflados por prendas anticuadas traídas sin filtro. En aura.mgta unimos curaduría exigente, asesoría transparente y visión de impacto local.',
         parrafos: [
-            'aura.mgta es una marca de ropa para mujer y hombre, hecha con criterio: pocas piezas, bien elegidas, con un estilo propio.',
-            'Cuidamos el detalle desde que seleccionamos la prenda hasta que llega a tus manos, y acompañamos a cada cliente como si fuera de la casa.',
-            'Detrás de la marca hay personas reales que responden tus mensajes, te ayudan a elegir talla y celebran contigo cuando estrenas.'
+            'Somos una marca de ropa para mujer y hombre creada para quienes valoran saber exactamente qué están comprando. Si una pieza no cumple con nuestro estándar de corte, caída, tacto y durabilidad, simplemente no entra al catálogo.',
+            'Detrás de aura.mgta hay personas reales que miden cada prenda en centímetros, prueban su comportamiento al uso y te asesoran en tiempo real antes de que pagues, para que cuando abras tu paquete sientas exactamente lo que esperabas.'
         ],
-        valores: [
-            { titulo: 'Selección, no cantidad', texto: 'Cada pieza entra al catálogo porque la usaríamos nosotros.' },
-            { titulo: 'Trato cercano', texto: 'Hablas con personas, no con un formulario.' },
-            { titulo: 'Comunidad', texto: 'Crecemos de la mano de nuestros embajadores y de quienes confían en nosotros.' }
-        ]
-    },
-
-    // "Por qué nacimos" -- borrador: reemplazar con la historia real de la marca
-    historia: {
-        titulo: 'Por qué nacimos',
-        intro: 'Toda marca empieza con una incomodidad. La nuestra fue no encontrar la ropa que queríamos usar.',
-        capitulos: [
+        pilares: [
             {
-                titulo: 'El comienzo',
-                texto: 'Empezamos con una idea sencilla: reunir en un solo lugar prendas que se vean bien, se sientan bien y duren.'
+                numero: '01',
+                categoria: 'Experiencia de Compra',
+                titulo: 'Asesoría Transparente y Guiada',
+                resumen: 'Eliminamos las compras a ciegas con información técnica real y acompañamiento directo antes de pagar.',
+                puntos: [
+                    {
+                        subtitulo: 'Información técnica a la mano',
+                        texto: 'Fichas de producto donde se especifica sin rodeos el tipo de tela, la densidad, la caída, el grosor y cómo se siente al tacto, para que no haya sorpresas al recibir tu paquete.'
+                    },
+                    {
+                        subtitulo: 'Guía y asesoría directa de tallas',
+                        texto: 'Un trato humano y dedicado para resolver dudas en tiempo real antes de pagar: medidas exactas en centímetros y cómo calza la prenda según tu contextura o el tipo de corte (oversize, boxy o regular).'
+                    },
+                    {
+                        subtitulo: 'Transparencia total',
+                        texto: 'Si una prenda es ligera o pesada, si estira o no estira, o cómo debe cuidarse al lavarla, lo sabrás de antemano con total honestidad.'
+                    }
+                ]
             },
             {
-                titulo: 'La primera colección',
-                texto: 'Elegimos pocas piezas y las probamos nosotros mismos antes de ofrecerlas. Si no las usaríamos, no entraban.'
+                numero: '02',
+                categoria: 'Curaduría e Innovación',
+                titulo: 'Solución al Dolor del Mercado en la Isla',
+                resumen: 'Filtro estricto de calidad y validación directa con nuestra comunidad en Margarita.',
+                puntos: [
+                    {
+                        subtitulo: 'Criterio de curaduría',
+                        texto: 'Rompemos con el patrón de ropa cara y anticuada en Margarita traída sin filtro. Si una prenda no cumple con el estándar de corte, estilo y durabilidad, simplemente no entra al catálogo.'
+                    },
+                    {
+                        subtitulo: 'Prendas DEMO y drops exclusivos',
+                        texto: 'Probamos constantemente nuevos cortes y tendencias que aún no han llegado a la isla, validados directamente con la opinión de nuestros clientes antes de producirlos o traerlos a mayor escala.'
+                    }
+                ]
             },
             {
-                titulo: 'La comunidad',
-                texto: 'Los primeros clientes se convirtieron en los primeros embajadores. Hoy aura.mgta crece por recomendación, de una persona a otra.'
+                numero: '03',
+                categoria: 'Comunidad y Sinergia',
+                titulo: 'Programa de Referidos y Aliados Comerciales',
+                resumen: 'Crecemos en red recompensando a quienes nos recomiendan y conectando con el talento local.',
+                puntos: [
+                    {
+                        subtitulo: 'Beneficios por recomendación',
+                        texto: 'Recompensamos la lealtad y el voz a voz con cupones de descuento y premios reales tanto para quien recomienda como para el nuevo comprador.'
+                    },
+                    {
+                        subtitulo: 'Red de Aliados',
+                        texto: 'Conectamos con otros proyectos, marcas y creadores de la isla para generar sinergia y apoyarnos mutuamente en visibilidad y alcance.'
+                    }
+                ]
+            },
+            {
+                numero: '04',
+                categoria: 'Futuro y Desarrollo Local',
+                titulo: 'Visión de Impacto Local y Financiamiento',
+                resumen: 'De la curaduría selecta a la confección propia y el impulso a nuevos emprendedores en Margarita.',
+                puntos: [
+                    {
+                        subtitulo: 'Evolución a producción propia',
+                        texto: 'Damos el salto progresivo de la reventa curada a la confección propia con telas seleccionadas, garantizando cortes únicos a precios realmente accesibles.'
+                    },
+                    {
+                        subtitulo: 'Planes para emprendedores',
+                        texto: 'Proyectamos facilidades y planes de financiamiento a futuro para que nuevos proyectos, marcas locales o personas emergentes en Margarita puedan vestirse, equiparse o emprender junto a nosotros sin ahogarse económicamente.'
+                    }
+                ]
+            }
+        ],
+        compromisos: [
+            {
+                etiqueta: 'Protocolo de Atención',
+                titulo: 'Cómo te asesoramos por WhatsApp e Instagram',
+                pasos: [
+                    '1. Contextura y estilo: Nos dices tu estatura aproximada y cómo te gusta que te quede la prenda (suelta, boxy o al cuerpo).',
+                    '2. Medidas en centímetros: Te confirmamos ancho de cintura, tiro, largo total o ancho de pecho medidos sobre la prenda real.',
+                    '3. Tacto y lavado: Te explicamos el peso de la tela, si cede con el uso y cómo lavarla para conservar el color y la estructura.'
+                ]
+            },
+            {
+                etiqueta: 'Laboratorio Aura',
+                titulo: 'Dinámica de Prendas DEMO y Drops',
+                pasos: [
+                    '1. Muestra piloto: Traemos o confeccionamos lotes cortos de nuevos cortes urbanos que no se consiguen en la isla.',
+                    '2. Votación y feedback real: Nuestra comunidad y embajadores evalúan la tela, el entalle y el precio.',
+                    '3. Escala con respaldo: Solo los modelos mejor valorados pasan a producción o reposición completa en el catálogo.'
+                ]
             }
         ]
     },
 
     embajadoras: {
-        titulo: 'Embajadores Aura',
-        texto: 'Si alguien te recomendó aura.mgta, su código te da un beneficio de bienvenida en tu primera compra. Y si te encanta, tú también puedes tener tu propio código y ganar premios cuando tus conocidos compran.',
+        titulo: 'Embajadores y Aliados Aura',
+        texto: 'Recompensamos la lealtad y el voz a voz en la isla. Si alguien te recomendó aura.mgta, su código te da un beneficio directo en tu compra. Y si eres cliente, creador o proyecto aliado en Margarita, puedes activar tu código personal para sumar referidos, desbloquear premios y crecer en comunidad.',
         pasos: [
-            { titulo: 'Tu código', texto: 'Cada embajador tiene un código personal con sus iniciales y los últimos dígitos de su teléfono.' },
-            { titulo: 'Tus conocidos compran', texto: 'Reciben un descuento de bienvenida usando tu código.' },
-            { titulo: 'Tú ganas', texto: 'Al completar tu meta de referidos desbloqueas tu premio.' }
+            { titulo: 'Tu código personal', texto: 'Cada embajador o aliado cuenta con un código único vinculado a su perfil para compartir con amigos o seguidores.' },
+            { titulo: 'Beneficio bilateral', texto: 'Quien compra con tu código recibe su descuento de bienvenida y cada compra suma automáticamente a tu meta.' },
+            { titulo: 'Premios y sinergia', texto: 'Al completar tu meta desbloqueas tu recompensa, acceso anticipado a prendas DEMO y colaboraciones en la isla.' }
         ]
     },
 
@@ -86,7 +151,14 @@ window.AURA_CONTENIDO = {
                 '/tienda/fotos/baggy-styles-5.jpg?v=2'
             ],
             colores: ['Taupe', 'Crema', 'Gris Jaspeado', 'Gris Claro', 'Negro'],
-            descripcion: 'Pantalón corte baggy de caída amplia y cintura elástica con cordón ajustable. Disponible en 5 tonos de alta versatilidad.'
+            descripcion: 'Pantalón corte baggy de caída amplia y cintura elástica con cordón ajustable. Disponible en 5 tonos de alta versatilidad.',
+            ficha: {
+                tela: 'Algodón perchado suave de gramaje medio-alto',
+                caida: 'Caída fluida de pierna ancha (Wide Leg / Baggy) con apilamiento natural sobre el calzado',
+                tacto: 'Interior suave y cálido, exterior liso y firme',
+                elasticidad: 'Cintura elástica con cordón; el cuerpo de la tela tiene elasticidad moderada sin deformarse',
+                cuidado: 'Lavar al revés en agua fría, no usar secadora de calor alto para proteger el estampado'
+            }
         },
         {
             id: 1793646300001,
@@ -106,7 +178,14 @@ window.AURA_CONTENIDO = {
                 '/tienda/fotos/baggy-jeans-oen-4.jpg?v=2'
             ],
             colores: ['Negro Whiskers', 'Gris Acid Wash', 'Gris Claro Acid', 'Negro Sólido'],
-            descripcion: 'Denim pesado de corte baggy relajado con lavado de carácter y estructura firme. Diseñado para un fit urbano limpio.'
+            descripcion: 'Denim pesado de corte baggy relajado con lavado de carácter y estructura firme. Diseñado para un fit urbano limpio.',
+            ficha: {
+                tela: 'Denim 100% algodón rígido de alta densidad (alto gramaje)',
+                caida: 'Estructurada y tubular; mantiene la silueta ancha desde la cadera hasta el ruedo',
+                tacto: 'Textura denim firme con prelavado suavizado',
+                elasticidad: 'No estira (denim rígido); recomendamos pedir tu talla exacta de cintura en centímetros',
+                cuidado: 'Lavar por separado en agua fría, secar a la sombra sin retorcer'
+            }
         },
         {
             id: 1793646300002,
@@ -126,7 +205,14 @@ window.AURA_CONTENIDO = {
                 '/tienda/fotos/baggy-premium-oen-4.jpg?v=2'
             ],
             colores: ['Rosa / Vivo Blanco', 'Gris / Vivo Negro', 'Crema / Vivo Negro', 'Negro / Vivo Blanco'],
-            descripcion: 'Baggy jogging premium con costuras curvas en contraste (piping) y pretina elástica con cordón.'
+            descripcion: 'Baggy jogging premium con costuras curvas en contraste (piping) y pretina elástica con cordón.',
+            ficha: {
+                tela: 'French Terry pesado de algodón con vivo (piping) tejido en contraste',
+                caida: 'Caída pesada con volumen arquitectónico gracias a las costuras laterales curvas',
+                tacto: 'Suave, fresco por dentro y con cuerpo firme por fuera',
+                elasticidad: 'Pretina elástica adaptable; la tela cede ligeramente al movimiento',
+                cuidado: 'Lavado suave en agua fría con colores similares; no aplicar cloro'
+            }
         },
         {
             id: 1793383598668,
@@ -146,7 +232,14 @@ window.AURA_CONTENIDO = {
                 '/tienda/fotos/baggy-unicolor-oen-4.jpg?v=2'
             ],
             colores: ['Gris Melange', 'Vinotinto', 'Marrón Camel', 'Negro'],
-            descripcion: 'Baggy unicolor de algodón suave con caída fluida y bota ancha. Un esencial diario para combinar sin esfuerzo.'
+            descripcion: 'Baggy unicolor de algodón suave con caída fluida y bota ancha. Un esencial diario para combinar sin esfuerzo.',
+            ficha: {
+                tela: 'Algodón French Terry transpirable de densidad media',
+                caida: 'Holgada y ligera, ideal para el clima de la isla sin perder el corte baggy',
+                tacto: 'Muy suave al contacto con la piel, fresco para uso diario',
+                elasticidad: 'Cintura elástica con ajuste de cordón y ligera flexibilidad en pierna',
+                cuidado: 'Lavar en ciclo suave con agua fría y secar al aire'
+            }
         },
         {
             id: 1793383575598,
@@ -165,7 +258,14 @@ window.AURA_CONTENIDO = {
                 '/tienda/fotos/sueter-boxy-oen-3.jpg?v=2'
             ],
             colores: ['Gris Melange', 'Marrón Camel', 'Negro'],
-            descripcion: 'Hoodie con capucha y bolsillo canguro en silueta boxy fit de hombros caídos y puños acanalados.'
+            descripcion: 'Hoodie con capucha y bolsillo canguro en silueta boxy fit de hombros caídos y puños acanalados.',
+            ficha: {
+                tela: 'Algodón perchado de alto gramaje con capucha de doble capa',
+                caida: 'Corte Boxy Fit: ancho en pecho y hombros caídos con largo ligeramente recortado a la cintura',
+                tacto: 'Afelpado interno ultrasuave y exterior compacto',
+                elasticidad: 'Puños y pretina en rib elástico firme que mantiene la forma',
+                cuidado: 'Lavar al revés en agua fría; secar en superficie plana o colgado sin pinzas en hombros'
+            }
         },
         {
             id: 1793646300003,
@@ -183,7 +283,14 @@ window.AURA_CONTENIDO = {
                 '/tienda/fotos/mom-jeans-oen-2.jpg?v=2'
             ],
             colores: ['Azul Clásico', 'Negro'],
-            descripcion: 'Jeans de corte recto clásico con entalle limpio en cintura y caída estructurada.'
+            descripcion: 'Jeans de corte recto clásico con entalle limpio en cintura y caída estructurada.',
+            ficha: {
+                tela: 'Denim clásico de algodón de grosor medio-alto',
+                caida: 'Tiro medio-alto con pierna recta holgada que estiliza sin apretar',
+                tacto: 'Denim suave al tacto, resistente al uso continuo',
+                elasticidad: 'Estructura firme sin spandex (no estira); te asesoramos con la medida exacta de cintura',
+                cuidado: 'Lavar al revés con agua fría para preservar el tono azul o negro profundo'
+            }
         },
         {
             id: 1793646300004,
@@ -214,7 +321,14 @@ window.AURA_CONTENIDO = {
                 'Trío Negro / Verde Militar / Beige',
                 'Trío Negro / Azul Marino / Beige'
             ],
-            descripcion: 'Track pants de tela ligera con líneas laterales en contraste y cintura elástica con cordón.'
+            descripcion: 'Track pants de tela ligera con líneas laterales en contraste y cintura elástica con cordón.',
+            ficha: {
+                tela: 'Nylon / Microfibra deportiva ligera repelente a salpicaduras',
+                caida: 'Caída recta y suelta tipo parachute/track con mucho movimiento',
+                tacto: 'Fresco, liso y ultraligero, ideal para el calor de Margarita',
+                elasticidad: 'Tela no elástica de corte amplio; cintura 100% elástica con cordón ajustable',
+                cuidado: 'Secado rápido; lavar en agua fría y no planchar a alta temperatura'
+            }
         },
         {
             id: 1793646300005,
@@ -235,7 +349,14 @@ window.AURA_CONTENIDO = {
                 'Gama Vibrante (Fucsia, Rosa, Morado, Verde Esmeralda, Oliva)',
                 'Gama Clásica (Negro, Gris, Blanco, Marrón, Beige, Rojo)'
             ],
-            descripcion: 'Track pants ligeros con vivo lateral en contraste. Disponibles en 11 colores entre la gama vibrante y la gama clásica.'
+            descripcion: 'Track pants ligeros con vivo lateral en contraste. Disponibles en 11 colores entre la gama vibrante y la gama clásica.',
+            ficha: {
+                tela: 'Tejido técnico deportivo de secado rápido con vivo blanco cosido',
+                caida: 'Corte relajado de pierna ancha que no se pega al cuerpo',
+                tacto: 'Suave, ligero y altamente transpirable',
+                elasticidad: 'Pretina elástica de alto confort con cordón interno',
+                cuidado: 'Lavar en agua fría; no requiere planchado'
+            }
         },
         {
             id: 1793646300006,
@@ -272,7 +393,14 @@ window.AURA_CONTENIDO = {
                 'Negro + Lila',
                 'Negro + Rojo'
             ],
-            descripcion: 'Kit completo de 5 piezas (jogger con capucha, franela algodón, franela deportiva, short y medias) disponible en 10 combinaciones de color.'
+            descripcion: 'Kit completo de 5 piezas (chaqueta/jogger o conjunto con capucha, franela algodón, franela deportiva, short y medias) disponible en 10 combinaciones de color.',
+            ficha: {
+                tela: 'Mix de algodón suave en franelas/short y tejido deportivo transpirable en conjunto',
+                caida: 'Calce regular-relajado pensado para combinar las 5 piezas por separado o en set',
+                tacto: 'Fresco y cómodo para entrenamiento, calle o viaje',
+                elasticidad: 'Cinturas elásticas y telas con flexibilidad natural',
+                cuidado: 'Lavar piezas claras y oscuras por separado en agua fría'
+            }
         },
         {
             id: 1793646300007,
@@ -289,7 +417,14 @@ window.AURA_CONTENIDO = {
                 '/tienda/fotos/kit-perchado-ccs-1.jpg?v=2'
             ],
             colores: ['Negro + Short Blanco'],
-            descripcion: 'Kit perchado completo (conjunto negro con capucha, franela, short perchado blanco y medias).'
+            descripcion: 'Kit perchado completo (conjunto negro con capucha, franela, short perchado blanco y medias).',
+            ficha: {
+                tela: 'Algodón perchado de mayor grosor y densidad en jogger, hoodie y short',
+                caida: 'Cuerpo estructurado y abrigado con excelente retención de forma',
+                tacto: 'Interior afelpado suave de tacto premium',
+                elasticidad: 'Pretinas elásticas firmes con cordón y rib en tobillos/puños',
+                cuidado: 'Lavar el short blanco por separado del conjunto negro en agua fría'
+            }
         }
     ]
 };
