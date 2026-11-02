@@ -240,17 +240,81 @@
                     </template>
                 </div>
 
-                <div class="mt-12 p-6 sm:p-8 rounded-2xl border border-zinc-800 bg-zinc-950 max-w-xl">
-                    <h3 class="serif text-2xl">Tengo un código</h3>
-                    <p class="text-sm text-zinc-400 mt-1">Compruébalo antes de comprar.</p>
-                    <form @submit.prevent="validar()" class="mt-5 flex gap-2">
+                <div class="mt-12 p-6 sm:p-8 rounded-2xl border border-zinc-800 bg-zinc-950 max-w-2xl">
+                    <p class="label-ui text-zinc-500">Consulta en tiempo real</p>
+                    <h3 class="serif text-2xl sm:text-3xl mt-1">Consulta tu código o cupón</h3>
+                    <p class="text-sm text-zinc-400 mt-1.5">Ingresa tu código para ver cuántas personas llevas referidas, por cuál premio participas y qué beneficio recibe quien lo usa.</p>
+                    <form @submit.prevent="validar()" class="mt-5 flex flex-col sm:flex-row gap-2.5">
                         <input x-model="codigo" placeholder="Ej. ACS-345" autocapitalize="characters"
                                class="uppercase flex-grow h-12 px-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-base tracking-wider">
-                        <button type="submit" class="h-12 px-6 rounded-xl bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white transition">Validar</button>
+                        <button type="submit" :disabled="consultandoCodigo" class="h-12 px-6 rounded-xl bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white transition disabled:opacity-50">
+                            <span x-text="consultandoCodigo ? 'Consultando...' : 'Consultar código'"></span>
+                        </button>
                     </form>
-                    <p x-show="resultado" x-cloak class="mt-4 text-sm"
-                       :class="resultado && resultado.valido ? 'text-emerald-400' : 'text-zinc-400'"
-                       x-text="resultado ? (resultado.valido ? 'Código de ' + resultado.embajadora + ' válido: ' + resultado.beneficio + '.' : 'No encontramos ese código. Revisa que esté bien escrito.') : ''"></p>
+
+                    <!-- Estado: No encontrado -->
+                    <div x-show="resultado && !resultado.valido" x-cloak class="mt-5 p-4 rounded-xl border border-zinc-800 bg-zinc-900/50 text-sm text-zinc-400">
+                        No encontramos ese código registrado. Verifica que esté bien escrito (ej. <span class="text-zinc-200">ACS-345</span>).
+                    </div>
+
+                    <!-- Estado: Código válido con progreso y premios -->
+                    <div x-show="resultado && resultado.valido" x-cloak class="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5 sm:p-6 space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800/80 pb-4">
+                            <div>
+                                <span class="label-ui text-zinc-500">Embajador(a) AURA</span>
+                                <h4 class="serif text-2xl text-white mt-0.5" x-text="resultado?.embajadora"></h4>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="px-3 py-1 rounded-lg bg-zinc-950 border border-zinc-700 text-xs font-semibold tracking-widest text-zinc-100" x-text="resultado?.codigo"></span>
+                                <span class="px-2.5 py-1 rounded-full text-[11px] font-medium"
+                                      :class="(resultado?.usos >= resultado?.meta) ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30' : 'bg-zinc-800 text-zinc-300'"
+                                      x-text="(resultado?.usos >= resultado?.meta) ? 'Meta alcanzada' : 'Activo'"></span>
+                            </div>
+                        </div>
+
+                        <!-- Contador de personas referidas y barra de progreso -->
+                        <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800/90 space-y-3">
+                            <div class="flex items-baseline justify-between gap-2">
+                                <span class="text-xs uppercase tracking-wider text-zinc-400">Personas que han usado este código</span>
+                                <div class="text-right">
+                                    <span class="serif text-3xl text-white" x-text="resultado?.usos ?? 0"></span>
+                                    <span class="text-sm text-zinc-500" x-text="' / ' + (resultado?.meta ?? 5) + ' personas'"></span>
+                                </div>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-zinc-900 overflow-hidden border border-zinc-800">
+                                <div class="h-full bg-zinc-100 rounded-full transition-all duration-500"
+                                     :style="'width: ' + Math.min(100, Math.round(((resultado?.usos || 0) / Math.max(1, resultado?.meta || 5)) * 100)) + '%'"></div>
+                            </div>
+                            <p class="text-xs text-zinc-400"
+                               x-text="(resultado?.usos >= resultado?.meta)
+                                   ? (resultado?.reclamado ? 'Esta meta ya fue completada y el premio fue canjeado.' : '¡Felicidades! Ya completaste la meta y tu premio está desbloqueado.')
+                                   : ('Faltan ' + Math.max(0, (resultado?.meta || 5) - (resultado?.usos || 0)) + ' persona(s) más para desbloquear la recompensa de embajador.')">
+                            </p>
+                        </div>
+
+                        <!-- A qué participa el cupón (Embajador vs Invitado) -->
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800/90">
+                                <p class="label-ui text-zinc-500">Premio para el embajador</p>
+                                <p class="serif text-xl text-white mt-1.5" x-text="resultado?.premio || '$10.00 OFF en su compra'"></p>
+                                <p class="text-xs text-zinc-400 mt-1" x-text="'Se desbloquea al llegar a ' + (resultado?.meta ?? 5) + ' compras referidas.'"></p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800/90">
+                                <p class="label-ui text-zinc-500">Beneficio al usar el cupón</p>
+                                <p class="serif text-xl text-emerald-400 mt-1.5" x-text="resultado?.beneficio || '10% OFF en tu compra'"></p>
+                                <p class="text-xs text-zinc-400 mt-1">Descuento directo para amigos que compren con este código.</p>
+                            </div>
+                        </div>
+
+                        <!-- Acción rápida para aplicar a la bolsa -->
+                        <div class="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <span class="text-xs text-zinc-400" x-text="codigoBolsa === resultado?.codigo ? 'Código aplicado a tu bolsa de compra.' : '¿Vas a hacer un pedido con este código?'"></span>
+                            <button type="button" @click="aplicarCodigoABolsa()"
+                                    class="h-10 px-5 rounded-full border border-zinc-700 hover:border-zinc-400 text-xs font-semibold text-zinc-100 hover:bg-zinc-800 transition self-start sm:self-auto">
+                                <span x-text="codigoBolsa === resultado?.codigo ? 'Ver colección con el código activo' : 'Usar este código en mi pedido'"></span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -336,7 +400,7 @@
                 prendas: [], cargando: true, filtro: 'Todas', genero: 'Todos',
                 tallaSel: '', menuAbierto: false, bolsaAbierta: false,
                 bolsa: [], cliente: '', telefono: '', codigoBolsa: '',
-                codigo: '', resultado: null,
+                codigo: '', resultado: null, consultandoCodigo: false,
 
                 async init() {
                     try { this.bolsa = JSON.parse(localStorage.getItem('aura_bolsa') || '[]'); } catch (e) {}
@@ -422,19 +486,56 @@
                 async validar() {
                     const cod = (this.codigo || '').trim();
                     if (!cod) return;
+                    this.consultandoCodigo = true;
                     this.resultado = null;
-                    this.resultado = await this.consultarCodigo(cod);
+                    try {
+                        this.resultado = await this.consultarCodigo(cod);
+                    } finally {
+                        this.consultandoCodigo = false;
+                    }
+                },
+                aplicarCodigoABolsa() {
+                    if (!this.resultado || !this.resultado.valido) return;
+                    this.codigoBolsa = this.resultado.codigo;
+                    location.hash = '#/coleccion';
                 },
                 async consultarCodigo(cod) {
+                    const limpio = cod.trim().toUpperCase();
                     try {
-                        const r = await fetch(SUPA + '/rest/v1/rpc/validar_codigo', { method: 'POST', headers: H, body: JSON.stringify({ p_codigo: cod }) });
-                        if (r.ok) return await r.json();
-                    } catch (e) {}
-                    try {
-                        const r = await fetch(SUPA + '/rest/v1/embajadores?select=nombre,descuento_amigo&codigo=eq.' + encodeURIComponent(cod.toUpperCase()), { headers: H });
+                        const r = await fetch(SUPA + '/rest/v1/embajadores?select=nombre,codigo,descuento_amigo,usos,meta,premio,reclamado&codigo=ilike.' + encodeURIComponent(limpio), { headers: H });
                         if (r.ok) {
                             const d = await r.json();
-                            if (d.length) return { valido: true, embajadora: d[0].nombre.split(' ')[0], beneficio: d[0].descuento_amigo };
+                            if (d.length) {
+                                const e = d[0];
+                                return {
+                                    valido: true,
+                                    codigo: (e.codigo || limpio).toUpperCase(),
+                                    embajadora: (e.nombre || 'Embajador').split(' ')[0],
+                                    beneficio: e.descuento_amigo || '10% OFF en su primera compra',
+                                    usos: Number(e.usos) || 0,
+                                    meta: Number(e.meta) || 5,
+                                    premio: e.premio || '$10.00 OFF en su compra',
+                                    reclamado: !!e.reclamado
+                                };
+                            }
+                        }
+                    } catch (e) {}
+                    try {
+                        const r = await fetch(SUPA + '/rest/v1/rpc/validar_codigo', { method: 'POST', headers: H, body: JSON.stringify({ p_codigo: limpio }) });
+                        if (r.ok) {
+                            const rpcRes = await r.json();
+                            if (rpcRes && rpcRes.valido) {
+                                return {
+                                    valido: true,
+                                    codigo: (rpcRes.codigo || limpio).toUpperCase(),
+                                    embajadora: rpcRes.embajadora || 'Embajador',
+                                    beneficio: rpcRes.beneficio || '10% OFF en su primera compra',
+                                    usos: Number(rpcRes.usos) || 0,
+                                    meta: Number(rpcRes.meta) || 5,
+                                    premio: rpcRes.premio || '$10.00 OFF en su compra',
+                                    reclamado: !!rpcRes.reclamado
+                                };
+                            }
                         }
                     } catch (e) {}
                     return { valido: false };

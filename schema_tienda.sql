@@ -20,7 +20,7 @@ WHERE COALESCE(visible, true) = true;
 
 GRANT SELECT ON catalogo_publico TO anon;
 
--- 3. Validar un codigo de embajadora SIN exponer la tabla de embajadoras
+-- 3. Validar y consultar progreso de un codigo de embajador SIN exponer datos sensibles
 CREATE OR REPLACE FUNCTION validar_codigo(p_codigo TEXT)
 RETURNS JSON
 LANGUAGE sql
@@ -30,8 +30,13 @@ AS $$
   SELECT COALESCE(
     (SELECT json_build_object(
               'valido', true,
+              'codigo', upper(codigo),
               'embajadora', split_part(nombre, ' ', 1),
-              'beneficio', descuento_amigo)
+              'beneficio', COALESCE(descuento_amigo, '10% OFF en su primera compra'),
+              'usos', COALESCE(usos, 0),
+              'meta', COALESCE(meta, 5),
+              'premio', COALESCE(premio, '$10.00 OFF en su compra'),
+              'reclamado', COALESCE(reclamado, false))
        FROM embajadores
       WHERE upper(codigo) = upper(trim(p_codigo))
       LIMIT 1),
