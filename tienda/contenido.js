@@ -11,7 +11,7 @@ window.AURA_CONTENIDO = {
     hero: {
         etiqueta: 'aura.mgta',
         titulo: 'Ropa que se siente como tu mejor versión.',
-        subtitulo: 'Piezas seleccionadas con cuidado, pensadas para mujeres que se visten para sí mismas.'
+        subtitulo: 'Ropa de mujer y de hombre, seleccionada con cuidado para quienes se visten para sí mismos.'
     },
 
     manifiesto: [
@@ -24,14 +24,14 @@ window.AURA_CONTENIDO = {
     nosotros: {
         titulo: 'Quiénes somos',
         parrafos: [
-            'aura.mgta es una marca de ropa hecha con criterio: pocas piezas, bien elegidas, con un estilo propio.',
-            'Cuidamos el detalle desde que seleccionamos la prenda hasta que llega a tus manos, y acompañamos a cada clienta como si fuera de la casa.',
+            'aura.mgta es una marca de ropa para mujer y hombre, hecha con criterio: pocas piezas, bien elegidas, con un estilo propio.',
+            'Cuidamos el detalle desde que seleccionamos la prenda hasta que llega a tus manos, y acompañamos a cada cliente como si fuera de la casa.',
             'Detrás de la marca hay personas reales que responden tus mensajes, te ayudan a elegir talla y celebran contigo cuando estrenas.'
         ],
         valores: [
-            { titulo: 'Selección, no cantidad', texto: 'Cada pieza entra al catálogo porque la usaríamos nosotras.' },
+            { titulo: 'Selección, no cantidad', texto: 'Cada pieza entra al catálogo porque la usaríamos nosotros.' },
             { titulo: 'Trato cercano', texto: 'Hablas con personas, no con un formulario.' },
-            { titulo: 'Comunidad', texto: 'Crecemos de la mano de nuestras embajadoras y de quienes confían en nosotras.' }
+            { titulo: 'Comunidad', texto: 'Crecemos de la mano de nuestros embajadores y de quienes confían en nosotros.' }
         ]
     },
 
@@ -46,22 +46,22 @@ window.AURA_CONTENIDO = {
             },
             {
                 titulo: 'La primera colección',
-                texto: 'Elegimos pocas piezas y las probamos nosotras mismas antes de ofrecerlas. Si no las usaríamos, no entraban.'
+                texto: 'Elegimos pocas piezas y las probamos nosotros mismos antes de ofrecerlas. Si no las usaríamos, no entraban.'
             },
             {
                 titulo: 'La comunidad',
-                texto: 'Las primeras clientas se convirtieron en las primeras embajadoras. Hoy aura.mgta crece por recomendación, de una amiga a otra.'
+                texto: 'Los primeros clientes se convirtieron en los primeros embajadores. Hoy aura.mgta crece por recomendación, de una persona a otra.'
             }
         ]
     },
 
     embajadoras: {
-        titulo: 'Embajadoras Aura',
-        texto: 'Si una amiga te recomendó aura.mgta, tu código te da un beneficio de bienvenida en tu primera compra. Y si te encanta, tú también puedes tener tu propio código y ganar premios cuando tus amigas compran.',
+        titulo: 'Embajadores Aura',
+        texto: 'Si alguien te recomendó aura.mgta, su código te da un beneficio de bienvenida en tu primera compra. Y si te encanta, tú también puedes tener tu propio código y ganar premios cuando tus conocidos compran.',
         pasos: [
-            { titulo: 'Tu código', texto: 'Cada embajadora tiene un código personal con sus iniciales y los últimos dígitos de su teléfono.' },
-            { titulo: 'Tus amigas compran', texto: 'Ellas reciben un descuento de bienvenida usando tu código.' },
-            { titulo: 'Tú ganas', texto: 'Al completar tu meta de referidas desbloqueas tu premio.' }
+            { titulo: 'Tu código', texto: 'Cada embajador tiene un código personal con sus iniciales y los últimos dígitos de su teléfono.' },
+            { titulo: 'Tus conocidos compran', texto: 'Reciben un descuento de bienvenida usando tu código.' },
+            { titulo: 'Tú ganas', texto: 'Al completar tu meta de referidos desbloqueas tu premio.' }
         ]
     }
 };

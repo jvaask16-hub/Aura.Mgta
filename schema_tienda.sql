@@ -9,10 +9,12 @@ ALTER TABLE inventario ADD COLUMN IF NOT EXISTS descripcion TEXT DEFAULT '';
 ALTER TABLE inventario ADD COLUMN IF NOT EXISTS tallas      TEXT DEFAULT 'S, M, L';
 ALTER TABLE inventario ADD COLUMN IF NOT EXISTS visible     BOOLEAN DEFAULT true;
 ALTER TABLE inventario ADD COLUMN IF NOT EXISTS destacado   BOOLEAN DEFAULT false;
+-- Genero de la prenda: 'Mujer', 'Hombre' o 'Unisex' (la tienda lo usa como filtro)
+ALTER TABLE inventario ADD COLUMN IF NOT EXISTS genero      TEXT DEFAULT 'Unisex';
 
 -- 2. Vista publica: SOLO datos seguros (sin costo, sin margen, sin proveedor)
 CREATE OR REPLACE VIEW catalogo_publico AS
-SELECT id, nombre, categoria, pvp, stock, imagen_url, descripcion, tallas, destacado
+SELECT id, nombre, categoria, pvp, stock, imagen_url, descripcion, tallas, destacado, genero
 FROM inventario
 WHERE COALESCE(visible, true) = true;
 
