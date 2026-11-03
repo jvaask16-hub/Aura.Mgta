@@ -112,102 +112,84 @@
                 </div>
             </div>
 
-            <!-- Showcase Edición Exclusiva: Confección Propia en Margarita (Pantalones Bruno Sastre Baggy) -->
+            <!-- Próxima Colección: Confección Propia en Margarita (Diseño editorial monocromático) -->
             <template x-if="c.proximaColeccion && prendaExclusiva">
                 <div class="border-t border-zinc-900">
-                    <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-10 sm:py-16">
-                        <div class="p-5 sm:p-8 rounded-3xl border border-amber-200/30 bg-gradient-to-br from-[#181611] via-[#100f0d] to-[#09090b] shadow-2xl space-y-6">
-                            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-amber-200/15 pb-4">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <span class="px-3 py-1 rounded-full bg-amber-100 text-zinc-950 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider" x-text="c.proximaColeccion.etiqueta"></span>
-                                    <span class="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-200/30 text-amber-200 text-[10px] sm:text-[11px] uppercase tracking-wider" x-text="c.proximaColeccion.sello"></span>
+                    <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-10 sm:py-20">
+                        <div class="flex items-end justify-between mb-5 sm:mb-8 px-0.5">
+                            <div>
+                                <p class="label-ui text-zinc-500">Próxima Colección · Confección Propia en Margarita</p>
+                                <h2 class="serif text-2xl sm:text-4xl mt-1" x-text="c.proximaColeccion.nombre"></h2>
+                            </div>
+                            <a :href="'#/prenda/' + prendaExclusiva.id" class="text-xs sm:text-sm text-zinc-300 hover:text-white flex items-center gap-1 transition">
+                                Ver ficha <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                            </a>
+                        </div>
+
+                        <div class="grid md:grid-cols-12 gap-6 lg:gap-10 items-center">
+                            <!-- Galería 4:5 limpia igual al resto del estudio -->
+                            <div class="md:col-span-5 space-y-2.5">
+                                <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900 tile relative group">
+                                    <a :href="'#/prenda/' + prendaExclusiva.id" class="block w-full h-full">
+                                        <img :src="imagenesDe(prendaExclusiva)[fotoDeCard(prendaExclusiva)] || prendaExclusiva.imagen_url"
+                                             :alt="prendaExclusiva.nombre"
+                                             class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">
+                                    </a>
+                                    <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/75 border border-zinc-800 text-[10px] label-ui text-zinc-200">
+                                        Hecho en Margarita
+                                    </span>
+                                    <button type="button" @click.stop="cambiarFotoCard(prendaExclusiva, -1)" class="absolute left-2.5 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-sm transition">&lsaquo;</button>
+                                    <button type="button" @click.stop="cambiarFotoCard(prendaExclusiva, 1)" class="absolute right-2.5 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-sm transition">&rsaquo;</button>
+                                    <span class="absolute bottom-3 left-3 px-2.5 py-1 rounded-full bg-black/75 border border-zinc-800 text-[11px] text-zinc-200" x-text="coloresDe(prendaExclusiva)[fotoDeCard(prendaExclusiva)]"></span>
+                                    <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/75 border border-zinc-800 text-[11px] text-zinc-300" x-text="(fotoDeCard(prendaExclusiva) + 1) + '/' + imagenesDe(prendaExclusiva).length"></span>
                                 </div>
-                                <span class="text-xs px-3 py-1 rounded-full bg-zinc-900/90 border border-zinc-800 text-zinc-300" x-text="c.proximaColeccion.estadoPrecio"></span>
+                                <div class="flex gap-1.5 overflow-x-auto no-scrollbar">
+                                    <template x-for="(col, idx) in coloresDe(prendaExclusiva)" :key="col">
+                                        <button type="button" @click="fotosCard[prendaExclusiva.id] = idx" x-text="col"
+                                                :class="fotoDeCard(prendaExclusiva) === idx ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white'"
+                                                class="flex-shrink-0 h-8 px-3 rounded-full border text-xs transition"></button>
+                                    </template>
+                                </div>
                             </div>
 
-                            <div class="grid md:grid-cols-12 gap-6 lg:gap-10 items-center">
-                                <!-- Galería interactiva 4:5 del Pantalón Bruno Sastre Baggy -->
-                                <div class="md:col-span-5 space-y-3">
-                                    <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-amber-200/30 tile relative group">
-                                        <a :href="'#/prenda/' + prendaExclusiva.id" class="block w-full h-full">
-                                            <img :src="imagenesDe(prendaExclusiva)[fotoDeCard(prendaExclusiva)] || prendaExclusiva.imagen_url"
-                                                 :alt="prendaExclusiva.nombre"
-                                                 class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">
-                                        </a>
-                                        <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-amber-200/40 text-[10px] uppercase tracking-widest text-amber-100 font-medium">
-                                            Edición Exclusiva · Atelier Margarita
-                                        </span>
-                                        <button type="button" @click.stop="cambiarFotoCard(prendaExclusiva, -1)" class="absolute left-2.5 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-black/70 hover:bg-black border border-amber-200/30 text-white flex items-center justify-center text-sm transition">&lsaquo;</button>
-                                        <button type="button" @click.stop="cambiarFotoCard(prendaExclusiva, 1)" class="absolute right-2.5 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-black/70 hover:bg-black border border-amber-200/30 text-white flex items-center justify-center text-sm transition">&rsaquo;</button>
-                                        <span class="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-black/80 border border-zinc-800 text-xs text-amber-100" x-text="coloresDe(prendaExclusiva)[fotoDeCard(prendaExclusiva)]"></span>
-                                        <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/80 border border-zinc-800 text-[11px] text-zinc-300" x-text="(fotoDeCard(prendaExclusiva) + 1) + '/' + imagenesDe(prendaExclusiva).length"></span>
-                                    </div>
-                                    <!-- Selector directo de los 4 tonos de sastrería -->
-                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-                                        <template x-for="(col, idx) in coloresDe(prendaExclusiva)" :key="col">
-                                            <button type="button" @click="fotosCard[prendaExclusiva.id] = idx" x-text="col"
-                                                    :class="fotoDeCard(prendaExclusiva) === idx ? 'bg-amber-100 text-zinc-950 border-amber-100 font-semibold' : 'bg-zinc-950/90 border-zinc-800 text-zinc-300 hover:border-amber-200/40'"
-                                                    class="h-8 px-2 rounded-lg border text-[11px] truncate transition"></button>
-                                        </template>
-                                    </div>
+                            <!-- Información limpia y minimalista acorde a la página -->
+                            <div class="md:col-span-7 space-y-5">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/90 border border-zinc-800 label-ui text-zinc-400">
+                                    <span>Confección propia · Costureros locales</span>
                                 </div>
+                                <h3 class="serif text-3xl sm:text-5xl text-white leading-tight">
+                                    Sastrería baggy hecha directamente en la Isla de Margarita.
+                                </h3>
+                                <p class="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-xl" x-text="c.proximaColeccion.subtitulo"></p>
 
-                                <!-- Narrativa de Exclusividad, Etapas en Taller y Reserva VIP -->
-                                <div class="md:col-span-7 space-y-4">
-                                    <div>
-                                        <p class="text-[11px] uppercase tracking-widest text-amber-200/90">Primera Colección de Confección Propia · Isla de Margarita</p>
-                                        <h2 class="serif text-3xl sm:text-5xl text-white leading-tight mt-1" x-text="c.proximaColeccion.nombre"></h2>
-                                    </div>
-                                    <p class="text-sm sm:text-base text-zinc-300 leading-relaxed" x-text="c.proximaColeccion.subtitulo"></p>
-
-                                    <div class="grid sm:grid-cols-3 gap-2.5">
-                                        <template x-for="det in c.proximaColeccion.detalles" :key="det.titulo">
-                                            <div class="p-3.5 rounded-xl bg-black/45 border border-amber-200/15">
-                                                <p class="text-xs font-semibold text-amber-100" x-text="det.titulo"></p>
-                                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="det.texto"></p>
-                                            </div>
-                                        </template>
-                                    </div>
-
-                                    <!-- Estado del proceso en taller -->
-                                    <template x-if="c.proximaColeccion.etapas">
-                                        <div class="p-3.5 rounded-xl bg-zinc-950/90 border border-zinc-800/90 space-y-2">
-                                            <p class="text-[11px] uppercase tracking-wider text-zinc-400">Estado real en nuestro taller de Margarita</p>
-                                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                                <template x-for="et in c.proximaColeccion.etapas" :key="et.paso">
-                                                    <div class="p-2 rounded-lg bg-zinc-900/70 border border-zinc-800/80">
-                                                        <div class="flex items-center justify-between text-[10px]">
-                                                            <span class="text-amber-200 font-semibold" x-text="'Paso ' + et.paso"></span>
-                                                            <span class="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300" x-text="et.estado"></span>
-                                                        </div>
-                                                        <p class="text-[11px] text-zinc-200 mt-1 leading-snug" x-text="et.nombre"></p>
-                                                    </div>
-                                                </template>
-                                            </div>
+                                <div class="grid sm:grid-cols-3 gap-2.5">
+                                    <template x-for="det in c.proximaColeccion.detalles" :key="det.titulo">
+                                        <div class="p-3.5 rounded-2xl bg-zinc-950 border border-zinc-900">
+                                            <p class="serif text-base text-zinc-100" x-text="det.titulo"></p>
+                                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="det.texto"></p>
                                         </div>
                                     </template>
+                                </div>
 
-                                    <!-- Selector de talla y Reserva Prioritaria -->
-                                    <div class="pt-2 flex flex-col sm:flex-row sm:items-center gap-3">
-                                        <div class="flex items-center gap-1.5">
-                                            <span class="text-xs text-zinc-400 mr-1">Talla:</span>
-                                            <template x-for="t in tallasDe(prendaExclusiva)" :key="t">
-                                                <button type="button" @click="tallasCard[prendaExclusiva.id] = t" x-text="t"
-                                                        :class="tallaDeCard(prendaExclusiva) === t ? 'bg-amber-100 text-zinc-950 border-amber-100 font-semibold' : 'bg-zinc-900 border-zinc-800 text-zinc-300'"
-                                                        class="h-9 min-w-[36px] px-2.5 rounded-xl border text-xs transition"></button>
-                                            </template>
-                                        </div>
-                                        <div class="flex flex-wrap gap-2.5 flex-grow">
-                                            <button type="button" @click="reservarDesdeCard(prendaExclusiva)"
-                                                    class="flex-grow h-11 px-5 rounded-full bg-amber-100 hover:bg-white text-zinc-950 text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 transition">
-                                                <span>Reservar Cupo VIP (1er Lote)</span>
-                                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                                            </button>
-                                            <a :href="'#/prenda/' + prendaExclusiva.id"
-                                               class="h-11 px-4 rounded-full border border-amber-200/30 hover:border-amber-200 text-amber-100 text-xs sm:text-sm inline-flex items-center justify-center transition">
-                                                Ver ficha completa
-                                            </a>
-                                        </div>
+                                <div class="pt-2 border-t border-zinc-900 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="label-ui text-zinc-500 mr-1">Talla</span>
+                                        <template x-for="t in tallasDe(prendaExclusiva)" :key="t">
+                                            <button type="button" @click="tallasCard[prendaExclusiva.id] = t" x-text="t"
+                                                    :class="tallaDeCard(prendaExclusiva) === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white'"
+                                                    class="h-9 min-w-[36px] px-2.5 rounded-xl border text-xs transition"></button>
+                                        </template>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2.5">
+                                        <button type="button" @click="reservarDesdeCard(prendaExclusiva)"
+                                                class="h-11 px-6 rounded-full bg-zinc-100 hover:bg-white text-zinc-950 text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 transition">
+                                            <span>Lista de espera</span>
+                                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                        </button>
+                                        <a :href="'#/prenda/' + prendaExclusiva.id"
+                                           class="h-11 px-5 rounded-full border border-zinc-800 hover:border-zinc-500 text-zinc-200 text-xs sm:text-sm inline-flex items-center justify-center transition">
+                                            Ver detalles
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -230,11 +212,9 @@
                     </div>
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                         <template x-for="p in destacadas" :key="'d' + p.id">
-                            <div class="group flex flex-col justify-between rounded-2xl border p-2 sm:p-3 transition"
-                                 :class="p.proximoLanzamiento ? 'border-amber-200/45 bg-gradient-to-b from-[#191610] to-zinc-950 ring-1 ring-amber-200/20' : 'border-zinc-900/90 bg-zinc-950/60 hover:border-zinc-700/80'">
+                            <div class="group flex flex-col justify-between rounded-2xl border border-zinc-900/90 bg-zinc-950/60 p-2 sm:p-3 hover:border-zinc-700/80 transition">
                                 <div>
-                                    <div class="aspect-[4/5] rounded-xl overflow-hidden border tile flex items-center justify-center relative"
-                                         :class="p.proximoLanzamiento ? 'border-amber-200/35' : 'border-zinc-900'">
+                                    <div class="aspect-[4/5] rounded-xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative">
                                         <a :href="'#/prenda/' + p.id" class="w-full h-full flex items-center justify-center">
                                             <template x-if="imagenesDe(p).length > 0">
                                                 <img :src="imagenesDe(p)[fotoDeCard(p)] || p.imagen_url" :alt="p.nombre" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">
@@ -245,8 +225,8 @@
                                         </a>
 
                                         <template x-if="p.proximoLanzamiento">
-                                            <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-amber-100 text-zinc-950 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider shadow">
-                                                Exclusivo · Margarita
+                                            <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/75 border border-zinc-800 text-zinc-200 text-[9px] sm:text-[10px] label-ui">
+                                                Hecho en Margarita
                                             </span>
                                         </template>
 
@@ -263,13 +243,12 @@
                                     </div>
 
                                     <div class="mt-2.5 px-0.5">
-                                        <p class="label-ui truncate" :class="p.proximoLanzamiento ? 'text-amber-200/90' : 'text-zinc-500'" x-text="p.proximoLanzamiento ? 'Confección Propia · Edición Limitada' : p.categoria"></p>
+                                        <p class="label-ui text-zinc-500 truncate" x-text="p.proximoLanzamiento ? 'Próxima Colección · Sastrería' : p.categoria"></p>
                                         <a :href="'#/prenda/' + p.id" class="block">
                                             <h3 class="serif text-[16px] sm:text-xl leading-snug mt-0.5 truncate hover:underline" x-text="p.nombre"></h3>
                                         </a>
-                                        <p class="text-xs sm:text-sm font-medium mt-0.5"
-                                           :class="p.proximoLanzamiento ? 'text-amber-100' : 'text-zinc-200'"
-                                           x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'En costeo local · Lista VIP abierta' : ('$' + Number(p.pvp).toFixed(2))"></p>
+                                        <p class="text-xs sm:text-sm text-zinc-300 font-medium mt-0.5"
+                                           x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'Precio por definir' : ('$' + Number(p.pvp).toFixed(2))"></p>
                                     </div>
                                 </div>
 
@@ -291,8 +270,8 @@
                                     </template>
                                     <template x-if="p.proximoLanzamiento">
                                         <button type="button" @click="reservarDesdeCard(p)"
-                                                class="w-full h-9 rounded-xl bg-amber-100 hover:bg-white text-zinc-950 text-xs font-semibold flex items-center justify-center gap-1.5 transition">
-                                            <span>Acceso VIP · Reservar cupo</span>
+                                                class="w-full h-9 rounded-xl border border-zinc-700 hover:border-zinc-400 bg-zinc-900 text-zinc-100 text-xs font-medium flex items-center justify-center gap-1.5 transition">
+                                            <span>Lista de espera</span>
                                         </button>
                                     </template>
                                     <template x-if="!p.proximoLanzamiento && p.stock <= 0">
@@ -332,61 +311,6 @@
                     </div>
                 </div>
 
-                <!-- Destacado Exclusivo en Colección: Pantalones Bruno Sastre Baggy -->
-                <template x-if="prendaExclusiva && (filtro === 'Todas' || filtro === prendaExclusiva.categoria)">
-                    <div class="mt-5 p-4 sm:p-6 rounded-2xl border border-amber-200/35 bg-gradient-to-r from-[#181611] via-[#11100d] to-zinc-950">
-                        <div class="grid md:grid-cols-12 gap-5 items-center">
-                            <div class="md:col-span-4 lg:col-span-3">
-                                <div class="aspect-[4/5] rounded-xl overflow-hidden border border-amber-200/30 tile relative">
-                                    <a :href="'#/prenda/' + prendaExclusiva.id" class="block w-full h-full">
-                                        <img :src="imagenesDe(prendaExclusiva)[fotoDeCard(prendaExclusiva)] || prendaExclusiva.imagen_url"
-                                             :alt="prendaExclusiva.nombre"
-                                             class="w-full h-full object-cover">
-                                    </a>
-                                    <button type="button" @click.stop="cambiarFotoCard(prendaExclusiva, -1)" class="absolute left-2 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-black/75 border border-amber-200/30 text-white flex items-center justify-center text-xs">&lsaquo;</button>
-                                    <button type="button" @click.stop="cambiarFotoCard(prendaExclusiva, 1)" class="absolute right-2 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-black/75 border border-amber-200/30 text-white flex items-center justify-center text-xs">&rsaquo;</button>
-                                    <span class="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-black/80 border border-zinc-800 text-[11px] text-amber-100" x-text="coloresDe(prendaExclusiva)[fotoDeCard(prendaExclusiva)]"></span>
-                                    <span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/80 border border-zinc-800 text-[10px] text-zinc-300" x-text="(fotoDeCard(prendaExclusiva) + 1) + '/4'"></span>
-                                </div>
-                            </div>
-                            <div class="md:col-span-8 lg:col-span-9 space-y-3">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <span class="px-3 py-1 rounded-full bg-amber-100 text-zinc-950 text-[10px] font-bold uppercase tracking-wider">Edición Exclusiva · Confección Propia en Margarita</span>
-                                    <span class="px-3 py-1 rounded-full bg-zinc-900 border border-amber-200/25 text-amber-100 text-[11px]">1er Lote Limitado · Costureros Locales</span>
-                                </div>
-                                <h2 class="serif text-2xl sm:text-4xl text-white" x-text="prendaExclusiva.nombre"></h2>
-                                <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed max-w-3xl" x-text="prendaExclusiva.descripcion"></p>
-                                <div class="flex flex-wrap items-center gap-2 pt-1">
-                                    <span class="text-xs text-zinc-400">Tonos previstos:</span>
-                                    <template x-for="(col, idx) in coloresDe(prendaExclusiva)" :key="col">
-                                        <button type="button" @click="fotosCard[prendaExclusiva.id] = idx" x-text="col"
-                                                :class="fotoDeCard(prendaExclusiva) === idx ? 'bg-amber-100 text-zinc-950 border-amber-100 font-semibold' : 'bg-zinc-900 border-zinc-800 text-zinc-300'"
-                                                class="h-7 px-3 rounded-full border text-xs transition"></button>
-                                    </template>
-                                </div>
-                                <div class="flex flex-wrap items-center gap-3 pt-2">
-                                    <div class="flex items-center gap-1">
-                                        <span class="text-xs text-zinc-400 mr-1">Talla:</span>
-                                        <template x-for="t in tallasDe(prendaExclusiva)" :key="t">
-                                            <button type="button" @click="tallasCard[prendaExclusiva.id] = t" x-text="t"
-                                                    :class="tallaDeCard(prendaExclusiva) === t ? 'bg-amber-100 text-zinc-950 border-amber-100 font-semibold' : 'bg-zinc-900 border-zinc-800 text-zinc-300'"
-                                                    class="h-8 min-w-[32px] px-2 rounded-lg border text-xs transition"></button>
-                                        </template>
-                                    </div>
-                                    <button type="button" @click="reservarDesdeCard(prendaExclusiva)"
-                                            class="h-10 px-5 rounded-full bg-amber-100 hover:bg-white text-zinc-950 text-xs sm:text-sm font-semibold inline-flex items-center gap-2 transition">
-                                        <span>Anotarme en Lista VIP (Prioridad de Lote)</span>
-                                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                                    </button>
-                                    <a :href="'#/prenda/' + prendaExclusiva.id" class="h-10 px-4 rounded-full border border-zinc-700 hover:border-amber-200/50 text-xs sm:text-sm text-zinc-200 inline-flex items-center">
-                                        Ver detalles de sastrería
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-
                 <!-- Barra de filtros sticky en móvil -->
                 <div class="sticky top-14 sm:static z-30 bg-[#09090b]/95 backdrop-blur-md py-3 -mx-3.5 px-3.5 sm:mx-0 sm:px-0 border-b border-zinc-900/80 sm:border-none mt-3 sm:mt-6">
                     <div class="flex gap-2 overflow-x-auto no-scrollbar">
@@ -403,11 +327,9 @@
 
                 <div class="mt-5 sm:mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                     <template x-for="p in filtradas" :key="'c' + p.id">
-                        <div class="group flex flex-col justify-between rounded-2xl border p-2 sm:p-3 transition"
-                             :class="p.proximoLanzamiento ? 'border-amber-200/45 bg-gradient-to-b from-[#191610] to-zinc-950 ring-1 ring-amber-200/20' : 'border-zinc-900/90 bg-zinc-950/60 hover:border-zinc-700/80'">
+                        <div class="group flex flex-col justify-between rounded-2xl border border-zinc-900/90 bg-zinc-950/60 p-2 sm:p-3 hover:border-zinc-700/80 transition">
                             <div>
-                                <div class="aspect-[4/5] rounded-xl overflow-hidden border tile flex items-center justify-center relative"
-                                     :class="p.proximoLanzamiento ? 'border-amber-200/35' : 'border-zinc-900'">
+                                <div class="aspect-[4/5] rounded-xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative">
                                     <a :href="'#/prenda/' + p.id" class="w-full h-full flex items-center justify-center">
                                         <template x-if="imagenesDe(p).length > 0">
                                             <img :src="imagenesDe(p)[fotoDeCard(p)] || p.imagen_url" :alt="p.nombre" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">
@@ -418,8 +340,8 @@
                                     </a>
 
                                     <template x-if="p.proximoLanzamiento">
-                                        <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-amber-100 text-zinc-950 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider shadow">
-                                            Exclusivo · Margarita
+                                        <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/75 border border-zinc-800 text-zinc-200 text-[9px] sm:text-[10px] label-ui">
+                                            Hecho en Margarita
                                         </span>
                                     </template>
 
@@ -436,13 +358,12 @@
                                 </div>
 
                                 <div class="mt-2.5 px-0.5">
-                                    <p class="label-ui truncate" :class="p.proximoLanzamiento ? 'text-amber-200/90' : 'text-zinc-500'" x-text="p.proximoLanzamiento ? 'Confección Propia · Edición Limitada' : p.categoria"></p>
+                                    <p class="label-ui text-zinc-500 truncate" x-text="p.proximoLanzamiento ? 'Próxima Colección · Sastrería' : p.categoria"></p>
                                     <a :href="'#/prenda/' + p.id" class="block">
                                         <h3 class="serif text-[16px] sm:text-xl leading-snug mt-0.5 truncate hover:underline" x-text="p.nombre"></h3>
                                     </a>
-                                    <p class="text-xs sm:text-sm font-medium mt-0.5"
-                                       :class="p.proximoLanzamiento ? 'text-amber-100' : 'text-zinc-200'"
-                                       x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'En costeo local · Lista VIP abierta' : ('$' + Number(p.pvp).toFixed(2))"></p>
+                                    <p class="text-xs sm:text-sm text-zinc-300 font-medium mt-0.5"
+                                       x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'Precio por definir' : ('$' + Number(p.pvp).toFixed(2))"></p>
                                 </div>
                             </div>
 
@@ -464,8 +385,8 @@
                                 </template>
                                 <template x-if="p.proximoLanzamiento">
                                     <button type="button" @click="reservarDesdeCard(p)"
-                                            class="w-full h-9 rounded-xl bg-amber-100 hover:bg-white text-zinc-950 text-xs font-semibold flex items-center justify-center gap-1.5 transition">
-                                        <span>Acceso VIP · Reservar cupo</span>
+                                            class="w-full h-9 rounded-xl border border-zinc-700 hover:border-zinc-400 bg-zinc-900 text-zinc-100 text-xs font-medium flex items-center justify-center gap-1.5 transition">
+                                        <span>Lista de espera</span>
                                     </button>
                                 </template>
                                 <template x-if="!p.proximoLanzamiento && p.stock <= 0">
