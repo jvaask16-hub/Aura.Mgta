@@ -154,21 +154,28 @@ window.AURA_CONTENIDO = {
         ]
     },
 
-    // Próxima colección de confección propia en la Isla de Margarita
+    // Próxima colección exclusiva de confección propia en la Isla de Margarita
     proximaColeccion: {
         id: 1793713500001,
-        etiqueta: 'Próxima Colección · Confección Propia en Margarita',
+        etiqueta: 'Atelier Aura · Edición Exclusiva Hecha en Margarita',
+        sello: '1ra Colección Propia · Lote Limitado',
         nombre: 'Pantalones Bruno Sastre Baggy',
-        subtitulo: 'Nuestro primer corte de sastrería urbana confeccionado directamente en la Isla de Margarita por nuestros propios costureros.',
-        estadoPrecio: 'Precio por definir (En fase de costeo de telas y taller)',
+        subtitulo: 'Nuestra primera pieza de autor confeccionada íntegramente en la Isla de Margarita junto a nuestros propios costureros. Una silueta de sastrería contemporánea con pinzas dobles, pretina estructurada y caída baggy amplia que no existe en las tiendas de la isla.',
+        estadoPrecio: 'Lanzamiento Exclusivo · Precio en definición (costeo de telas y taller)',
+        etapas: [
+            { paso: '01', nombre: 'Diseño y Patronaje Baggy Sastre', estado: 'Completado' },
+            { paso: '02', nombre: 'Curaduría de Tela y Pruebas en Isla', estado: 'En curso' },
+            { paso: '03', nombre: 'Costeo con Costureros y Precio Oficial', estado: 'En curso' },
+            { paso: '04', nombre: 'Confección 1er Lote Limitado', estado: 'Próximo paso' }
+        ],
         detalles: [
-            { titulo: 'Hecho en Margarita', texto: 'Confección local junto a nuestros costureros en la isla, cuidando cada costura, pinza y acabado interno.' },
-            { titulo: 'Corte Bruno Sastre Baggy', texto: 'Fusión entre la elegancia de un pantalón de vestir con pinzas sastre y la caída amplia y relajada del corte baggy contemporáneo.' },
-            { titulo: 'Transparencia de Costos', texto: 'Actualmente seleccionando la tela ideal y definiendo costos de materiales y confección para ofrecer un precio justo y accesible.' }
+            { titulo: 'Confección Artesanal en Margarita', texto: 'Cero reventa masiva. Cada pantalón será cortado y cosido en la isla por nuestros costureros aliados, cuidando cada pinza, pretina y costura interna.' },
+            { titulo: 'Corte Bruno Sastre Baggy de Autor', texto: 'Fusión entre la elegancia de un pantalón de vestir con pinzas sastre y la caída amplia del corte baggy contemporáneo.' },
+            { titulo: 'Acceso Prioritario · 1er Lote Limitado', texto: 'Al ser nuestra primera producción local, los cupos por talla serán limitados. Anotarte en la Lista VIP te garantiza prioridad apenas anunciemos el precio oficial.' }
         ]
     },
 
-    // Catalogo de prendas y galerias de estudio unificadas (42 fotos en formato estudio 4:5)
+    // Catalogo de prendas y galerias de estudio unificadas
     catalogoEstudio: [
         {
             id: 1793713500001,
@@ -178,20 +185,26 @@ window.AURA_CONTENIDO = {
             pvp: 0,
             stock: 0,
             proximoLanzamiento: true,
+            exclusivo: true,
             hechoEnMargarita: true,
             genero: 'Unisex',
             tallas: 'S, M, L, XL',
             destacado: true,
-            imagen_url: '',
-            imagenes: [],
+            imagen_url: '/tienda/fotos/bruno-sastre-1.jpg?v=1',
+            imagenes: [
+                '/tienda/fotos/bruno-sastre-1.jpg?v=1',
+                '/tienda/fotos/bruno-sastre-2.jpg?v=1',
+                '/tienda/fotos/bruno-sastre-3.jpg?v=1',
+                '/tienda/fotos/bruno-sastre-4.jpg?v=1'
+            ],
             colores: ['Negro Sastre', 'Gris Carbón', 'Arena / Beige', 'Marrón Oscuro'],
-            descripcion: 'Próxima colección confeccionada directamente en la Isla de Margarita con nuestros costureros locales. Corte baggy de sastrería con pinzas frontales y caída estructurada. Precio en definición según selección final de telas y taller.',
+            descripcion: 'Edición Exclusiva · Primera colección de confección propia hecha directamente en la Isla de Margarita por nuestros costureros locales. Pantalón de autor con corte Bruno Sastre Baggy, pinzas dobles frontales, pretina de vestir estructurada y caída amplia sobre el calzado. Actualmente en cierre de costos de materiales y taller para anunciar su precio oficial.',
             ficha: {
-                tela: 'Tela de sastrería seleccionada (en fase de pruebas de gramaje y caída en Margarita)',
-                caida: 'Corte Bruno Sastre Baggy: cintura estructurada con pinzas y pierna ancha fluida',
-                tacto: 'Acabado suave de vestir con cuerpo firme que no pierde la línea',
-                elasticidad: 'Entalle sastre cómodo pensado para uso formal-urbano',
-                cuidado: 'Confección local reforzada por nuestros costureros en la isla'
+                tela: 'Casimir / Gabardina Sastre de caída pesada (en selección final de gramaje en Margarita)',
+                caida: 'Corte Bruno Sastre Baggy: cintura estructurada con pinzas dobles y pierna ancha fluida',
+                tacto: 'Acabado suave y elegante de sastrería con cuerpo firme que mantiene la línea',
+                elasticidad: 'Pretina sastre firme con trabillas para cinturón y calce holgado de alta comodidad',
+                cuidado: 'Confección artesanal reforzada por nuestros costureros en la Isla de Margarita'
             }
         },
         {
