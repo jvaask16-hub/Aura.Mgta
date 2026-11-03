@@ -4,7 +4,7 @@
    ============================================================ */
 window.AURA_CONTENIDO = {
     // Numero de WhatsApp de la tienda en formato internacional, solo digitos. Ej: '584121234567'
-    whatsapp: '',
+    whatsapp: '584160306788',
     instagram: '',
 
     hero: {
