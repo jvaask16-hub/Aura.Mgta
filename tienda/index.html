@@ -2,9 +2,12 @@
 <html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>aura.mgta — Colección, historia y comunidad</title>
-    <meta name="description" content="aura.mgta: ropa seleccionada con criterio. Conoce nuestras prendas, quiénes somos y por qué nacimos.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#09090b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>aura.mgta — Colección, identidad y comunidad</title>
+    <meta name="description" content="aura.mgta: ropa seleccionada con criterio en Isla de Margarita. Conoce nuestras prendas, quiénes somos, por qué nacimos y nuestra comunidad.">
     <link rel="icon" type="image/png" href="../logo-square.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -20,47 +23,62 @@
     <style>
         [x-cloak] { display: none !important; }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Outfit', sans-serif; font-weight: 300; font-size: 17px; line-height: 1.65; letter-spacing: 0.005em; -webkit-font-smoothing: antialiased; background: #09090b; color: #f4f4f5;
-               -webkit-tap-highlight-color: transparent; font-variant-numeric: lining-nums; }
-        .serif { font-family: 'Outfit', sans-serif; font-weight: 300; letter-spacing: -0.01em; line-height: 1.08; font-variant-numeric: lining-nums; }
-        .label-ui { font-size: 12px; letter-spacing: .24em; text-transform: uppercase; font-weight: 400; }
-        .no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { scrollbar-width: none; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 16px;
+            line-height: 1.6;
+            letter-spacing: 0.005em;
+            -webkit-font-smoothing: antialiased;
+            background: #09090b;
+            color: #f4f4f5;
+            -webkit-tap-highlight-color: transparent;
+            font-variant-numeric: lining-nums;
+            padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+        }
+        @media (min-width: 768px) {
+            body { font-size: 17px; line-height: 1.65; padding-bottom: 0; }
+        }
+        .serif { font-family: 'Outfit', sans-serif; font-weight: 300; letter-spacing: -0.015em; line-height: 1.08; font-variant-numeric: lining-nums; }
+        .label-ui { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 400; }
+        @media (min-width: 640px) { .label-ui { font-size: 12px; letter-spacing: .24em; } }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .tile { background: #141416; }
-        .fade-in { animation: fade .5s ease both; }
-        @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+        .fade-in { animation: fade .35s ease both; }
+        @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
     </style>
 </head>
 <body x-data="tienda()" x-init="init()" class="min-h-screen flex flex-col overflow-x-hidden">
 
-    <!-- NAVEGACION -->
-    <header class="sticky top-0 z-40 border-b border-zinc-900 bg-[#09090b]/90 backdrop-blur-md">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-            <a href="#/" class="flex-shrink-0"><img src="../logo.png" alt="AURA" class="h-6 w-auto"></a>
+    <!-- CABECERA SUPERIOR -->
+    <header class="sticky top-0 z-40 border-b border-zinc-900/90 bg-[#09090b]/95 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-3">
+            <a href="#/" class="flex items-center gap-2.5 flex-shrink-0">
+                <img src="../logo.png" alt="AURA" class="h-5 sm:h-6 w-auto">
+            </a>
 
+            <!-- Navegación Desktop -->
             <nav class="hidden md:flex items-center gap-8 text-[13px] tracking-wide text-zinc-400">
                 <template x-for="l in links" :key="l.ruta">
                     <a :href="'#/' + l.ruta" x-text="l.texto"
-                       :class="vista === l.ruta ? 'text-white' : 'hover:text-white'" class="transition"></a>
+                       :class="vista === l.ruta ? 'text-white font-medium' : 'hover:text-white'" class="transition"></a>
                 </template>
             </nav>
 
+            <!-- Acciones Derecha -->
             <div class="flex items-center gap-2">
-                <button @click="bolsaAbierta = true" class="relative h-10 px-3.5 rounded-full border border-zinc-800 hover:border-zinc-600 text-sm flex items-center gap-2 transition">
+                <a href="#/nosotros" class="md:hidden h-8 px-3 rounded-full border text-[11px] tracking-wider uppercase flex items-center transition"
+                   :class="vista === 'nosotros' ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'border-zinc-800 text-zinc-300'">
+                    Quiénes somos
+                </a>
+                <button @click="bolsaAbierta = true" class="relative h-9 sm:h-10 px-3 sm:px-3.5 rounded-full border border-zinc-800 hover:border-zinc-600 text-xs sm:text-sm flex items-center gap-1.5 transition">
                     <i data-lucide="shopping-bag" class="w-4 h-4"></i>
                     <span class="hidden sm:inline">Bolsa</span>
                     <span x-show="totalPiezas > 0" x-text="totalPiezas" class="min-w-[18px] h-[18px] px-1 rounded-full bg-zinc-100 text-zinc-950 text-[10px] font-bold flex items-center justify-center"></span>
                 </button>
-                <button @click="menuAbierto = !menuAbierto" class="md:hidden h-10 w-10 rounded-full border border-zinc-800 flex items-center justify-center">
-                    <span x-show="!menuAbierto" class="text-lg leading-none">&#9776;</span>
-                    <span x-show="menuAbierto" class="text-lg leading-none">&#10005;</span>
-                </button>
             </div>
-        </div>
-        <div x-show="menuAbierto" x-cloak class="md:hidden border-t border-zinc-900 px-4 py-3 space-y-1">
-            <template x-for="l in links" :key="'m' + l.ruta">
-                <a :href="'#/' + l.ruta" @click="menuAbierto = false" x-text="l.texto"
-                   class="block py-2.5 text-zinc-300 text-sm"></a>
-            </template>
         </div>
     </header>
 
@@ -68,26 +86,45 @@
 
         <!-- ================= INICIO ================= -->
         <section x-show="vista === 'inicio'" x-cloak class="fade-in">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-28 pb-14 sm:pb-24">
-                <p class="label-ui text-zinc-500" x-text="c.hero.etiqueta"></p>
-                <h1 class="serif text-5xl sm:text-7xl lg:text-8xl mt-5 max-w-4xl" x-text="c.hero.titulo"></h1>
-                <p class="mt-6 text-zinc-400 max-w-xl text-base sm:text-[17px] leading-[1.75]" x-text="c.hero.subtitulo"></p>
-                <div class="mt-9 flex flex-wrap gap-3">
-                    <a href="#/coleccion" class="h-12 px-7 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold flex items-center gap-2 hover:bg-white transition">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-24 pb-10 sm:pb-20">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/90 border border-zinc-800 label-ui text-zinc-400" x-text="c.hero.etiqueta"></span>
+                <h1 class="serif text-[34px] sm:text-6xl lg:text-7xl mt-4 sm:mt-6 max-w-4xl leading-[1.08]" x-text="c.hero.titulo"></h1>
+                <p class="mt-4 sm:mt-6 text-zinc-400 max-w-xl text-[15px] sm:text-[17px] leading-[1.65]" x-text="c.hero.subtitulo"></p>
+
+                <!-- Botones adaptados a pulgar en móvil -->
+                <div class="mt-6 sm:mt-9 grid grid-cols-1 sm:flex sm:flex-wrap gap-2.5 sm:gap-3">
+                    <a href="#/coleccion" class="h-12 px-6 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold flex items-center justify-center gap-2 hover:bg-white active:scale-[0.99] transition">
                         Ver la colección <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
-                    <a href="#/nosotros" class="h-12 px-7 rounded-full border border-zinc-700 text-sm flex items-center hover:border-zinc-400 transition">Quiénes somos y por qué nacimos</a>
+                    <a href="#/nosotros" class="h-12 px-6 rounded-full border border-zinc-700 bg-zinc-950/60 text-sm flex items-center justify-center gap-2 hover:border-zinc-400 active:scale-[0.99] transition">
+                        Quiénes somos y por qué nacimos
+                    </a>
+                </div>
+
+                <!-- Resumen móvil rápido de los 4 pilares en Inicio -->
+                <div class="mt-8 pt-6 border-t border-zinc-900/80 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    <template x-for="pilar in c.nosotros.pilares" :key="'h' + pilar.numero">
+                        <a href="#/nosotros" class="p-3.5 rounded-2xl bg-zinc-950 border border-zinc-900 active:border-zinc-700 transition block">
+                            <span class="text-[11px] font-medium text-zinc-500" x-text="pilar.numero + ' · ' + pilar.categoria"></span>
+                            <p class="serif text-[15px] sm:text-base text-zinc-100 mt-1 leading-snug" x-text="pilar.titulo"></p>
+                        </a>
+                    </template>
                 </div>
             </div>
 
             <!-- Piezas destacadas -->
             <div class="border-t border-zinc-900">
-                <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
-                    <div class="flex items-end justify-between mb-8">
-                        <h2 class="serif text-3xl sm:text-4xl">Piezas del momento</h2>
-                        <a href="#/coleccion" class="text-sm text-zinc-300 hover:text-white transition">Ver todo</a>
+                <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-10 sm:py-20">
+                    <div class="flex items-end justify-between mb-5 sm:mb-8 px-0.5">
+                        <div>
+                            <p class="label-ui text-zinc-500">Estudio 4:5</p>
+                            <h2 class="serif text-2xl sm:text-4xl mt-1">Piezas del momento</h2>
+                        </div>
+                        <a href="#/coleccion" class="text-xs sm:text-sm text-zinc-300 hover:text-white flex items-center gap-1 transition">
+                            Ver todo <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                        </a>
                     </div>
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                         <template x-for="p in destacadas" :key="'d' + p.id">
                             <div x-html="tarjeta(p)"></div>
                         </template>
@@ -97,40 +134,46 @@
 
             <!-- Manifiesto -->
             <div class="border-t border-zinc-900">
-                <div class="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center space-y-6">
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-24 text-center space-y-4 sm:space-y-6">
+                    <p class="label-ui text-zinc-500">Manifiesto Aura</p>
                     <template x-for="(m, i) in c.manifiesto" :key="i">
-                        <p class="serif text-2xl sm:text-3xl text-zinc-300 leading-snug" :class="i === c.manifiesto.length - 1 ? 'text-white' : ''" x-text="m"></p>
+                        <p class="serif text-xl sm:text-3xl text-zinc-300 leading-snug" :class="i === c.manifiesto.length - 1 ? 'text-white' : ''" x-text="m"></p>
                     </template>
-                    <a href="#/nosotros" class="inline-flex items-center gap-2 mt-4 text-sm text-zinc-300 hover:text-white transition">
-                        Conócenos <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </a>
+                    <div class="pt-2">
+                        <a href="#/nosotros" class="inline-flex items-center gap-2 h-10 px-5 rounded-full border border-zinc-800 text-xs sm:text-sm text-zinc-200 hover:border-zinc-500 transition">
+                            Conoce nuestros 4 pilares <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- ================= COLECCION ================= -->
         <section x-show="vista === 'coleccion'" x-cloak class="fade-in">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-                <p class="label-ui text-zinc-500">Colección</p>
-                <h1 class="serif text-4xl sm:text-6xl mt-3">Nuestras prendas</h1>
-
-                <div x-show="generos.length > 2" class="mt-8 flex gap-2">
-                    <template x-for="g in generos" :key="g">
-                        <button @click="genero = g" x-text="g" :class="genero === g ? 'text-white border-b-2 border-white' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'" class="pb-1.5 text-sm font-medium transition"></button>
-                    </template>
-                </div>
-                <div class="mt-6 flex gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
-                    <template x-for="cat in categorias" :key="cat">
-                        <button @click="filtro = cat" x-text="cat"
-                                :class="filtro === cat ? 'bg-zinc-100 text-zinc-950 border-zinc-100' : 'border-zinc-800 text-zinc-400 hover:border-zinc-600'"
-                                class="flex-shrink-0 h-9 px-4 rounded-full border text-[13px] transition"></button>
-                    </template>
+            <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-6 sm:py-16">
+                <div class="px-0.5">
+                    <p class="label-ui text-zinc-500">Catálogo de Estudio</p>
+                    <div class="flex items-baseline justify-between gap-2 mt-1.5">
+                        <h1 class="serif text-3xl sm:text-6xl">Nuestras prendas</h1>
+                        <span class="text-xs text-zinc-500" x-text="filtradas.length + ' piezas'"></span>
+                    </div>
                 </div>
 
-                <div x-show="cargando" class="py-24 text-center text-zinc-500 text-sm">Cargando colección...</div>
-                <div x-show="!cargando && filtradas.length === 0" class="py-24 text-center text-zinc-500 text-sm">Pronto habrá nuevas piezas en esta categoría.</div>
+                <!-- Barra de filtros sticky en móvil -->
+                <div class="sticky top-14 sm:static z-30 bg-[#09090b]/95 backdrop-blur-md py-3 -mx-3.5 px-3.5 sm:mx-0 sm:px-0 border-b border-zinc-900/80 sm:border-none mt-3 sm:mt-6">
+                    <div class="flex gap-2 overflow-x-auto no-scrollbar">
+                        <template x-for="cat in categorias" :key="cat">
+                            <button @click="filtro = cat" x-text="cat"
+                                    :class="filtro === cat ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 border-zinc-800 text-zinc-400'"
+                                    class="flex-shrink-0 h-9 px-4 rounded-full border text-xs sm:text-[13px] transition active:scale-95"></button>
+                        </template>
+                    </div>
+                </div>
 
-                <div class="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div x-show="cargando" class="py-20 text-center text-zinc-500 text-sm">Cargando colección...</div>
+                <div x-show="!cargando && filtradas.length === 0" class="py-20 text-center text-zinc-500 text-sm">Pronto habrá nuevas piezas en esta categoría.</div>
+
+                <div class="mt-5 sm:mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                     <template x-for="p in filtradas" :key="'c' + p.id">
                         <div x-html="tarjeta(p)"></div>
                     </template>
@@ -138,44 +181,58 @@
             </div>
         </section>
 
-        <!-- ================= DETALLE DE PRENDA ================= -->
+        <!-- ================= DETALLE DE PRENDA (OPTIMIZADO MÓVIL) ================= -->
         <section x-show="vista === 'prenda'" x-cloak class="fade-in">
             <template x-if="actual">
-                <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-14">
-                    <a href="#/coleccion" class="inline-flex items-center gap-2 text-sm text-zinc-300 hover:text-white transition mb-6">
-                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Colección
-                    </a>
-                    <div class="grid md:grid-cols-2 gap-8 lg:gap-14">
-                        <div class="space-y-3">
-                            <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative group">
+                <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-4 sm:py-12 pb-24 sm:pb-14">
+                    <!-- Barra superior de retorno rápida -->
+                    <div class="flex items-center justify-between mb-3 sm:mb-6">
+                        <a href="#/coleccion" class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs sm:text-sm text-zinc-200 hover:text-white transition">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Colección
+                        </a>
+                        <span class="label-ui text-zinc-500" x-text="actual.categoria"></span>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 lg:gap-14">
+                        <!-- Galería con soporte Swipe táctil en móvil -->
+                        <div class="space-y-2.5">
+                            <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative select-none"
+                                 @touchstart.passive="touchStartX = $event.changedTouches[0].screenX"
+                                 @touchend.passive="manejarSwipe($event.changedTouches[0].screenX)">
                                 <template x-if="imagenesDe(actual).length > 0">
                                     <img :src="imagenesDe(actual)[fotoActiva] || actual.imagen_url" :alt="actual.nombre" class="w-full h-full object-cover transition duration-300">
                                 </template>
                                 <template x-if="imagenesDe(actual).length === 0">
-                                    <span class="serif text-8xl text-zinc-700" x-text="iniciales(actual.nombre)"></span>
+                                    <span class="serif text-7xl text-zinc-700" x-text="iniciales(actual.nombre)"></span>
+                                </template>
+
+                                <!-- Etiqueta del tono activo sobre la foto en móvil -->
+                                <template x-if="coloresDe(actual).length > 0">
+                                    <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/75 backdrop-blur-sm border border-zinc-800 text-[11px] text-zinc-200"
+                                          x-text="coloresDe(actual)[fotoActiva] || coloresDe(actual)[0]"></span>
                                 </template>
 
                                 <template x-if="imagenesDe(actual).length > 1">
                                     <div>
-                                        <button type="button" @click="cambiarFoto(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/60 hover:bg-black/85 border border-zinc-700/80 text-white flex items-center justify-center transition">
+                                        <button type="button" @click="cambiarFoto(-1)" aria-label="Foto anterior" class="absolute left-2.5 top-1/2 -translate-y-1/2 h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-black/65 hover:bg-black/85 border border-zinc-700/80 text-white flex items-center justify-center active:scale-95 transition">
                                             <i data-lucide="chevron-left" class="w-4 h-4"></i>
                                         </button>
-                                        <button type="button" @click="cambiarFoto(1)" class="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/60 hover:bg-black/85 border border-zinc-700/80 text-white flex items-center justify-center transition">
+                                        <button type="button" @click="cambiarFoto(1)" aria-label="Foto siguiente" class="absolute right-2.5 top-1/2 -translate-y-1/2 h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-black/65 hover:bg-black/85 border border-zinc-700/80 text-white flex items-center justify-center active:scale-95 transition">
                                             <i data-lucide="chevron-right" class="w-4 h-4"></i>
                                         </button>
-                                        <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/70 border border-zinc-800 text-[11px] text-zinc-300"
+                                        <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/75 border border-zinc-800 text-[11px] text-zinc-200"
                                               x-text="(fotoActiva + 1) + ' / ' + imagenesDe(actual).length"></span>
                                     </div>
                                 </template>
                             </div>
 
-                            <!-- Miniaturas de estudio -->
+                            <!-- Carrusel horizontal de miniaturas táctiles en móvil, grilla en desktop -->
                             <template x-if="imagenesDe(actual).length > 1">
-                                <div class="grid grid-cols-5 gap-2">
+                                <div class="flex sm:grid sm:grid-cols-5 gap-2 overflow-x-auto no-scrollbar pb-1 snap-x">
                                     <template x-for="(imgUrl, idx) in imagenesDe(actual)" :key="imgUrl">
                                         <button type="button" @click="fotoActiva = idx"
-                                                :class="fotoActiva === idx ? 'border-white ring-1 ring-white/40 opacity-100' : 'border-zinc-900 opacity-60 hover:opacity-90'"
-                                                class="aspect-[4/5] rounded-xl overflow-hidden border tile transition">
+                                                :class="fotoActiva === idx ? 'border-white ring-1 ring-white/50 opacity-100' : 'border-zinc-900 opacity-55 hover:opacity-90'"
+                                                class="snap-start flex-shrink-0 w-16 sm:w-auto aspect-[4/5] rounded-xl overflow-hidden border tile transition">
                                             <img :src="imgUrl" :alt="actual.nombre + ' ' + (idx + 1)" class="w-full h-full object-cover">
                                         </button>
                                     </template>
@@ -183,80 +240,88 @@
                             </template>
                         </div>
 
-                        <div class="md:py-6">
-                            <p class="label-ui text-zinc-500" x-text="actual.categoria"></p>
-                            <h1 class="serif text-4xl sm:text-5xl mt-3 leading-tight" x-text="actual.nombre"></h1>
-                            <p class="text-2xl mt-4" x-text="'$' + Number(actual.pvp).toFixed(2)"></p>
-                            <p class="text-zinc-400 mt-6 leading-relaxed" x-text="actual.descripcion || 'Una pieza seleccionada por nuestro equipo. Escríbenos y te asesoramos con la talla y el estilo.'"></p>
+                        <!-- Información y selectores -->
+                        <div class="md:py-2">
+                            <div class="flex items-start justify-between gap-3">
+                                <h1 class="serif text-3xl sm:text-5xl leading-tight" x-text="actual.nombre"></h1>
+                                <p class="serif text-2xl sm:text-3xl text-white flex-shrink-0" x-text="'$' + Number(actual.pvp).toFixed(2)"></p>
+                            </div>
+                            <p class="text-zinc-400 text-sm sm:text-base mt-3 sm:mt-5 leading-relaxed" x-text="actual.descripcion || 'Una pieza seleccionada por nuestro equipo. Escríbenos y te asesoramos con la talla y el estilo.'"></p>
 
+                            <!-- Selector de Tono / Variante -->
                             <template x-if="coloresDe(actual).length > 0">
-                                <div class="mt-7">
-                                    <p class="label-ui text-zinc-500 mb-3">Tono / Variante: <span class="text-zinc-200" x-text="coloresDe(actual)[fotoActiva] || coloresDe(actual)[0]"></span></p>
-                                    <div class="flex flex-wrap gap-2">
+                                <div class="mt-5 sm:mt-7">
+                                    <div class="flex items-center justify-between mb-2.5">
+                                        <p class="label-ui text-zinc-500">Color / Variante</p>
+                                        <span class="text-xs text-zinc-200 font-medium" x-text="coloresDe(actual)[fotoActiva] || coloresDe(actual)[0]"></span>
+                                    </div>
+                                    <div class="flex sm:flex-wrap gap-2 overflow-x-auto no-scrollbar pb-1 -mx-3.5 px-3.5 sm:mx-0 sm:px-0">
                                         <template x-for="(col, idx) in coloresDe(actual)" :key="col">
                                             <button type="button" @click="fotoActiva = idx" x-text="col"
-                                                    :class="fotoActiva === idx ? 'bg-zinc-100 text-zinc-950 border-zinc-100' : 'border-zinc-800 text-zinc-300 hover:border-zinc-500'"
-                                                    class="h-10 px-4 rounded-xl border text-xs transition"></button>
+                                                    :class="fotoActiva === idx ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 border-zinc-800 text-zinc-300'"
+                                                    class="flex-shrink-0 h-9 sm:h-10 px-3.5 rounded-xl border text-xs transition active:scale-95"></button>
                                         </template>
                                     </div>
                                 </div>
                             </template>
 
-                            <div class="mt-8" x-show="actual.stock > 0">
-                                <p class="label-ui text-zinc-500 mb-3">Talla</p>
-                                <div class="flex flex-wrap gap-2">
+                            <!-- Selector de Talla -->
+                            <div class="mt-5 sm:mt-7" x-show="actual.stock > 0">
+                                <div class="flex items-center justify-between mb-2.5">
+                                    <p class="label-ui text-zinc-500">Selecciona tu talla</p>
+                                    <button type="button" @click="consultarTallaWhatsApp(actual)" class="text-xs text-zinc-300 underline hover:text-white">
+                                        ¿Dudas? Pedir medidas en cm
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-4 sm:flex sm:flex-wrap gap-2">
                                     <template x-for="t in tallasDe(actual)" :key="t">
                                         <button @click="tallaSel = t" x-text="t"
-                                                :class="tallaSel === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100' : 'border-zinc-800 text-zinc-300 hover:border-zinc-500'"
-                                                class="min-w-[48px] h-11 px-4 rounded-xl border text-sm transition"></button>
+                                                :class="tallaSel === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-950 border-zinc-800 text-zinc-300'"
+                                                class="h-11 px-4 rounded-xl border text-sm transition active:scale-95"></button>
                                     </template>
                                 </div>
-                                <button @click="agregar(actual)" class="mt-6 w-full sm:w-auto h-12 px-9 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white transition flex items-center justify-center gap-2">
-                                    <i data-lucide="shopping-bag" class="w-4 h-4"></i> Añadir a la bolsa
-                                </button>
-                                <p x-show="actual.stock <= 3" class="mt-4 text-xs text-zinc-500" x-text="'Quedan ' + actual.stock + ' unidades'"></p>
-                            </div>
-                            <div x-show="actual.stock <= 0" class="mt-8 text-sm text-zinc-500">Agotado por ahora. Escríbenos para avisarte cuando regrese.</div>
 
-                            <!-- Ficha Técnica y Transparencia (Pilar 1) -->
+                                <!-- Botones de acción en móvil y desktop -->
+                                <div class="mt-5 grid grid-cols-1 sm:flex gap-2.5">
+                                    <button @click="agregar(actual)" class="h-12 px-8 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white active:scale-[0.99] transition flex items-center justify-center gap-2">
+                                        <i data-lucide="shopping-bag" class="w-4 h-4"></i> Añadir a la bolsa
+                                    </button>
+                                    <button type="button" @click="consultarTallaWhatsApp(actual)" class="h-12 px-5 rounded-full border border-zinc-800 bg-zinc-950 text-xs sm:text-sm text-zinc-200 hover:border-zinc-500 transition flex items-center justify-center gap-2">
+                                        <i data-lucide="ruler" class="w-4 h-4"></i> Asesoría de talla en vivo
+                                    </button>
+                                </div>
+                                <p x-show="actual.stock <= 3" class="mt-3 text-xs text-zinc-500" x-text="'Quedan ' + actual.stock + ' unidades disponibles'"></p>
+                            </div>
+                            <div x-show="actual.stock <= 0" class="mt-6 text-sm text-zinc-500">Agotado por ahora. Escríbenos para avisarte cuando regrese.</div>
+
+                            <!-- Ficha Técnica y Transparencia (Pilar 1) adaptada a lectura móvil -->
                             <template x-if="actual.ficha">
-                                <div class="mt-9 pt-8 border-t border-zinc-900 space-y-4">
+                                <div class="mt-7 pt-6 border-t border-zinc-900 space-y-3">
                                     <div class="flex items-center justify-between">
-                                        <p class="label-ui text-zinc-400">Ficha Técnica y Transparencia</p>
-                                        <span class="text-[11px] text-zinc-500">Sin rodeos</span>
+                                        <p class="label-ui text-zinc-300">Ficha Técnica y Transparencia</p>
+                                        <span class="text-[11px] px-2 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400">Sin rodeos</span>
                                     </div>
-                                    <div class="grid gap-3 text-sm">
-                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900">
-                                            <span class="text-xs uppercase tracking-wider text-zinc-500 block">Tela y densidad</span>
-                                            <span class="text-zinc-200 mt-0.5 block" x-text="actual.ficha.tela"></span>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm">
+                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900 sm:col-span-2">
+                                            <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Tela y densidad</span>
+                                            <span class="text-zinc-200 mt-0.5 block leading-snug" x-text="actual.ficha.tela"></span>
+                                        </div>
+                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900 sm:col-span-2">
+                                            <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Caída y calce</span>
+                                            <span class="text-zinc-200 mt-0.5 block leading-snug" x-text="actual.ficha.caida"></span>
                                         </div>
                                         <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900">
-                                            <span class="text-xs uppercase tracking-wider text-zinc-500 block">Caída y calce</span>
-                                            <span class="text-zinc-200 mt-0.5 block" x-text="actual.ficha.caida"></span>
-                                        </div>
-                                        <div class="grid sm:grid-cols-2 gap-3">
-                                            <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900">
-                                                <span class="text-xs uppercase tracking-wider text-zinc-500 block">Sensación al tacto</span>
-                                                <span class="text-zinc-300 mt-0.5 block text-xs leading-relaxed" x-text="actual.ficha.tacto"></span>
-                                            </div>
-                                            <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900">
-                                                <span class="text-xs uppercase tracking-wider text-zinc-500 block">Elasticidad</span>
-                                                <span class="text-zinc-300 mt-0.5 block text-xs leading-relaxed" x-text="actual.ficha.elasticidad"></span>
-                                            </div>
+                                            <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Sensación al tacto</span>
+                                            <span class="text-zinc-300 mt-0.5 block leading-snug" x-text="actual.ficha.tacto"></span>
                                         </div>
                                         <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900">
-                                            <span class="text-xs uppercase tracking-wider text-zinc-500 block">Cuidado y lavado</span>
-                                            <span class="text-zinc-300 mt-0.5 block text-xs leading-relaxed" x-text="actual.ficha.cuidado"></span>
+                                            <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Elasticidad</span>
+                                            <span class="text-zinc-300 mt-0.5 block leading-snug" x-text="actual.ficha.elasticidad"></span>
                                         </div>
-                                    </div>
-                                    <div class="p-4 rounded-xl bg-zinc-900/40 border border-zinc-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                                        <div>
-                                            <p class="text-xs font-medium text-zinc-200">Asesoría directa de tallas en centímetros</p>
-                                            <p class="text-xs text-zinc-400 mt-0.5">¿Dudas entre dos tallas o cómo te queda según tu contextura? Te medimos la prenda en vivo antes de pagar.</p>
+                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900 sm:col-span-2">
+                                            <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Cuidado al lavar</span>
+                                            <span class="text-zinc-300 mt-0.5 block leading-snug" x-text="actual.ficha.cuidado"></span>
                                         </div>
-                                        <button type="button" @click="consultarTallaWhatsApp(actual)" class="flex-shrink-0 h-9 px-4 rounded-full border border-zinc-700 hover:border-zinc-400 text-xs font-medium text-zinc-100 transition">
-                                            Pedir medidas en cm
-                                        </button>
                                     </div>
                                 </div>
                             </template>
@@ -265,56 +330,90 @@
                 </div>
             </template>
             <template x-if="!actual && !cargando">
-                <div class="py-32 text-center text-zinc-500 text-sm">Esta prenda ya no está disponible. <a href="#/coleccion" class="underline">Volver a la colección</a></div>
+                <div class="py-28 text-center text-zinc-500 text-sm">Esta prenda ya no está disponible. <a href="#/coleccion" class="underline">Volver a la colección</a></div>
             </template>
         </section>
 
-        <!-- ================= QUIÉNES SOMOS Y POR QUÉ NACIMOS (UNIFICADO) ================= -->
+        <!-- ================= QUIÉNES SOMOS Y POR QUÉ NACIMOS (PRESENTACIÓN MÓVIL INTERACTIVA) ================= -->
         <section x-show="vista === 'nosotros'" x-cloak class="fade-in">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-24">
-                <p class="label-ui text-zinc-500" x-text="c.nosotros.etiqueta || 'aura.mgta'"></p>
-                <h1 class="serif text-4xl sm:text-6xl lg:text-7xl mt-3 max-w-4xl" x-text="c.nosotros.titulo"></h1>
-                <p class="serif text-xl sm:text-2xl text-zinc-200 mt-8 max-w-3xl leading-relaxed" x-text="c.nosotros.intro"></p>
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-20">
+                <!-- Encabezado Editorial Compacto para Móvil -->
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-400" x-text="c.nosotros.etiqueta || 'aura.mgta'"></span>
+                <h1 class="serif text-[32px] sm:text-6xl lg:text-7xl mt-3.5 max-w-4xl leading-[1.1]" x-text="c.nosotros.titulo"></h1>
+                <p class="serif text-lg sm:text-2xl text-zinc-200 mt-4 sm:mt-7 max-w-3xl leading-relaxed" x-text="c.nosotros.intro"></p>
 
-                <div class="mt-6 space-y-4 text-zinc-400 text-base sm:text-[17px] leading-[1.75] max-w-3xl">
+                <div class="mt-4 sm:mt-6 space-y-3 text-zinc-400 text-sm sm:text-[17px] leading-[1.7] max-w-3xl">
                     <template x-for="(t, i) in c.nosotros.parrafos" :key="i">
                         <p x-text="t"></p>
                     </template>
                 </div>
 
-                <!-- Los 4 Pilares Fundamentales -->
-                <div class="mt-16 space-y-8">
-                    <div class="border-b border-zinc-900 pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-                        <div>
-                            <p class="label-ui text-zinc-500">Nuestros 4 Pilares</p>
-                            <h2 class="serif text-3xl sm:text-4xl mt-1">Por qué nacimos y hacia dónde vamos</h2>
-                        </div>
-                        <span class="text-xs text-zinc-500">Transparencia · Curaduría · Comunidad · Impacto Local</span>
+                <!-- Selector Rápido de los 4 Pilares (Modo Presentación en Móvil) -->
+                <div class="mt-8 sm:mt-14">
+                    <div class="flex items-center justify-between mb-3">
+                        <p class="label-ui text-zinc-400">Nuestros 4 Pilares Fundamentales</p>
+                        <button type="button" @click="pilarFiltro = (pilarFiltro === 'todos' ? '01' : 'todos')"
+                                class="md:hidden text-xs text-zinc-300 underline"
+                                x-text="pilarFiltro === 'todos' ? 'Ver uno por uno' : 'Ver los 4 juntos'"></button>
                     </div>
 
-                    <div class="grid gap-6">
+                    <!-- Tabs táctiles para navegar los 4 pilares en el teléfono -->
+                    <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+                        <button type="button" @click="pilarFiltro = 'todos'"
+                                :class="pilarFiltro === 'todos' ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 text-zinc-400 border-zinc-800'"
+                                class="flex-shrink-0 h-9 px-3.5 rounded-full border text-xs transition">
+                            Todos (4)
+                        </button>
+                        <template x-for="pilar in c.nosotros.pilares" :key="'tab' + pilar.numero">
+                            <button type="button" @click="pilarFiltro = pilar.numero"
+                                    :class="pilarFiltro === pilar.numero ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 text-zinc-400 border-zinc-800'"
+                                    class="flex-shrink-0 h-9 px-3.5 rounded-full border text-xs transition flex items-center gap-1.5">
+                                <span x-text="pilar.numero"></span>
+                                <span x-text="pilar.categoria"></span>
+                            </button>
+                        </template>
+                    </div>
+
+                    <!-- Tarjetas de los 4 Pilares -->
+                    <div class="mt-4 grid gap-4 sm:gap-6">
                         <template x-for="pilar in c.nosotros.pilares" :key="pilar.numero">
-                            <div class="p-6 sm:p-8 rounded-2xl border border-zinc-900 bg-zinc-950/90 space-y-6">
-                                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-zinc-900 pb-5">
-                                    <div class="flex items-baseline gap-4">
-                                        <span class="serif text-3xl sm:text-4xl text-zinc-600" x-text="pilar.numero"></span>
+                            <div x-show="pilarFiltro === 'todos' || pilarFiltro === pilar.numero"
+                                 class="p-5 sm:p-8 rounded-2xl border border-zinc-900 bg-zinc-950/95 space-y-4 sm:space-y-6 transition">
+                                <div class="flex items-start justify-between gap-3 border-b border-zinc-900 pb-4">
+                                    <div class="flex items-start gap-3 sm:gap-4">
+                                        <span class="serif text-2xl sm:text-4xl text-zinc-500 leading-none mt-0.5" x-text="pilar.numero"></span>
                                         <div>
                                             <p class="label-ui text-zinc-500" x-text="pilar.categoria"></p>
-                                            <h3 class="serif text-2xl sm:text-3xl text-white mt-1" x-text="pilar.titulo"></h3>
+                                            <h2 class="serif text-xl sm:text-3xl text-white mt-1 leading-snug" x-text="pilar.titulo"></h2>
+                                            <p class="text-xs sm:text-sm text-zinc-400 mt-1.5 leading-relaxed" x-text="pilar.resumen"></p>
                                         </div>
                                     </div>
-                                    <p class="text-xs sm:text-sm text-zinc-400 max-w-md" x-text="pilar.resumen"></p>
                                 </div>
 
-                                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    <template x-for="pt in pilar.puntos" :key="pt.subtitulo">
-                                        <div class="p-5 rounded-xl bg-[#0d0d10] border border-zinc-900/90 flex flex-col justify-between">
+                                <!-- Sub-bloques del pilar -->
+                                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                                    <template x-for="(pt, idxPt) in pilar.puntos" :key="pt.subtitulo">
+                                        <div class="p-4 sm:p-5 rounded-xl bg-[#0d0d10] border border-zinc-900/90 flex flex-col justify-between">
                                             <div>
-                                                <h4 class="text-base font-medium text-zinc-100" x-text="pt.subtitulo"></h4>
-                                                <p class="text-sm text-zinc-400 mt-2 leading-relaxed" x-text="pt.texto"></p>
+                                                <div class="flex items-center gap-2">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 flex-shrink-0"></span>
+                                                    <h3 class="text-sm sm:text-base font-medium text-zinc-100" x-text="pt.subtitulo"></h3>
+                                                </div>
+                                                <p class="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed" x-text="pt.texto"></p>
                                             </div>
                                         </div>
                                     </template>
+                                </div>
+
+                                <!-- Controles Siguiente Pilar cuando está en modo diapositiva móvil -->
+                                <div x-show="pilarFiltro !== 'todos'" class="pt-2 flex items-center justify-between text-xs text-zinc-400">
+                                    <button type="button" @click="cambiarPilar(-1)" class="h-9 px-3.5 rounded-full border border-zinc-800 text-zinc-200 flex items-center gap-1">
+                                        <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i> Anterior
+                                    </button>
+                                    <span x-text="'Pilar ' + pilar.numero + ' de 04'"></span>
+                                    <button type="button" @click="cambiarPilar(1)" class="h-9 px-3.5 rounded-full bg-zinc-100 text-zinc-950 font-medium flex items-center gap-1">
+                                        Siguiente <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                                    </button>
                                 </div>
                             </div>
                         </template>
@@ -323,26 +422,30 @@
 
                 <!-- Protocolo de Atención y Laboratorio DEMO -->
                 <template x-if="c.nosotros.compromisos && c.nosotros.compromisos.length">
-                    <div class="mt-14 grid md:grid-cols-2 gap-6">
-                        <template x-for="comp in c.nosotros.compromisos" :key="comp.titulo">
-                            <div class="p-6 sm:p-8 rounded-2xl border border-zinc-800/80 bg-zinc-950 space-y-4">
-                                <p class="label-ui text-zinc-500" x-text="comp.etiqueta"></p>
-                                <h3 class="serif text-2xl sm:text-3xl text-white" x-text="comp.titulo"></h3>
-                                <div class="space-y-2.5 pt-2">
-                                    <template x-for="paso in comp.pasos" :key="paso">
-                                        <p class="text-sm text-zinc-300 leading-relaxed" x-text="paso"></p>
-                                    </template>
+                    <div class="mt-8 sm:mt-14">
+                        <p class="label-ui text-zinc-500 mb-3">Cómo lo llevamos a la práctica</p>
+                        <div class="grid md:grid-cols-2 gap-4 sm:gap-6">
+                            <template x-for="comp in c.nosotros.compromisos" :key="comp.titulo">
+                                <div class="p-5 sm:p-8 rounded-2xl border border-zinc-800/80 bg-zinc-950 space-y-3 sm:space-y-4">
+                                    <p class="label-ui text-zinc-500" x-text="comp.etiqueta"></p>
+                                    <h3 class="serif text-xl sm:text-3xl text-white leading-snug" x-text="comp.titulo"></h3>
+                                    <div class="space-y-2 pt-1">
+                                        <template x-for="paso in comp.pasos" :key="paso">
+                                            <div class="p-3 rounded-xl bg-zinc-900/50 border border-zinc-900 text-xs sm:text-sm text-zinc-300 leading-relaxed" x-text="paso"></div>
+                                        </template>
+                                    </div>
                                 </div>
-                            </div>
-                        </template>
+                            </template>
+                        </div>
                     </div>
                 </template>
 
-                <div class="mt-14 flex flex-wrap gap-3">
-                    <a href="#/coleccion" class="h-12 px-7 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold inline-flex items-center gap-2 hover:bg-white transition">
+                <!-- Botones finales adaptados a móvil -->
+                <div class="mt-8 sm:mt-14 grid grid-cols-1 sm:flex sm:flex-wrap gap-2.5 sm:gap-3">
+                    <a href="#/coleccion" class="h-12 px-7 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold flex items-center justify-center gap-2 hover:bg-white transition">
                         Explorar la colección <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
-                    <a href="#/embajadoras" class="h-12 px-7 rounded-full border border-zinc-700 text-sm inline-flex items-center hover:border-zinc-400 transition">
+                    <a href="#/embajadoras" class="h-12 px-7 rounded-full border border-zinc-700 text-sm flex items-center justify-center hover:border-zinc-400 transition">
                         Programa de Embajadores y Aliados
                     </a>
                 </div>
@@ -351,26 +454,30 @@
 
         <!-- ================= EMBAJADORAS ================= -->
         <section x-show="vista === 'embajadoras'" x-cloak class="fade-in">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 sm:py-24">
-                <p class="label-ui text-zinc-500">Comunidad</p>
-                <h1 class="serif text-5xl sm:text-7xl mt-3" x-text="c.embajadoras.titulo"></h1>
-                <p class="mt-8 text-zinc-300 text-[17px] leading-[1.75] max-w-2xl" x-text="c.embajadoras.texto"></p>
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-20">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-400">Comunidad y Aliados</span>
+                <h1 class="serif text-[32px] sm:text-6xl mt-3.5 leading-[1.1]" x-text="c.embajadoras.titulo"></h1>
+                <p class="mt-4 sm:mt-6 text-zinc-300 text-sm sm:text-[17px] leading-[1.7] max-w-2xl" x-text="c.embajadoras.texto"></p>
 
-                <div class="mt-12 grid sm:grid-cols-3 gap-4">
+                <!-- Pasos en grilla compacta en móvil -->
+                <div class="mt-6 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                     <template x-for="(p, i) in c.embajadoras.pasos" :key="i">
-                        <div class="p-6 rounded-2xl border border-zinc-900 bg-zinc-950">
-                            <span class="serif text-4xl text-zinc-600" x-text="'0' + (i + 1)"></span>
-                            <h3 class="serif text-2xl mt-2" x-text="p.titulo"></h3>
-                            <p class="text-sm text-zinc-400 mt-2 leading-relaxed" x-text="p.texto"></p>
+                        <div class="p-4 sm:p-6 rounded-2xl border border-zinc-900 bg-zinc-950 flex sm:block items-start gap-3.5">
+                            <span class="serif text-2xl sm:text-4xl text-zinc-500 leading-none mt-0.5" x-text="'0' + (i + 1)"></span>
+                            <div>
+                                <h3 class="serif text-lg sm:text-2xl sm:mt-2 text-white" x-text="p.titulo"></h3>
+                                <p class="text-xs sm:text-sm text-zinc-400 mt-1 sm:mt-2 leading-relaxed" x-text="p.texto"></p>
+                            </div>
                         </div>
                     </template>
                 </div>
 
-                <div class="mt-12 p-6 sm:p-8 rounded-2xl border border-zinc-800 bg-zinc-950 max-w-2xl">
+                <!-- Buscador de código en tiempo real -->
+                <div class="mt-6 sm:mt-12 p-5 sm:p-8 rounded-2xl border border-zinc-800 bg-zinc-950 max-w-2xl">
                     <p class="label-ui text-zinc-500">Consulta en tiempo real</p>
                     <h3 class="serif text-2xl sm:text-3xl mt-1">Consulta tu código o cupón</h3>
-                    <p class="text-sm text-zinc-400 mt-1.5">Ingresa tu código para ver cuántas personas llevas referidas, por cuál premio participas y qué beneficio recibe quien lo usa.</p>
-                    <form @submit.prevent="validar()" class="mt-5 flex flex-col sm:flex-row gap-2.5">
+                    <p class="text-xs sm:text-sm text-zinc-400 mt-1.5">Ingresa tu código para ver cuántas personas llevas referidas, por cuál premio participas y qué beneficio recibe quien lo usa.</p>
+                    <form @submit.prevent="validar()" class="mt-4 sm:mt-5 flex flex-col sm:flex-row gap-2.5">
                         <input x-model="codigo" placeholder="Ej. ACS-345" autocapitalize="characters"
                                class="uppercase flex-grow h-12 px-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-base tracking-wider">
                         <button type="submit" :disabled="consultandoCodigo" class="h-12 px-6 rounded-xl bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white transition disabled:opacity-50">
@@ -379,16 +486,16 @@
                     </form>
 
                     <!-- Estado: No encontrado -->
-                    <div x-show="resultado && !resultado.valido" x-cloak class="mt-5 p-4 rounded-xl border border-zinc-800 bg-zinc-900/50 text-sm text-zinc-400">
+                    <div x-show="resultado && !resultado.valido" x-cloak class="mt-4 p-4 rounded-xl border border-zinc-800 bg-zinc-900/50 text-xs sm:text-sm text-zinc-400">
                         No encontramos ese código registrado. Verifica que esté bien escrito (ej. <span class="text-zinc-200">ACS-345</span>).
                     </div>
 
                     <!-- Estado: Código válido con progreso y premios -->
-                    <div x-show="resultado && resultado.valido" x-cloak class="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5 sm:p-6 space-y-5">
-                        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800/80 pb-4">
+                    <div x-show="resultado && resultado.valido" x-cloak class="mt-5 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 sm:p-6 space-y-4 sm:space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-800/80 pb-3.5">
                             <div>
                                 <span class="label-ui text-zinc-500">Embajador(a) AURA</span>
-                                <h4 class="serif text-2xl text-white mt-0.5" x-text="resultado?.embajadora"></h4>
+                                <h4 class="serif text-xl sm:text-2xl text-white mt-0.5" x-text="resultado?.embajadora"></h4>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="px-3 py-1 rounded-lg bg-zinc-950 border border-zinc-700 text-xs font-semibold tracking-widest text-zinc-100" x-text="resultado?.codigo"></span>
@@ -399,12 +506,12 @@
                         </div>
 
                         <!-- Contador de personas referidas y barra de progreso -->
-                        <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800/90 space-y-3">
+                        <div class="p-3.5 sm:p-4 rounded-xl bg-zinc-950 border border-zinc-800/90 space-y-2.5">
                             <div class="flex items-baseline justify-between gap-2">
-                                <span class="text-xs uppercase tracking-wider text-zinc-400">Personas que han usado este código</span>
+                                <span class="text-[11px] uppercase tracking-wider text-zinc-400">Personas referidas</span>
                                 <div class="text-right">
-                                    <span class="serif text-3xl text-white" x-text="resultado?.usos ?? 0"></span>
-                                    <span class="text-sm text-zinc-500" x-text="' / ' + (resultado?.meta ?? 5) + ' personas'"></span>
+                                    <span class="serif text-2xl sm:text-3xl text-white" x-text="resultado?.usos ?? 0"></span>
+                                    <span class="text-xs sm:text-sm text-zinc-500" x-text="' / ' + (resultado?.meta ?? 5) + ' personas'"></span>
                                 </div>
                             </div>
                             <div class="w-full h-2 rounded-full bg-zinc-900 overflow-hidden border border-zinc-800">
@@ -419,24 +526,24 @@
                         </div>
 
                         <!-- A qué participa el cupón (Embajador vs Invitado) -->
-                        <div class="grid sm:grid-cols-2 gap-3">
-                            <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800/90">
+                        <div class="grid sm:grid-cols-2 gap-2.5 sm:gap-3">
+                            <div class="p-3.5 sm:p-4 rounded-xl bg-zinc-950 border border-zinc-800/90">
                                 <p class="label-ui text-zinc-500">Premio para el embajador</p>
-                                <p class="serif text-xl text-white mt-1.5" x-text="resultado?.premio || '$10.00 OFF en su compra'"></p>
+                                <p class="serif text-lg sm:text-xl text-white mt-1" x-text="resultado?.premio || '$10.00 OFF en su compra'"></p>
                                 <p class="text-xs text-zinc-400 mt-1" x-text="'Se desbloquea al llegar a ' + (resultado?.meta ?? 5) + ' compras referidas.'"></p>
                             </div>
-                            <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800/90">
+                            <div class="p-3.5 sm:p-4 rounded-xl bg-zinc-950 border border-zinc-800/90">
                                 <p class="label-ui text-zinc-500">Beneficio al usar el cupón</p>
-                                <p class="serif text-xl text-emerald-400 mt-1.5" x-text="resultado?.beneficio || '10% OFF en tu compra'"></p>
+                                <p class="serif text-lg sm:text-xl text-emerald-400 mt-1" x-text="resultado?.beneficio || '10% OFF en tu compra'"></p>
                                 <p class="text-xs text-zinc-400 mt-1">Descuento directo para amigos que compren con este código.</p>
                             </div>
                         </div>
 
                         <!-- Acción rápida para aplicar a la bolsa -->
-                        <div class="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                             <span class="text-xs text-zinc-400" x-text="codigoBolsa === resultado?.codigo ? 'Código aplicado a tu bolsa de compra.' : '¿Vas a hacer un pedido con este código?'"></span>
                             <button type="button" @click="aplicarCodigoABolsa()"
-                                    class="h-10 px-5 rounded-full border border-zinc-700 hover:border-zinc-400 text-xs font-semibold text-zinc-100 hover:bg-zinc-800 transition self-start sm:self-auto">
+                                    class="h-10 px-5 rounded-full border border-zinc-700 hover:border-zinc-400 text-xs font-semibold text-zinc-100 hover:bg-zinc-800 transition w-full sm:w-auto">
                                 <span x-text="codigoBolsa === resultado?.codigo ? 'Ver colección con el código activo' : 'Usar este código en mi pedido'"></span>
                             </button>
                         </div>
@@ -446,64 +553,96 @@
         </section>
     </main>
 
-    <!-- PIE -->
+    <!-- PIE DE PÁGINA -->
     <footer class="border-t border-zinc-900">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
             <img src="../logo.png" alt="AURA" class="h-5 w-auto opacity-70">
             <div class="flex gap-6">
                 <a href="#/coleccion" class="hover:text-white transition">Colección</a>
-                <a href="#/nosotros" class="hover:text-white transition">Nosotros</a>
+                <a href="#/nosotros" class="hover:text-white transition">Quiénes somos</a>
                 <a href="#/embajadoras" class="hover:text-white transition">Embajadores</a>
                 <template x-if="c.instagram"><a :href="'https://instagram.com/' + c.instagram.replace('@','')" target="_blank" rel="noopener" class="hover:text-white transition">Instagram</a></template>
             </div>
-            <span>aura.mgta</span>
+            <span>aura.mgta · Isla de Margarita</span>
         </div>
     </footer>
 
-    <!-- BOLSA -->
+    <!-- BARRA DE NAVEGACIÓN INFERIOR NATIVA PARA MÓVIL -->
+    <nav class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[#09090b]/95 backdrop-blur-lg border-t border-zinc-900 safe-bottom">
+        <div class="grid grid-cols-5 h-16">
+            <a href="#/" class="flex flex-col items-center justify-center gap-1 transition"
+               :class="vista === 'inicio' ? 'text-white' : 'text-zinc-500'">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <span class="text-[10px] tracking-wide">Inicio</span>
+            </a>
+            <a href="#/coleccion" class="flex flex-col items-center justify-center gap-1 transition"
+               :class="vista === 'coleccion' || vista === 'prenda' ? 'text-white' : 'text-zinc-500'">
+                <i data-lucide="grid" class="w-4 h-4"></i>
+                <span class="text-[10px] tracking-wide">Colección</span>
+            </a>
+            <a href="#/nosotros" class="flex flex-col items-center justify-center gap-1 transition"
+               :class="vista === 'nosotros' ? 'text-white' : 'text-zinc-500'">
+                <i data-lucide="compass" class="w-4 h-4"></i>
+                <span class="text-[10px] tracking-wide">Nosotros</span>
+            </a>
+            <a href="#/embajadoras" class="flex flex-col items-center justify-center gap-1 transition"
+               :class="vista === 'embajadoras' ? 'text-white' : 'text-zinc-500'">
+                <i data-lucide="award" class="w-4 h-4"></i>
+                <span class="text-[10px] tracking-wide">Embajadores</span>
+            </a>
+            <button type="button" @click="bolsaAbierta = true" class="relative flex flex-col items-center justify-center gap-1 text-zinc-400">
+                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                <span class="text-[10px] tracking-wide">Bolsa</span>
+                <span x-show="totalPiezas > 0" x-text="totalPiezas"
+                      class="absolute top-2 right-4 min-w-[16px] h-[16px] px-1 rounded-full bg-zinc-100 text-zinc-950 text-[9px] font-bold flex items-center justify-center"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- BOLSA DE COMPRA -->
     <div x-show="bolsaAbierta" x-cloak class="fixed inset-0 z-50">
-        <div class="absolute inset-0 bg-black/70" @click="bolsaAbierta = false"></div>
-        <aside class="absolute right-0 top-0 h-full w-full max-w-md bg-[#0c0c0e] border-l border-zinc-900 flex flex-col"
+        <div class="absolute inset-0 bg-black/75 backdrop-blur-xs" @click="bolsaAbierta = false"></div>
+        <aside class="absolute right-0 top-0 h-full w-full max-w-md bg-[#0c0c0e] border-l border-zinc-900 flex flex-col safe-bottom"
                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0">
-            <div class="h-16 px-5 flex items-center justify-between border-b border-zinc-900">
+            <div class="h-14 sm:h-16 px-5 flex items-center justify-between border-b border-zinc-900">
                 <h2 class="serif text-2xl">Tu bolsa</h2>
                 <button @click="bolsaAbierta = false" class="h-9 w-9 rounded-full border border-zinc-800 flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
 
-            <div class="flex-grow overflow-y-auto p-5 space-y-4">
+            <div class="flex-grow overflow-y-auto p-4 sm:p-5 space-y-4">
                 <p x-show="bolsa.length === 0" class="text-sm text-zinc-500 text-center py-16">Tu bolsa está vacía.</p>
                 <template x-for="(it, i) in bolsa" :key="it.id + it.talla">
-                    <div class="flex gap-4 items-center">
+                    <div class="flex gap-3.5 items-center p-2.5 rounded-xl bg-zinc-950/80 border border-zinc-900">
                         <div class="w-16 h-20 rounded-lg tile border border-zinc-900 flex-shrink-0 overflow-hidden flex items-center justify-center">
                             <template x-if="it.imagen_url"><img :src="it.imagen_url" class="w-full h-full object-cover"></template>
                             <template x-if="!it.imagen_url"><span class="serif text-2xl text-zinc-600" x-text="iniciales(it.nombre)"></span></template>
                         </div>
                         <div class="flex-grow min-w-0">
                             <p class="text-sm font-medium truncate" x-text="it.nombre"></p>
-                            <p class="text-xs text-zinc-500 mt-0.5" x-text="'Talla ' + it.talla"></p>
+                            <p class="text-xs text-zinc-400 mt-0.5 truncate" x-text="'Talla ' + it.talla"></p>
                             <div class="flex items-center gap-3 mt-2">
                                 <button @click="cambiarCantidad(i, -1)" class="h-7 w-7 rounded-full border border-zinc-800 text-sm">-</button>
                                 <span class="text-sm w-4 text-center" x-text="it.cantidad"></span>
                                 <button @click="cambiarCantidad(i, 1)" class="h-7 w-7 rounded-full border border-zinc-800 text-sm">+</button>
                             </div>
                         </div>
-                        <p class="text-sm" x-text="'$' + (it.pvp * it.cantidad).toFixed(2)"></p>
+                        <p class="text-sm font-medium" x-text="'$' + (it.pvp * it.cantidad).toFixed(2)"></p>
                     </div>
                 </template>
             </div>
 
-            <div x-show="bolsa.length > 0" class="p-5 border-t border-zinc-900 space-y-3">
+            <div x-show="bolsa.length > 0" class="p-4 sm:p-5 border-t border-zinc-900 space-y-2.5">
                 <input x-model="cliente" placeholder="Tu nombre" class="w-full h-11 px-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-base">
                 <input x-model="telefono" inputmode="tel" placeholder="Tu WhatsApp" class="w-full h-11 px-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-base">
                 <input x-model="codigoBolsa" placeholder="Código de embajador (opcional)" class="uppercase w-full h-11 px-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-base">
                 <div class="flex justify-between items-baseline pt-1">
                     <span class="text-sm text-zinc-400">Total estimado</span>
-                    <span class="text-2xl" x-text="'$' + totalBolsa.toFixed(2)"></span>
+                    <span class="text-2xl font-normal" x-text="'$' + totalBolsa.toFixed(2)"></span>
                 </div>
                 <button @click="enviarPedido()" class="w-full h-12 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white transition flex items-center justify-center gap-2">
                     <i data-lucide="send" class="w-4 h-4"></i> Pedir por WhatsApp
                 </button>
-                <p class="text-[11px] text-zinc-500 text-center">Confirmamos disponibilidad, envío y forma de pago por WhatsApp.</p>
+                <p class="text-[11px] text-zinc-500 text-center">Confirmamos disponibilidad, medidas en cm y envío por WhatsApp.</p>
             </div>
         </aside>
     </div>
@@ -526,6 +665,7 @@
                 tallaSel: '', fotoActiva: 0, menuAbierto: false, bolsaAbierta: false,
                 bolsa: [], cliente: '', telefono: '', codigoBolsa: '',
                 codigo: '', resultado: null, consultandoCodigo: false,
+                pilarFiltro: 'todos', touchStartX: 0,
 
                 async init() {
                     try { this.bolsa = JSON.parse(localStorage.getItem('aura_bolsa') || '[]'); } catch (e) {}
@@ -545,6 +685,21 @@
                     window.scrollTo({ top: 0 });
                     if (this.vista === 'prenda') { this.tallaSel = ''; this.fotoActiva = 0; }
                     this.refrescarIconos();
+                },
+
+                cambiarPilar(dir) {
+                    const nums = (this.c.nosotros?.pilares || []).map(p => p.numero);
+                    if (!nums.length) return;
+                    const idx = nums.indexOf(this.pilarFiltro);
+                    const nextIdx = idx === -1 ? 0 : (idx + dir + nums.length) % nums.length;
+                    this.pilarFiltro = nums[nextIdx];
+                },
+
+                manejarSwipe(endX) {
+                    const delta = endX - this.touchStartX;
+                    if (Math.abs(delta) < 40) return;
+                    if (delta < 0) this.cambiarFoto(1);
+                    else this.cambiarFoto(-1);
                 },
 
                 enriquecerConEstudio(lista) {
@@ -628,19 +783,19 @@
                     const portada = imgs[0] || p.imagen_url || '';
                     const media = portada
                         ? `<img src="${this.esc(portada)}" alt="${this.esc(p.nombre)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">`
-                        : `<span class="serif text-6xl text-zinc-700">${this.esc(this.iniciales(p.nombre))}</span>`;
+                        : `<span class="serif text-5xl sm:text-6xl text-zinc-700">${this.esc(this.iniciales(p.nombre))}</span>`;
                     const badgeTonos = imgs.length > 1
-                        ? `<span class="absolute bottom-3 right-3 text-[11px] px-2.5 py-0.5 rounded-full bg-black/65 border border-zinc-800/90 text-zinc-300">${imgs.length} fotos</span>`
+                        ? `<span class="absolute bottom-2.5 right-2.5 text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full bg-black/70 border border-zinc-800/90 text-zinc-200">${imgs.length} fotos</span>`
                         : '';
                     return `<a href="#/prenda/${p.id}" class="group block">
                         <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative">
                             ${media}
-                            ${agotada ? '<span class="absolute top-3 left-3 text-[10px] label-ui px-2.5 py-1 rounded-full bg-black/70 text-zinc-300">Agotado</span>' : ''}
+                            ${agotada ? '<span class="absolute top-2.5 left-2.5 text-[9px] sm:text-[10px] label-ui px-2 py-0.5 rounded-full bg-black/75 text-zinc-300">Agotado</span>' : ''}
                             ${badgeTonos}
                         </div>
-                        <p class="mt-3 label-ui text-zinc-500">${this.esc(p.categoria)}</p>
-                        <h3 class="serif text-xl sm:text-2xl leading-tight mt-0.5">${this.esc(p.nombre)}</h3>
-                        <p class="text-sm text-zinc-300 mt-1">$${Number(p.pvp).toFixed(2)}</p>
+                        <p class="mt-2 sm:mt-3 label-ui text-zinc-500 truncate">${this.esc(p.categoria)}</p>
+                        <h3 class="serif text-[16px] sm:text-2xl leading-snug mt-0.5 truncate">${this.esc(p.nombre)}</h3>
+                        <p class="text-xs sm:text-sm text-zinc-300 mt-0.5">$${Number(p.pvp).toFixed(2)}</p>
                     </a>`;
                 },
 
