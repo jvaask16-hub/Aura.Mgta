@@ -121,12 +121,36 @@ window.AURA_CONTENIDO = {
     },
 
     embajadoras: {
-        titulo: 'Embajadores y Aliados Aura',
-        texto: 'Recompensamos la lealtad y el voz a voz en la isla. Si alguien te recomendó aura.mgta, su código te da un beneficio directo en tu compra. Y si eres cliente, creador o proyecto aliado en Margarita, puedes activar tu código personal para sumar referidos, desbloquear premios y crecer en comunidad.',
+        titulo: 'Embajadores y Cupones Aura',
+        texto: 'Consulta al instante el estado de tu código, cuántas personas llevas referidas y las condiciones para aplicar tu descuento o canjear tu premio.',
+        minimoReferido: 25.00,
+        minimoPremioEmbajador: 30.00,
         pasos: [
             { titulo: 'Tu código personal', texto: 'Cada embajador o aliado cuenta con un código único vinculado a su perfil para compartir con amigos o seguidores.' },
-            { titulo: 'Beneficio bilateral', texto: 'Quien compra con tu código recibe su descuento de bienvenida y cada compra suma automáticamente a tu meta.' },
-            { titulo: 'Premios y sinergia', texto: 'Al completar tu meta desbloqueas tu recompensa, acceso anticipado a prendas DEMO y colaboraciones en la isla.' }
+            { titulo: 'Beneficio para tus referidos', texto: 'Quien compra con tu código recibe 10% OFF en compras desde $25.00 y suma 1 punto a tu meta al concretar el pago.' },
+            { titulo: 'Premio del Embajador ($10 OFF)', texto: 'Al completar tus 5 referidos verificados, desbloqueas $10.00 OFF canjeables en una compra mínima de $30.00.' }
+        ],
+        condiciones: [
+            {
+                etiqueta: 'Monto mínimo de compra',
+                titulo: '¿En qué prendas o montos aplica cada cupón?',
+                detalle: 'El cupón de premio de embajador ($10.00 OFF) solo es válido en prendas o pedidos con un subtotal mínimo de $30.00 (no aplica en prendas de $15 a $25 individuales). El código de referido (10% OFF para amigos) aplica en compras a partir de $25.00.'
+            },
+            {
+                etiqueta: 'Momento de activación',
+                titulo: '¿Cuándo se suma un referido y cuándo puedo usar mi premio?',
+                detalle: 'Cada referido se contabiliza únicamente cuando el pedido del invitado ha sido pagado y entregado. El premio de $10.00 OFF del embajador se habilita al alcanzar 5/5 compras efectivas y se usa en su siguiente compra.'
+            },
+            {
+                etiqueta: 'Uso único y exclusiones',
+                titulo: '¿Se pueden acumular varios cupones o aplicar en rebajas?',
+                detalle: 'Solo se puede utilizar un (1) código o cupón por pedido. Los cupones aplican sobre prendas de colección a precio regular; no son acumulables con promociones, liquidaciones ni prendas DEMO a precio de costo.'
+            },
+            {
+                etiqueta: 'Validación al pedir',
+                titulo: '¿Cómo se aplica al pagar?',
+                detalle: 'Al ingresar tu código en la bolsa, el sistema verifica que tu pedido cumpla el monto mínimo ($25.00 para 10% OFF de referido o $30.00 para el premio de $10.00 OFF) y lo adjunta a tu orden de WhatsApp para validación final.'
+            }
         ]
     },
 
