@@ -1,4 +1,8 @@
 {
   "version": 2,
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/lobby", "destination": "/lobby/index.html" },
+    { "source": "/lobby/", "destination": "/lobby/index.html" }
+  ]
 }

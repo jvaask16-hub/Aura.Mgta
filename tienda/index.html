@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>aura.mgta — Colección, identidad y comunidad</title>
     <meta name="description" content="aura.mgta: ropa seleccionada con criterio en Isla de Margarita. Conoce nuestras prendas, quiénes somos, por qué nacimos y nuestra comunidad.">
-    <link rel="icon" type="image/png" href="../logo-square.png">
+    <link rel="icon" type="image/png" href="/logo-square.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,8 +18,8 @@
         tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: {
             sans: ['Outfit', 'sans-serif'], serif: ['Outfit', 'sans-serif'] } } } }
     </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="contenido.js?v=5"></script>
+    <script defer src="https://cdn.jsdelivr.com/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="/tienda/contenido.js?v=6"></script>
     <style>
         [x-cloak] { display: none !important; }
         html { scroll-behavior: smooth; }
@@ -56,7 +56,7 @@
     <header class="sticky top-0 z-40 border-b border-zinc-900/90 bg-[#09090b]/95 backdrop-blur-md">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-3">
             <a href="#/" class="flex items-center gap-2.5 flex-shrink-0">
-                <img src="../logo.png" alt="AURA" class="h-5 sm:h-6 w-auto">
+                <img src="/logo.png" alt="AURA" class="h-5 sm:h-6 w-auto">
             </a>
 
             <!-- Navegación Desktop -->
@@ -1036,6 +1036,8 @@
                         return {
                             ...ref,
                             ...p,
+                            nombre: ref.nombre || p.nombre,
+                            categoria: ref.categoria || p.categoria,
                             imagen_url: ref.imagen_url || p.imagen_url,
                             imagenes: (Array.isArray(ref.imagenes) && ref.imagenes.length >= ((p.imagenes && p.imagenes.length) || 0)) ? ref.imagenes : p.imagenes,
                             colores: (Array.isArray(ref.colores) && ref.colores.length >= ((p.colores && p.colores.length) || 0)) ? ref.colores : p.colores,
