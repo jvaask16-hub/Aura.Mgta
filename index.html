@@ -973,10 +973,6 @@
 
     <script>
         function tienda() {
-            const SUPA = 'https://ikcskvnqvixkrphtxdbq.supabase.co';
-            const KEY = 'sb_publishable_DhAGa5ce3FYs_9xoE6UfMQ_jY9EIz24';
-            const H = { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' };
-
             return {
                 c: window.AURA_CONTENIDO,
                 links: [
@@ -1058,20 +1054,14 @@
                 },
 
                 async cargar() {
-                    const intentos = [
-                        '/rest/v1/catalogo_publico?select=*&order=destacado.desc,id.desc',
-                        '/rest/v1/inventario?select=*&order=id.desc'
-                    ];
                     let cargadas = [];
-                    for (const u of intentos) {
-                        try {
-                            const r = await fetch(SUPA + u, { headers: H });
-                            if (r.ok) {
-                                cargadas = (await r.json()).filter(p => p.visible !== false && (p.stock === undefined || p.stock >= 0));
-                                break;
-                            }
-                        } catch (e) {}
-                    }
+                    try {
+                        const r = await fetch('/api/public?action=catalogo');
+                        if (r.ok) {
+                            const d = await r.json();
+                            if (Array.isArray(d.items)) cargadas = d.items;
+                        }
+                    } catch (e) {}
                     this.prendas = this.enriquecerConEstudio(cargadas);
                     this.cargando = false;
                     this.refrescarIconos();
@@ -1225,38 +1215,19 @@
                 async consultarCodigo(cod) {
                     const limpio = cod.trim().toUpperCase();
                     try {
-                        const r = await fetch(SUPA + '/rest/v1/embajadores?select=nombre,codigo,descuento_amigo,usos,meta,premio,reclamado&codigo=ilike.' + encodeURIComponent(limpio), { headers: H });
+                        const r = await fetch('/api/public?action=codigo&c=' + encodeURIComponent(limpio));
                         if (r.ok) {
                             const d = await r.json();
-                            if (d.length) {
-                                const e = d[0];
+                            if (d && d.valido) {
                                 return {
                                     valido: true,
-                                    codigo: (e.codigo || limpio).toUpperCase(),
-                                    embajadora: (e.nombre || 'Embajador').split(' ')[0],
-                                    beneficio: e.descuento_amigo || '10% OFF en su primera compra',
-                                    usos: Number(e.usos) || 0,
-                                    meta: Number(e.meta) || 5,
-                                    premio: e.premio || '$10.00 OFF en su compra',
-                                    reclamado: !!e.reclamado
-                                };
-                            }
-                        }
-                    } catch (e) {}
-                    try {
-                        const r = await fetch(SUPA + '/rest/v1/rpc/validar_codigo', { method: 'POST', headers: H, body: JSON.stringify({ p_codigo: limpio }) });
-                        if (r.ok) {
-                            const rpcRes = await r.json();
-                            if (rpcRes && rpcRes.valido) {
-                                return {
-                                    valido: true,
-                                    codigo: (rpcRes.codigo || limpio).toUpperCase(),
-                                    embajadora: rpcRes.embajadora || 'Embajador',
-                                    beneficio: rpcRes.beneficio || '10% OFF en su primera compra',
-                                    usos: Number(rpcRes.usos) || 0,
-                                    meta: Number(rpcRes.meta) || 5,
-                                    premio: rpcRes.premio || '$10.00 OFF en su compra',
-                                    reclamado: !!rpcRes.reclamado
+                                    codigo: (d.codigo || limpio).toUpperCase(),
+                                    embajadora: (d.embajadora || 'Embajador').split(' ')[0],
+                                    beneficio: d.beneficio || '10% OFF en su primera compra',
+                                    usos: Number(d.usos) || 0,
+                                    meta: Number(d.meta) || 5,
+                                    premio: d.premio || '$10.00 OFF en su compra',
+                                    reclamado: !!d.reclamado
                                 };
                             }
                         }
@@ -1301,13 +1272,6 @@
                             : 'Elegible para 10% OFF referido (compra mín. $25; el premio de $10 OFF requiere compra mín. $30)';
                         msg += `\nCódigo de embajador: ${codLimpio} (${notaElegibilidad})`;
                     }
-
-                    // Registro en el backend (no bloquea el envio si falla)
-                    fetch(SUPA + '/rest/v1/solicitudes', {
-                        method: 'POST', headers: { ...H, Prefer: 'return=minimal' },
-                        body: JSON.stringify({ cliente: this.cliente.trim(), telefono: this.telefono.trim(),
-                            codigo: this.codigoBolsa.trim().toUpperCase(), items: this.bolsa, total: this.totalBolsa })
-                    }).catch(() => {});
 
                     const num = (this.c.whatsapp || '').replace(/\D/g, '');
                     window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');

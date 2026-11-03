@@ -9,8 +9,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Supabase JS Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Google Fonts: Cormorant Garamond, Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2646,53 +2644,70 @@
 
         function auraApp() {
             return {
-                autenticadoLobby: sessionStorage.getItem('aura_lobby_auth') === 'ok',
+                autenticadoLobby: Boolean(sessionStorage.getItem('aura_lobby_token')),
+                lobbyToken: sessionStorage.getItem('aura_lobby_token') || '',
                 claveLobbyInput: '',
                 errorClaveLobby: false,
                 mostrarModalCambiarClave: false,
                 nuevaClaveLobby: '',
 
-                verificarClaveLobby() {
-                    const claveGuardada = localStorage.getItem('aura_lobby_pass') || 'aura2026';
-                    if ((this.claveLobbyInput || '').trim() === claveGuardada) {
-                        this.autenticadoLobby = true;
-                        this.errorClaveLobby = false;
-                        this.claveLobbyInput = '';
-                        sessionStorage.setItem('aura_lobby_auth', 'ok');
-                        this.refreshLucide();
-                    } else {
-                        this.errorClaveLobby = true;
+                async llamarLobbyApi(payload) {
+                    const r = await fetch('/api/lobby', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: 'Bearer ' + (this.lobbyToken || '')
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    if (r.status === 401 && payload.action !== 'login') {
+                        this.cerrarSesionLobby();
+                        return { ok: false };
                     }
+                    return await r.json();
+                },
+
+                async verificarClaveLobby() {
+                    const clave = (this.claveLobbyInput || '').trim();
+                    if (!clave) return;
+                    try {
+                        const d = await this.llamarLobbyApi({ action: 'login', password: clave });
+                        if (d && d.ok && d.token) {
+                            this.lobbyToken = d.token;
+                            this.autenticadoLobby = true;
+                            this.errorClaveLobby = false;
+                            this.claveLobbyInput = '';
+                            sessionStorage.setItem('aura_lobby_token', d.token);
+                            this.supabaseConectado = true;
+                            await this.cargarDatosDesdeSupabase();
+                            this.refreshLucide();
+                            return;
+                        }
+                    } catch (e) {}
+                    this.errorClaveLobby = true;
                 },
 
                 cerrarSesionLobby() {
                     this.autenticadoLobby = false;
-                    sessionStorage.removeItem('aura_lobby_auth');
+                    this.lobbyToken = '';
+                    sessionStorage.removeItem('aura_lobby_token');
                     this.refreshLucide();
                 },
 
                 guardarNuevaClaveLobby() {
-                    const nv = (this.nuevaClaveLobby || '').trim();
-                    if (nv.length < 4) {
-                        alert('La contraseña debe tener al menos 4 caracteres.');
-                        return;
-                    }
-                    localStorage.setItem('aura_lobby_pass', nv);
-                    this.nuevaClaveLobby = '';
                     this.mostrarModalCambiarClave = false;
-                    this.mostrarToast('Contraseña actualizada', 'La nueva contraseña de acceso al Lobby quedó guardada.');
+                    this.mostrarToast('Seguridad del Servidor', 'La contraseña se verifica en el servidor (/api/lobby) mediante variable de entorno AURA_LOBBY_PASSWORD.');
                 },
 
                 activeTab: 'cuenta',
                 guardandoPrenda: false,
 
-                // Configuración y Cliente Supabase (Conectado a tu proyecto oficial)
                 mostrarModalSupabase: false,
                 supabaseConectado: false,
                 supabaseClient: null,
                 configSupabase: {
-                    url: 'https://ikcskvnqvixkrphtxdbq.supabase.co',
-                    anonKey: 'sb_publishable_DhAGa5ce3FYs_9xoE6UfMQ_jY9EIz24'
+                    url: '',
+                    anonKey: ''
                 },
 
                 codigoExpressInput: '',
@@ -2732,64 +2747,7 @@
                     montoMinimoCompra: 30
                 },
 
-                embajadores: [
-                    {
-                        id: 1,
-                        nombre: "Carlos Vender",
-                        telefono: "+58 412-5551234",
-                        instagram: "@carlos.vender",
-                        codigo: "CARLOS5",
-                        invitadoPorCodigo: "", // Llegó por su cuenta
-                        meta: 5,
-                        premio: "$10.00 OFF en su compra",
-                        descuentoAmigo: "10% OFF en su primera compra",
-                        elegibilidad: "solo_nuevos",
-                        montoMinimoCompra: 30,
-                        usos: 2,
-                        reclamado: false,
-                        historial: [
-                            { fecha: "29/10 11:20", evento: "Venta con código #1", monto: "$35.00" },
-                            { fecha: "29/10 14:15", evento: "Venta con código #2", monto: "$70.00" }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        nombre: "Sofía Rodríguez",
-                        telefono: "+58 412-1234567",
-                        instagram: "@sofia.style_",
-                        codigo: "SOFIA5",
-                        invitadoPorCodigo: "CARLOS5", // Sofía compró originalmente con el código de Carlos
-                        meta: 5,
-                        premio: "$10.00 OFF en su compra",
-                        descuentoAmigo: "10% OFF en su primera compra",
-                        elegibilidad: "solo_nuevos",
-                        montoMinimoCompra: 30,
-                        usos: 4,
-                        reclamado: false,
-                        historial: [
-                            { fecha: "28/10 11:20", evento: "Venta con código #1", monto: "$35.00" },
-                            { fecha: "28/10 16:45", evento: "Venta con código #2", monto: "$42.00" }
-                        ]
-                    },
-                    {
-                        id: 3,
-                        nombre: "Valeria Castillo",
-                        telefono: "+58 424-9876543",
-                        instagram: "@valecastillo.mgta",
-                        codigo: "VALE8",
-                        invitadoPorCodigo: "",
-                        meta: 8,
-                        premio: "$20.00 OFF o Prenda Gratis",
-                        descuentoAmigo: "15% OFF en su primera compra",
-                        elegibilidad: "minimo_compra",
-                        montoMinimoCompra: 35,
-                        usos: 8,
-                        reclamado: false,
-                        historial: [
-                            { fecha: "Hoy 15:30", evento: "Meta alcanzada (8 personas)", monto: "Premio desbloqueado" }
-                        ]
-                    }
-                ],
+                embajadores: [],
 
                 get embajadoresListosParaReclamar() {
                     return this.embajadores.filter(e => e.usos >= e.meta && !e.reclamado);
@@ -2934,13 +2892,10 @@
                     if (confirm(`¿Eliminar al embajador ${emb.nombre} (${emb.codigo})?`)) {
                         this.embajadores = this.embajadores.filter(e => e.id !== id);
                         this.guardarEnStorage(false);
-                        if (this.supabaseClient && this.supabaseConectado) {
+                        if (this.autenticadoLobby && this.lobbyToken) {
                             try {
-                                const { error } = await this.supabaseClient.from('embajadores').delete().eq('id', id);
-                                if (error) console.error("Error al eliminar embajador en Supabase:", error);
-                            } catch (err) {
-                                console.error("Error al eliminar embajador en Supabase:", err);
-                            }
+                                await this.llamarLobbyApi({ action: 'eliminar_embajador', id });
+                            } catch (err) {}
                         }
                         this.mostrarToast("Eliminado", "Embajador borrado permanentemente de la base de datos.");
                     }
@@ -3174,75 +3129,37 @@
                         return dataUrl;
                     };
 
-                    if (!this.supabaseClient || !this.supabaseConectado) {
-                        return exportarDataUrlOptimizado();
-                    }
-
-                    let blob = await new Promise(r => cv.toBlob(r, 'image/webp', 0.85));
-                    let ext = 'webp';
-                    if (!blob || blob.type !== 'image/webp') {
-                        blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.88));
-                        ext = 'jpg';
-                    }
-                    if (!blob) { this.mostrarToast('Error', 'No se pudo procesar la imagen.', 'error'); return null; }
-                    if (blob.size > 3 * 1024 * 1024) {
-                        this.mostrarToast('Imagen muy pesada', 'Tras optimizar sigue sobre 3 MB. Prueba con otra foto.', 'error');
-                        return null;
-                    }
-                    const ruta = `${id}.${ext}`;
-                    const { error } = await this.supabaseClient.storage.from('prendas')
-                        .upload(ruta, blob, { upsert: true, contentType: blob.type, cacheControl: '31536000' });
-                    if (error) {
-                        console.warn('Bucket prendas no disponible en Storage, usando respaldo directo optimizado:', error.message);
-                        return exportarDataUrlOptimizado();
-                    }
-                    const { data } = this.supabaseClient.storage.from('prendas').getPublicUrl(ruta);
-                    return data.publicUrl + '?v=' + Date.now();
+                    return exportarDataUrlOptimizado();
                 },
 
-                // Registra la prenda en Supabase y VERIFICA que quedó guardada con su foto
                 async registrarPrendaEnSupabase(p) {
-                    if (!this.supabaseClient || !this.supabaseConectado) return { ok: false, motivo: 'offline' };
-                    const base = { id: p.id, nombre: p.nombre, categoria: p.categoria || 'General', costo: p.costo, pvp: p.pvp, stock: p.stock };
-                    const extra = { imagen_url: p.imagen_url || '', descripcion: p.descripcion || '', tallas: p.tallas || 'S, M, L',
-                                    genero: p.genero || 'Unisex', visible: p.visible !== false, destacado: !!p.destacado };
-                    let { error } = await this.supabaseClient.from('inventario').upsert({ ...base, ...extra }, { onConflict: 'id' });
-                    if (error) {
-                        const { error: e2 } = await this.supabaseClient.from('inventario').upsert(base, { onConflict: 'id' });
-                        if (e2) return { ok: false, motivo: e2.message };
-                        return { ok: false, motivo: 'columnas', detalle: error.message };
-                    }
-                    const { data, error: eV } = await this.supabaseClient.from('inventario').select('id,imagen_url').eq('id', p.id).maybeSingle();
-                    if (eV || !data) return { ok: false, motivo: 'verificacion' };
-                    if ((p.imagen_url || '') !== (data.imagen_url || '')) return { ok: false, motivo: 'verificacion' };
-                    return { ok: true };
+                    if (!this.autenticadoLobby || !this.lobbyToken) return { ok: false, motivo: 'offline' };
+                    try {
+                        const r = await this.llamarLobbyApi({
+                            action: 'guardar_prenda',
+                            prenda: {
+                                id: p.id,
+                                nombre: p.nombre,
+                                categoria: p.categoria || 'General',
+                                costo: p.costo,
+                                pvp: p.pvp,
+                                stock: p.stock,
+                                imagen_url: p.imagen_url || '',
+                                descripcion: p.descripcion || '',
+                                tallas: p.tallas || 'S, M, L',
+                                genero: p.genero || 'Unisex',
+                                visible: p.visible !== false,
+                                destacado: !!p.destacado
+                            }
+                        });
+                        if (r && r.ok) return { ok: true };
+                    } catch (e) {}
+                    return { ok: false, motivo: 'offline' };
                 },
 
-                catalogoEstudioBase: [
-                    { id: 1793641003024, nombre: "Baggy - Styles", categoria: "Baggy", costo: 16.00, pvp: 25.00, stock: 6, imagen_url: "/tienda/fotos/baggy-styles-1.jpg", descripcion: "Pantalón corte baggy de caída amplia y cintura elástica con cordón ajustable.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: true },
-                    { id: 1793646300001, nombre: "Baggy Jeans - OEN", categoria: "Jeans", costo: 18.00, pvp: 35.00, stock: 6, imagen_url: "/tienda/fotos/baggy-jeans-oen-1.jpg", descripcion: "Denim pesado de corte baggy relajado con lavado de carácter y estructura firme.", tallas: "28, 30, 32, 34", genero: "Unisex", visible: true, destacado: true },
-                    { id: 1793646300002, nombre: "Baggy Pants Premium - OEN", categoria: "Baggy", costo: 15.00, pvp: 30.00, stock: 6, imagen_url: "/tienda/fotos/baggy-premium-oen-1.jpg", descripcion: "Baggy jogging premium con costuras curvas en contraste (piping) y pretina elástica.", tallas: "S, M, L", genero: "Unisex", visible: true, destacado: true },
-                    { id: 1793383598668, nombre: "Baggy Pants Unicolor - OEN", categoria: "Baggy", costo: 12.50, pvp: 28.00, stock: 6, imagen_url: "/tienda/fotos/baggy-unicolor-oen-1.jpg", descripcion: "Baggy unicolor de algodón suave con caída fluida y bota ancha.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: false },
-                    { id: 1793383575598, nombre: "Sueter Boxy Fit - OEN", categoria: "Sueter/Sudadera", costo: 15.00, pvp: 30.00, stock: 6, imagen_url: "/tienda/fotos/sueter-boxy-oen-1.jpg", descripcion: "Suéter cuello redondo con silueta boxy fit de hombros caídos y puños acanalados.", tallas: "S, M, L", genero: "Unisex", visible: true, destacado: true },
-                    { id: 1793646300003, nombre: "Mom Jeans - OEN", categoria: "Jeans", costo: 17.00, pvp: 34.00, stock: 6, imagen_url: "/tienda/fotos/mom-jeans-oen-1.jpg", descripcion: "Mom jeans de tiro alto con entalle favorecedor en cintura y pierna recta relajada.", tallas: "26, 28, 30, 32", genero: "Mujer", visible: true, destacado: false },
-                    { id: 1793646300004, nombre: "Track Pants - Style", categoria: "Track Pants", costo: 15.00, pvp: 28.00, stock: 6, imagen_url: "/tienda/fotos/track-pants-style-1.jpg", descripcion: "Track pants de corte recto con líneas laterales en contraste e inspiración streetwear.", tallas: "S, M, L", genero: "Unisex", visible: true, destacado: false },
-                    { id: 1793646300005, nombre: "Track Pants - ARAC", categoria: "Track Pants", costo: 16.00, pvp: 30.00, stock: 6, imagen_url: "/tienda/fotos/track-pants-arac-1.jpg", descripcion: "Track pants ligeros con doble franja lateral en contraste y ajuste cómodo.", tallas: "S, M, L", genero: "Unisex", visible: true, destacado: false },
-                    { id: 1793646300006, nombre: "KIT 5 NIKE - CCS", categoria: "Kits", costo: 22.00, pvp: 40.00, stock: 6, imagen_url: "/tienda/fotos/kit-5-nike-ccs-1.jpg", descripcion: "Kit de 5 franelas básicas con logo bordado en pecho y cuello redondo reforzado.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: false },
-                    { id: 1793646300007, nombre: "KIT PERCHADO - CCS", categoria: "Kits", costo: 25.00, pvp: 45.00, stock: 6, imagen_url: "/tienda/fotos/kit-perchado-ccs-1.jpg", descripcion: "Kit de 2 hoodies perchados con capucha ajustable y bolsillo canguro en negro y blanco.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: false }
-                ],
+                catalogoEstudioBase: [],
 
-                inventario: [
-                    { id: 1793641003024, nombre: "Baggy - Styles", categoria: "Baggy", costo: 16.00, pvp: 25.00, stock: 6, imagen_url: "/tienda/fotos/baggy-styles-1.jpg", descripcion: "Pantalón corte baggy de caída amplia y cintura elástica con cordón ajustable.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: true },
-                    { id: 1793646300001, nombre: "Baggy Jeans - OEN", categoria: "Jeans", costo: 18.00, pvp: 35.00, stock: 6, imagen_url: "/tienda/fotos/baggy-jeans-oen-1.jpg", descripcion: "Denim pesado de corte baggy relajado con lavado de carácter y estructura firme.", tallas: "28, 30, 32, 34", genero: "Unisex", visible: true, destacado: true },
-                    { id: 1793646300002, nombre: "Baggy Pants Premium - OEN", categoria: "Baggy", costo: 15.00, pvp: 30.00, stock: 6, imagen_url: "/tienda/fotos/baggy-premium-oen-1.jpg", descripcion: "Baggy jogging premium con costuras curvas en contraste (piping) y pretina elástica.", tallas: "S, M, L", genero: "Unisex", visible: true, destacado: true },
-                    { id: 1793383598668, nombre: "Baggy Pants Unicolor - OEN", categoria: "Baggy", costo: 12.50, pvp: 28.00, stock: 6, imagen_url: "/tienda/fotos/baggy-unicolor-oen-1.jpg", descripcion: "Baggy unicolor de algodón suave con caída fluida y bota ancha.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: false },
-                    { id: 1793383575598, nombre: "Sueter Boxy Fit - OEN", categoria: "Sueter/Sudadera", costo: 15.00, pvp: 30.00, stock: 6, imagen_url: "/tienda/fotos/sueter-boxy-oen-1.jpg", descripcion: "Suéter cuello redondo con silueta boxy fit de hombros caídos y puños acanalados.", tallas: "S, M, L", genero: "Unisex", visible: true, destacado: true },
-                    { id: 1793646300003, nombre: "Mom Jeans - OEN", categoria: "Jeans", costo: 17.00, pvp: 34.00, stock: 6, imagen_url: "/tienda/fotos/mom-jeans-oen-1.jpg", descripcion: "Mom jeans de tiro alto con entalle favorecedor en cintura y pierna recta relajada.", tallas: "26, 28, 30, 32", genero: "Mujer", visible: true, destacado: false },
-                    { id: 1793646300004, nombre: "Track Pants - Style", categoria: "Track Pants", costo: 15.00, pvp: 28.00, stock: 6, imagen_url: "/tienda/fotos/track-pants-style-1.jpg", descripcion: "Track pants de corte recto con líneas laterales en contraste e inspiración streetwear.", tallas: "S, M, L", genero: "Unisex", visible: true, destacado: false },
-                    { id: 1793646300005, nombre: "Track Pants - ARAC", categoria: "Track Pants", costo: 16.00, pvp: 30.00, stock: 6, imagen_url: "/tienda/fotos/track-pants-arac-1.jpg", descripcion: "Track pants ligeros con doble franja lateral en contraste y ajuste cómodo.", tallas: "S, M, L", genero: "Unisex", visible: true, destacado: false },
-                    { id: 1793646300006, nombre: "KIT 5 NIKE - CCS", categoria: "Kits", costo: 22.00, pvp: 40.00, stock: 6, imagen_url: "/tienda/fotos/kit-5-nike-ccs-1.jpg", descripcion: "Kit de 5 franelas básicas con logo bordado en pecho y cuello redondo reforzado.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: false },
-                    { id: 1793646300007, nombre: "KIT PERCHADO - CCS", categoria: "Kits", costo: 25.00, pvp: 45.00, stock: 6, imagen_url: "/tienda/fotos/kit-perchado-ccs-1.jpg", descripcion: "Kit de 2 hoodies perchados con capucha ajustable y bolsillo canguro en negro y blanco.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: false }
-                ],
+                inventario: [],
 
                 async guardarNuevaPrendaEnCatalogo() {
                     if (!this.nuevaPrenda.nombre.trim()) {
@@ -3318,13 +3235,10 @@
                     if (confirm("¿Seguro que deseas eliminar esta prenda del catálogo?")) {
                         this.inventario = this.inventario.filter(p => p.id !== id);
                         this.guardarEnStorage(false);
-                        if (this.supabaseClient && this.supabaseConectado) {
+                        if (this.autenticadoLobby && this.lobbyToken) {
                             try {
-                                const { error } = await this.supabaseClient.from('inventario').delete().eq('id', id);
-                                if (error) console.error("Error al eliminar prenda en Supabase:", error);
-                            } catch (err) {
-                                console.error("Error al eliminar prenda en Supabase:", err);
-                            }
+                                await this.llamarLobbyApi({ action: 'eliminar_prenda', id });
+                            } catch (err) {}
                         }
                         this.mostrarToast("Eliminada", "Prenda borrada permanentemente del inventario.");
                     }
@@ -4138,26 +4052,6 @@
                                 }]
                             };
                             this.embajadores.unshift(nuevoEmbCreado);
-                            if (this.supabaseClient && this.supabaseConectado) {
-                                this.supabaseClient.from('embajadores').insert([{
-                                    id: nuevoEmbCreado.id,
-                                    nombre: nuevoEmbCreado.nombre,
-                                    telefono: nuevoEmbCreado.telefono,
-                                    instagram: '',
-                                    codigo: nuevoEmbCreado.codigo,
-                                    invitado_por_codigo: nuevoEmbCreado.invitadoPorCodigo,
-                                    meta: nuevoEmbCreado.meta,
-                                    premio: nuevoEmbCreado.premio,
-                                    descuento_amigo: nuevoEmbCreado.descuentoAmigo,
-                                    elegibilidad: nuevoEmbCreado.elegibilidad,
-                                    monto_minimo_compra: nuevoEmbCreado.montoMinimoCompra,
-                                    usos: 0,
-                                    reclamado: false,
-                                    historial: nuevoEmbCreado.historial
-                                }]).then(({ error }) => {
-                                    if (error) console.error("Error al registrar embajador en Supabase:", error);
-                                });
-                            }
                         }
                     }
 
@@ -4193,13 +4087,10 @@
                     if (confirm(`¿Estás seguro de eliminar ${num} del registro histórico?`)) {
                         this.pedidosGuardados = this.pedidosGuardados.filter(item => item.id !== id);
                         this.guardarEnStorage(false);
-                        if (this.supabaseClient && this.supabaseConectado) {
+                        if (this.autenticadoLobby && this.lobbyToken) {
                             try {
-                                const { error } = await this.supabaseClient.from('pedidos').delete().eq('id', id);
-                                if (error) console.error("Error al eliminar pedido en Supabase:", error);
-                            } catch (err) {
-                                console.error("Error al eliminar pedido en Supabase:", err);
-                            }
+                                await this.llamarLobbyApi({ action: 'eliminar_pedido', id });
+                            } catch (err) {}
                         }
                         this.mostrarToast("Planilla Eliminada", `${num} borrada permanentemente del historial.`);
                     }
@@ -4318,11 +4209,7 @@
                         this.inventario.unshift(prenda);
                     }
                     this.guardarEnStorage();
-                    if (this.supabaseClient && this.supabaseConectado) {
-                        try {
-                            await this.supabaseClient.from('inventario').upsert([prenda], { onConflict: 'id' });
-                        } catch (e) {}
-                    }
+                    await this.registrarPrendaEnSupabase(prenda);
                     this.mostrarToast("¡Guardado en Catálogo!", `${prenda.nombre} actualizada con Costo Real $${prenda.costo.toFixed(2)} y PVP $${prenda.pvp.toFixed(2)}.`);
                     this.setTab('inventario');
                 },
@@ -4359,7 +4246,6 @@
 
                 // ==================== PERSISTENCIA Y SINCRONIZACIÓN SUPABASE + LOCALSTORAGE ====================
                 async initApp() {
-                    // 1. Cargar desde LocalStorage primero (fallback inmediato)
                     try {
                         const savedEmb = localStorage.getItem('aura_embajadores_v5');
                         if (savedEmb) this.embajadores = JSON.parse(savedEmb);
@@ -4370,13 +4256,9 @@
                         const savedPedidos = localStorage.getItem('aura_pedidos_v5');
                         if (savedPedidos) this.pedidosGuardados = JSON.parse(savedPedidos);
 
-                        // Cargar credenciales Supabase si existen (o usar las predeterminadas del proyecto)
-                        const savedSupaUrl = localStorage.getItem('aura_supa_url') || this.configSupabase.url;
-                        const savedSupaKey = localStorage.getItem('aura_supa_key') || this.configSupabase.anonKey;
-                        if (savedSupaUrl && savedSupaKey) {
-                            this.configSupabase.url = savedSupaUrl;
-                            this.configSupabase.anonKey = savedSupaKey;
-                            await this.inicializarClienteSupabase();
+                        if (this.autenticadoLobby && this.lobbyToken) {
+                            this.supabaseConectado = true;
+                            await this.cargarDatosDesdeSupabase();
                         }
                     } catch (e) {
                         console.error("Error al cargar local storage", e);
@@ -4390,55 +4272,30 @@
                 },
 
                 async inicializarClienteSupabase() {
-                    if (!this.configSupabase.url || !this.configSupabase.anonKey || !window.supabase) return;
-                    try {
-                        this.supabaseClient = window.supabase.createClient(this.configSupabase.url.trim(), this.configSupabase.anonKey.trim());
-                        // Test de lectura rápida
-                        const { data, error } = await this.supabaseClient.from('embajadores').select('id').limit(1);
-                        if (!error) {
-                            this.supabaseConectado = true;
-                            await this.cargarDatosDesdeSupabase();
-                            this.mostrarToast("Supabase Conectado", "Base de datos cloud sincronizada correctamente.", "success");
-                        } else {
-                            this.supabaseConectado = false;
-                            console.warn("Supabase respondió con error:", error.message);
-                        }
-                    } catch (err) {
-                        this.supabaseConectado = false;
-                        console.error("Fallo al conectar con Supabase:", err);
+                    if (this.autenticadoLobby && this.lobbyToken) {
+                        this.supabaseConectado = true;
+                        await this.cargarDatosDesdeSupabase();
                     }
                     this.refreshLucide();
                 },
 
                 async conectarSupabase() {
-                    if (!this.configSupabase.url || !this.configSupabase.anonKey) {
-                        alert("Por favor ingresa tanto la Project URL como la Anon Public Key de Supabase.");
-                        return;
-                    }
-                    localStorage.setItem('aura_supa_url', this.configSupabase.url.trim());
-                    localStorage.setItem('aura_supa_key', this.configSupabase.anonKey.trim());
-                    await this.inicializarClienteSupabase();
                     this.mostrarModalSupabase = false;
                 },
 
                 desconectarSupabase() {
-                    localStorage.removeItem('aura_supa_url');
-                    localStorage.removeItem('aura_supa_key');
-                    this.supabaseClient = null;
                     this.supabaseConectado = false;
-                    this.configSupabase.url = '';
-                    this.configSupabase.anonKey = '';
                     this.mostrarModalSupabase = false;
-                    this.mostrarToast("Desconectado", "Se volvió al almacenamiento local del navegador.");
                 },
 
                 async cargarDatosDesdeSupabase() {
-                    if (!this.supabaseClient || !this.supabaseConectado) return;
+                    if (!this.autenticadoLobby || !this.lobbyToken) return;
                     try {
-                        // Cargar Embajadores
-                        const { data: embData, error: embErr } = await this.supabaseClient.from('embajadores').select('*').order('id', { ascending: false });
-                        if (!embErr && Array.isArray(embData)) {
-                            this.embajadores = embData.map(e => ({
+                        const res = await this.llamarLobbyApi({ action: 'cargar_todo' });
+                        if (!res || !res.ok) return;
+
+                        if (Array.isArray(res.embajadores) && res.embajadores.length > 0) {
+                            this.embajadores = res.embajadores.map(e => ({
                                 id: e.id,
                                 nombre: e.nombre,
                                 telefono: e.telefono || '',
@@ -4456,16 +4313,14 @@
                             }));
                         }
 
-                        // Cargar Inventario
-                        const { data: invData, error: invErr } = await this.supabaseClient.from('inventario').select('*').order('id', { ascending: false });
-                        if (!invErr && Array.isArray(invData)) {
+                        if (Array.isArray(res.inventario) && res.inventario.length > 0) {
                             const norm = s => String(s || '').trim().toLowerCase();
-                            this.inventario = invData.map(p => {
+                            this.inventario = res.inventario.map(p => {
                                 const ref = (this.catalogoEstudioBase || []).find(b => String(b.id) === String(p.id) || norm(b.nombre) === norm(p.nombre)) || {};
                                 return {
                                     id: p.id,
-                                    nombre: p.nombre,
-                                    categoria: p.categoria || ref.categoria || 'General',
+                                    nombre: ref.nombre || p.nombre,
+                                    categoria: ref.categoria || p.categoria || 'General',
                                     costo: parseFloat(p.costo) || ref.costo || 0,
                                     pvp: parseFloat(p.pvp) || ref.pvp || 0,
                                     stock: p.stock ?? ref.stock ?? 0,
@@ -4479,10 +4334,8 @@
                             });
                         }
 
-                        // Cargar Pedidos
-                        const { data: pedData, error: pedErr } = await this.supabaseClient.from('pedidos').select('*').order('id', { ascending: false });
-                        if (!pedErr && Array.isArray(pedData)) {
-                            this.pedidosGuardados = pedData.map(p => ({
+                        if (Array.isArray(res.pedidos) && res.pedidos.length > 0) {
+                            this.pedidosGuardados = res.pedidos.map(p => ({
                                 id: p.id,
                                 numeroPlanilla: p.numero_planilla,
                                 cliente: p.cliente,
@@ -4507,10 +4360,9 @@
                             }));
                         }
 
-                        // Resguardar también en localStorage para modo offline
                         this.guardarEnStorage(false);
                     } catch (e) {
-                        console.error("Error al sincronizar datos de Supabase:", e);
+                        console.error("Error al sincronizar datos desde el servidor:", e);
                     }
                 },
 
@@ -4523,16 +4375,14 @@
                         console.error("Error al guardar local storage", e);
                     }
 
-                    // Sincronización asíncrona en Supabase si está conectado
-                    if (sincronizarCloud && this.supabaseClient && this.supabaseConectado) {
+                    if (sincronizarCloud && this.autenticadoLobby && this.lobbyToken) {
                         this.sincronizarTodoASupabase();
                     }
                 },
 
                 async sincronizarTodoASupabase() {
-                    if (!this.supabaseClient || !this.supabaseConectado) return;
+                    if (!this.autenticadoLobby || !this.lobbyToken) return;
                     try {
-                        // Sincronizar Embajadores (Upsert)
                         const embPayload = this.embajadores.map(e => ({
                             id: e.id,
                             nombre: e.nombre,
@@ -4549,11 +4399,7 @@
                             reclamado: e.reclamado,
                             historial: e.historial || []
                         }));
-                        if (embPayload.length > 0) {
-                            await this.supabaseClient.from('embajadores').upsert(embPayload, { onConflict: 'id' });
-                        }
 
-                        // Sincronizar Inventario (Upsert con campos web + respaldo a columnas base)
                         const invPayloadExt = this.inventario.map(p => ({
                             id: p.id,
                             nombre: p.nombre,
@@ -4568,22 +4414,7 @@
                             visible: p.visible !== false,
                             destacado: !!p.destacado
                         }));
-                        if (invPayloadExt.length > 0) {
-                            const { error: invSyncErr } = await this.supabaseClient.from('inventario').upsert(invPayloadExt, { onConflict: 'id' });
-                            if (invSyncErr) {
-                                const invPayloadBase = this.inventario.map(p => ({
-                                    id: p.id,
-                                    nombre: p.nombre,
-                                    categoria: p.categoria || 'General',
-                                    costo: p.costo,
-                                    pvp: p.pvp,
-                                    stock: p.stock
-                                }));
-                                await this.supabaseClient.from('inventario').upsert(invPayloadBase, { onConflict: 'id' });
-                            }
-                        }
 
-                        // Sincronizar Pedidos (Upsert)
                         const pedPayload = this.pedidosGuardados.map(p => ({
                             id: p.id,
                             numero_planilla: p.numeroPlanilla,
@@ -4607,11 +4438,15 @@
                             margen_porcentaje_cuenta: p.margenPorcentajeCuenta,
                             ticket_texto: p.ticketTexto
                         }));
-                        if (pedPayload.length > 0) {
-                            await this.supabaseClient.from('pedidos').upsert(pedPayload, { onConflict: 'id' });
-                        }
+
+                        await this.llamarLobbyApi({
+                            action: 'sincronizar_todo',
+                            embajadores: embPayload,
+                            inventario: invPayloadExt,
+                            pedidos: pedPayload
+                        });
                     } catch (err) {
-                        console.error("Error al sincronizar con Supabase en background:", err);
+                        console.error("Error al sincronizar en background:", err);
                     }
                 },
 
