@@ -43,7 +43,7 @@
         }
     </script>
     <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js" onerror="var s=document.createElement('script');s.defer=true;s.src='https://unpkg.com/alpinejs@3.14.3/dist/cdn.min.js';document.head.appendChild(s);"></script>
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -3157,7 +3157,19 @@
                     return { ok: false, motivo: 'offline' };
                 },
 
-                catalogoEstudioBase: [],
+                catalogoEstudioBase: [
+                    { id: 1793713500001, nombre: "Pantalones Bruno Sastre Baggy", categoria: "Sastrería Baggy", costo: 0, pvp: 0, stock: 0, imagen_url: "/tienda/fotos/bruno-sastre-1.jpg", descripcion: "Primera colección de confección propia hecha en Margarita.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: true },
+                    { id: 1793641003024, nombre: "Baggy - Styles", categoria: "Baggy", costo: 0, pvp: 25.00, stock: 6, imagen_url: "/tienda/fotos/baggy-styles-1.jpg", descripcion: "Pantalón corte baggy de caída amplia y cintura elástica con cordón ajustable.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: true },
+                    { id: 1793646300001, nombre: "Baggy Jeans - OEN", categoria: "Jeans", costo: 0, pvp: 35.00, stock: 6, imagen_url: "/tienda/fotos/baggy-jeans-oen-1.jpg", descripcion: "Denim pesado de corte baggy relajado con lavado de carácter y estructura firme.", tallas: "28, 30, 32, 34", genero: "Unisex", visible: true, destacado: true },
+                    { id: 1793646300002, nombre: "Baggy Pants Premium - OEN", categoria: "Baggy", costo: 0, pvp: 30.00, stock: 6, imagen_url: "/tienda/fotos/baggy-premium-oen-1.jpg", descripcion: "Baggy jogging premium con costuras curvas en contraste (piping) y pretina elástica.", tallas: "S, M, L", genero: "Unisex", visible: true, destacado: true },
+                    { id: 1793383598668, nombre: "Baggy Pants Unicolor - OEN", categoria: "Baggy", costo: 0, pvp: 28.00, stock: 6, imagen_url: "/tienda/fotos/baggy-unicolor-oen-1.jpg", descripcion: "Baggy unicolor de algodón suave con caída fluida y bota ancha.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: false },
+                    { id: 1793383575598, nombre: "Sueter Boxy Fit - OEN", categoria: "Sueter/Sudadera", costo: 0, pvp: 30.00, stock: 6, imagen_url: "/tienda/fotos/sueter-boxy-oen-1.jpg", descripcion: "Suéter con silueta boxy fit de hombros caídos y puños acanalados.", tallas: "S, M, L", genero: "Unisex", visible: true, destacado: true },
+                    { id: 1793646300003, nombre: "Mom Jeans - OEN", categoria: "Jeans", costo: 0, pvp: 34.00, stock: 6, imagen_url: "/tienda/fotos/mom-jeans-oen-1.jpg", descripcion: "Jeans de corte recto clásico con entalle limpio en cintura.", tallas: "28, 30, 32, 34", genero: "Unisex", visible: true, destacado: false },
+                    { id: 1793646300004, nombre: "Track Pants - Style", categoria: "Track Pants", costo: 0, pvp: 28.00, stock: 6, imagen_url: "/tienda/fotos/track-pants-style-1.jpg", descripcion: "Track pants de corte recto con líneas laterales en contraste.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: false },
+                    { id: 1793646300005, nombre: "Track Pants - ARAC", categoria: "Track Pants", costo: 0, pvp: 30.00, stock: 6, imagen_url: "/tienda/fotos/track-pants-arac-1.jpg", descripcion: "Track pants ligeros con vivo lateral en contraste.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: false },
+                    { id: 1793646300006, nombre: "KIT 5 NIKE - CCS", categoria: "Kits", costo: 0, pvp: 40.00, stock: 6, imagen_url: "/tienda/fotos/kit-5-nike-ccs-1.jpg", descripcion: "Kit completo de 5 piezas en 10 combinaciones de color.", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: false },
+                    { id: 1793646300007, nombre: "KIT PERCHADO - CCS", categoria: "Kits", costo: 0, pvp: 45.00, stock: 6, imagen_url: "/tienda/fotos/kit-perchado-ccs-1.jpg", descripcion: "Kit perchado completo (conjunto con capucha, franela, short y medias).", tallas: "S, M, L, XL", genero: "Unisex", visible: true, destacado: false }
+                ],
 
                 inventario: [],
 
