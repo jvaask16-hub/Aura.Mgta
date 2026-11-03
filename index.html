@@ -1165,24 +1165,135 @@
 
 
         <!-- ============================================================== -->
-        <!-- TAB 3: CALCULADORA DE LOTES, COSTOS & FIJADOR DE PVP PARA REFERIDOS -->
+        <!-- TAB 3: CALCULADORA DE CONFECCIÓN PROPIA EN MARGARITA & LOTES AL PROVEEDOR -->
         <!-- ============================================================== -->
         <section x-show="activeTab === 'calculadora'" x-transition class="space-y-6">
             
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-gray-800">
                 <div>
                     <h1 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                        <i data-lucide="boxes" class="w-6 h-6 text-zinc-300"></i>
-                        Calculadora de Lotes al Proveedor, Costo con Envío & PVP para Referidos
+                        <i data-lucide="scissors" class="w-6 h-6 text-zinc-300"></i>
+                        Costeo de Confección Propia en Margarita, Lotes & Fijador de PVP
                     </h1>
                     <p class="text-xs sm:text-sm text-gray-400 mt-1">
-                        Prorratea el envío de pedidos por bulto (ej. 12 prendas por $40 de envío), calcula el costo real exacto de cada prenda y descubre <strong>a cuánto debes venderla para ganar dinero ofreciéndola con el sistema de referidos</strong>.
+                        Calcula cuánto te cuesta producir una prenda con tus <strong>costureros en Margarita</strong> (tela + insumos + mano de obra) o traer un lote de proveedor, y define su PVP protegiendo tus cupones de referidos.
                     </p>
+                </div>
+
+                <!-- SELECTOR DE MODO: CONFECCIÓN PROPIA VS COMPRA A PROVEEDOR -->
+                <div class="flex p-1 rounded-xl bg-zinc-900 border border-zinc-800 self-start">
+                    <button type="button" @click="calcUnit.modo = 'confeccion_propia'; calcUnit.nombre = 'Pantalones Bruno Sastre Baggy'; calcUnit.categoria = 'Sastrería Baggy'"
+                            :class="calcUnit.modo === 'confeccion_propia' ? 'bg-zinc-100 text-zinc-950 font-semibold' : 'text-zinc-400 hover:text-white'"
+                            class="px-3 py-1.5 rounded-lg text-xs transition">
+                        Confección en Margarita (Costureros)
+                    </button>
+                    <button type="button" @click="calcUnit.modo = 'proveedor'"
+                            :class="calcUnit.modo === 'proveedor' ? 'bg-zinc-100 text-zinc-950 font-semibold' : 'text-zinc-400 hover:text-white'"
+                            class="px-3 py-1.5 rounded-lg text-xs transition">
+                        Lote a Proveedor
+                    </button>
                 </div>
             </div>
 
-            <!-- FILA SUPERIOR: PANEL DE COMPRA EN LOTE AL PROVEEDOR -->
-            <div class="bg-zinc-900/60 p-5 sm:p-6 rounded-2xl border border-zinc-800 space-y-4 shadow-sm">
+            <!-- MODO A: CONFECCIÓN PROPIA EN LA ISLA DE MARGARITA (PANTALONES BRUNO SASTRE BAGGY) -->
+            <div x-show="calcUnit.modo === 'confeccion_propia'" class="bg-zinc-900/60 p-5 sm:p-6 rounded-2xl border border-zinc-800 space-y-4 shadow-sm">
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-zinc-800">
+                    <div>
+                        <span class="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-zinc-800 text-zinc-200 border border-zinc-700">Próxima Colección · Producción Local</span>
+                        <h2 class="text-base sm:text-lg font-bold text-white mt-1.5">
+                            Estructura de Costos por Prenda — Confección con Costureros en Margarita
+                        </h2>
+                    </div>
+                    <div class="w-full sm:w-72">
+                        <label class="text-[11px] text-zinc-400 block mb-1">Nombre de la prenda / colección:</label>
+                        <input type="text" x-model="calcUnit.nombre" placeholder="Ej. Pantalones Bruno Sastre Baggy"
+                               class="w-full px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-700 text-white text-xs font-medium focus:border-zinc-400 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 text-xs font-mono">
+                    <!-- 1. Metros de tela por prenda -->
+                    <div class="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800 space-y-1.5">
+                        <label class="text-zinc-300 font-sans font-medium block">1. Tela por prenda (metros):</label>
+                        <div class="flex items-center gap-1.5">
+                            <input type="number" min="0.1" step="0.05" x-model.number="calcUnit.metrosTelaPorPrenda"
+                                   class="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-700 text-white font-bold text-sm text-center focus:border-zinc-500 focus:outline-none">
+                            <span class="text-zinc-400">m</span>
+                        </div>
+                        <p class="text-[10px] text-zinc-500 font-sans">Ej. 1.40m a 1.60m para corte baggy</p>
+                    </div>
+
+                    <!-- 2. Costo por metro de tela -->
+                    <div class="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800 space-y-1.5">
+                        <label class="text-zinc-300 font-sans font-medium block">2. Costo de tela por metro:</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-500">$</span>
+                            <input type="number" min="0" step="0.25" x-model.number="calcUnit.costoPorMetroTela"
+                                   class="w-full pl-7 pr-3 py-2 rounded-lg bg-zinc-900 border border-zinc-700 text-white font-bold text-sm focus:border-zinc-500 focus:outline-none">
+                        </div>
+                        <p class="text-[10px] text-zinc-400 font-sans">Tela por prenda: <strong class="text-white" x-text="'$' + costoTelaPorPrenda.toFixed(2)"></strong></p>
+                    </div>
+
+                    <!-- 3. Insumos / Mercería por prenda -->
+                    <div class="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800 space-y-1.5">
+                        <label class="text-zinc-300 font-sans font-medium block">3. Insumos / Mercería:</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-500">$</span>
+                            <input type="number" min="0" step="0.25" x-model.number="calcUnit.costoInsumosPorPrenda"
+                                   class="w-full pl-7 pr-3 py-2 rounded-lg bg-zinc-900 border border-zinc-700 text-white font-bold text-sm focus:border-zinc-500 focus:outline-none">
+                        </div>
+                        <p class="text-[10px] text-zinc-500 font-sans">Cierre, botón sastre, hilos, etiquetas</p>
+                    </div>
+
+                    <!-- 4. Mano de obra del costurero por prenda -->
+                    <div class="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800 space-y-1.5">
+                        <label class="text-zinc-300 font-sans font-medium block">4. Pago a Costurero / prenda:</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-500">$</span>
+                            <input type="number" min="0" step="0.50" x-model.number="calcUnit.costoCostureroPorPrenda"
+                                   class="w-full pl-7 pr-3 py-2 rounded-lg bg-zinc-900 border border-zinc-700 text-white font-bold text-sm focus:border-zinc-500 focus:outline-none">
+                        </div>
+                        <p class="text-[10px] text-zinc-500 font-sans">Corte y confección por pantalón</p>
+                    </div>
+
+                    <!-- 5. Cantidad del lote a confeccionar y gastos fijos -->
+                    <div class="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800 space-y-1.5">
+                        <label class="text-zinc-300 font-sans font-medium block">5. Piezas del lote & Empaque:</label>
+                        <div class="grid grid-cols-2 gap-1.5">
+                            <div>
+                                <input type="number" min="1" step="1" x-model.number="calcUnit.cantidadLote" title="Cantidad de prendas del lote"
+                                       class="w-full px-2 py-2 rounded-lg bg-zinc-900 border border-zinc-700 text-white font-bold text-xs text-center">
+                                <span class="text-[9px] text-zinc-500 block text-center mt-0.5">Piezas lote</span>
+                            </div>
+                            <div>
+                                <input type="number" min="0" step="0.25" x-model.number="calcUnit.costoPackaging" title="Empaque / bolsa / etiqueta por prenda"
+                                       class="w-full px-2 py-2 rounded-lg bg-zinc-900 border border-zinc-700 text-white font-bold text-xs text-center">
+                                <span class="text-[9px] text-zinc-500 block text-center mt-0.5">$ Empaque</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BANNER RESUMEN DE CONFECCIÓN LOCAL -->
+                <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+                    <div>
+                        <span class="text-zinc-400 uppercase font-mono text-[10px] block">Costo Total de Confección por Prenda en Margarita:</span>
+                        <div class="text-xl font-bold font-mono text-white mt-0.5">
+                            <span x-text="costoTotalRealPrenda > 0 ? ('$' + costoTotalRealPrenda.toFixed(2)) : 'Pendiente por definir costos ($0.00)'"></span>
+                            <span class="text-xs text-zinc-400 font-normal font-sans ml-2">
+                                (Tela $<span x-text="costoTelaPorPrenda.toFixed(2)"></span> + Insumos $<span x-text="(calcUnit.costoInsumosPorPrenda || 0).toFixed(2)"></span> + Costurero $<span x-text="(calcUnit.costoCostureroPorPrenda || 0).toFixed(2)"></span> + Empaque $<span x-text="(calcUnit.costoPackaging || 0).toFixed(2)"></span>)
+                            </span>
+                        </div>
+                    </div>
+                    <div class="text-right font-mono">
+                        <span class="text-[10px] text-zinc-400 block uppercase">Inversión total del lote (<span x-text="calcUnit.cantidadLote"></span> pzas):</span>
+                        <span class="text-base font-bold text-zinc-200" x-text="'$' + (costoTotalRealPrenda * (calcUnit.cantidadLote || 1)).toFixed(2)"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODO B: PANEL DE COMPRA EN LOTE AL PROVEEDOR -->
+            <div x-show="calcUnit.modo === 'proveedor'" class="bg-zinc-900/60 p-5 sm:p-6 rounded-2xl border border-zinc-800 space-y-4 shadow-sm">
                 <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-zinc-800">
                     <h2 class="text-sm font-semibold tracking-wider text-white uppercase flex items-center gap-2 font-mono">
                         <i data-lucide="package-search" class="w-4 h-4 text-zinc-400"></i> 
@@ -3980,17 +4091,27 @@
                 },
 
 
-                // ==================== ESTADO: TAB 3 - CALCULADORA DE LOTES & FIJADOR DE PVP ====================
+                // ==================== ESTADO: TAB 3 - CALCULADORA DE CONFECCIÓN PROPIA & LOTES ====================
                 calcUnit: {
-                    nombre: "Top Rib Seamless",
+                    modo: "confeccion_propia",
+                    nombre: "Pantalones Bruno Sastre Baggy",
+                    categoria: "Sastrería Baggy",
+                    metrosTelaPorPrenda: 1.45,
+                    costoPorMetroTela: 0.00,
+                    costoInsumosPorPrenda: 0.00,
+                    costoCostureroPorPrenda: 0.00,
                     cantidadLote: 12,
-                    envioTotalLote: 40.00,
+                    envioTotalLote: 0.00,
                     costoPrendaFabrica: 10.00,
-                    costoPackaging: 1.00,
+                    costoPackaging: 0.00,
                     descuentoReferidoPct: 10,
                     premioEmbajadorMonto: 10,
                     referidosMeta: 5,
-                    pvp: 32.00
+                    pvp: 35.00
+                },
+
+                get costoTelaPorPrenda() {
+                    return (parseFloat(this.calcUnit.metrosTelaPorPrenda) || 0) * (parseFloat(this.calcUnit.costoPorMetroTela) || 0);
                 },
 
                 get fleteProrrateadoPorPrenda() {
@@ -3999,6 +4120,12 @@
                 },
 
                 get costoTotalRealPrenda() {
+                    if (this.calcUnit.modo === 'confeccion_propia') {
+                        return this.costoTelaPorPrenda +
+                               (parseFloat(this.calcUnit.costoInsumosPorPrenda) || 0) +
+                               (parseFloat(this.calcUnit.costoCostureroPorPrenda) || 0) +
+                               (parseFloat(this.calcUnit.costoPackaging) || 0);
+                    }
                     return (parseFloat(this.calcUnit.costoPrendaFabrica) || 0) + this.fleteProrrateadoPorPrenda + (parseFloat(this.calcUnit.costoPackaging) || 0);
                 },
 
@@ -4055,18 +4182,33 @@
                     return this.gananciaNetaReferido * this.calcUnit.referidosMeta;
                 },
 
-                guardarCalculoEnCatalogo() {
+                async guardarCalculoEnCatalogo() {
+                    const nombreLimpio = (this.calcUnit.nombre || "Prenda Calculada").trim();
+                    const existente = this.inventario.find(p => (p.nombre || '').trim().toLowerCase() === nombreLimpio.toLowerCase());
                     const prenda = {
-                        id: Date.now(),
-                        nombre: this.calcUnit.nombre || "Prenda Calculada",
-                        categoria: "General",
+                        id: existente ? existente.id : (nombreLimpio.toLowerCase().includes('bruno sastre') ? 1793713500001 : Date.now()),
+                        nombre: nombreLimpio,
+                        categoria: this.calcUnit.categoria || (existente ? existente.categoria : "Sastrería Baggy"),
                         costo: parseFloat(this.costoTotalRealPrenda.toFixed(2)),
                         pvp: parseFloat(this.calcUnit.pvp.toFixed(2)),
-                        stock: parseInt(this.calcUnit.cantidadLote) || 5
+                        stock: parseInt(this.calcUnit.cantidadLote) || 6,
+                        genero: existente?.genero || 'Unisex',
+                        tallas: existente?.tallas || 'S, M, L, XL',
+                        visible: true,
+                        destacado: true
                     };
-                    this.inventario.unshift(prenda);
+                    if (existente) {
+                        Object.assign(existente, prenda);
+                    } else {
+                        this.inventario.unshift(prenda);
+                    }
                     this.guardarEnStorage();
-                    this.mostrarToast("¡Guardado en Catálogo!", `${prenda.nombre} registrada con Costo Real $${prenda.costo.toFixed(2)} y PVP $${prenda.pvp.toFixed(2)}.`);
+                    if (this.supabaseClient && this.supabaseConectado) {
+                        try {
+                            await this.supabaseClient.from('inventario').upsert([prenda], { onConflict: 'id' });
+                        } catch (e) {}
+                    }
+                    this.mostrarToast("¡Guardado en Catálogo!", `${prenda.nombre} actualizada con Costo Real $${prenda.costo.toFixed(2)} y PVP $${prenda.pvp.toFixed(2)}.`);
                     this.setTab('inventario');
                 },
 

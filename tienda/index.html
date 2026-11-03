@@ -19,7 +19,7 @@
             sans: ['Outfit', 'sans-serif'], serif: ['Outfit', 'sans-serif'] } } } }
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="contenido.js?v=4"></script>
+    <script src="contenido.js?v=5"></script>
     <style>
         [x-cloak] { display: none !important; }
         html { scroll-behavior: smooth; }
@@ -112,6 +112,39 @@
                 </div>
             </div>
 
+            <!-- Banner Próxima Colección: Confección Propia en Margarita (Pantalones Bruno Sastre Baggy) -->
+            <template x-if="c.proximaColeccion">
+                <div class="border-t border-zinc-900">
+                    <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-10 sm:py-16">
+                        <div class="p-5 sm:p-8 rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900/80 via-zinc-950 to-zinc-950 space-y-5">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <span class="px-3 py-1 rounded-full bg-zinc-100 text-zinc-950 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider" x-text="c.proximaColeccion.etiqueta"></span>
+                                <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-300" x-text="c.proximaColeccion.estadoPrecio"></span>
+                            </div>
+                            <div class="grid md:grid-cols-12 gap-6 items-center">
+                                <div class="md:col-span-7 space-y-3">
+                                    <h2 class="serif text-3xl sm:text-5xl text-white leading-tight" x-text="c.proximaColeccion.nombre"></h2>
+                                    <p class="text-sm sm:text-base text-zinc-300 leading-relaxed" x-text="c.proximaColeccion.subtitulo"></p>
+                                    <div class="pt-2 flex flex-col sm:flex-row gap-2.5">
+                                        <a :href="'#/prenda/' + c.proximaColeccion.id" class="h-11 px-6 rounded-full bg-zinc-100 text-zinc-950 text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 hover:bg-white transition">
+                                            Ver ficha y votar tono/talla <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-5 grid gap-2.5">
+                                    <template x-for="det in c.proximaColeccion.detalles" :key="det.titulo">
+                                        <div class="p-3.5 rounded-xl bg-zinc-950/90 border border-zinc-900">
+                                            <p class="text-xs font-medium text-white" x-text="det.titulo"></p>
+                                            <p class="text-xs text-zinc-400 mt-0.5 leading-relaxed" x-text="det.texto"></p>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
             <!-- Piezas destacadas -->
             <div class="border-t border-zinc-900">
                 <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-10 sm:py-20">
@@ -203,7 +236,11 @@
                                     <img :src="imagenesDe(actual)[fotoActiva] || actual.imagen_url" :alt="actual.nombre" class="w-full h-full object-cover transition duration-300">
                                 </template>
                                 <template x-if="imagenesDe(actual).length === 0">
-                                    <span class="serif text-7xl text-zinc-700" x-text="iniciales(actual.nombre)"></span>
+                                    <div class="p-6 text-center space-y-3">
+                                        <span class="inline-block px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-300" x-text="actual.proximoLanzamiento ? 'En Taller · Isla de Margarita' : 'Estudio Aura'"></span>
+                                        <p class="serif text-4xl sm:text-5xl text-zinc-200 leading-tight" x-text="actual.nombre"></p>
+                                        <p class="text-xs text-zinc-400 max-w-xs mx-auto" x-text="actual.proximoLanzamiento ? 'Confección propia con nuestros costureros en Margarita. Fotos de estudio disponibles al finalizar la primera muestra.' : ''"></p>
+                                    </div>
                                 </template>
 
                                 <!-- Etiqueta del tono activo sobre la foto en móvil -->
@@ -242,9 +279,14 @@
 
                         <!-- Información y selectores -->
                         <div class="md:py-2">
-                            <div class="flex items-start justify-between gap-3">
+                            <div class="flex flex-wrap items-start justify-between gap-3">
                                 <h1 class="serif text-3xl sm:text-5xl leading-tight" x-text="actual.nombre"></h1>
-                                <p class="serif text-2xl sm:text-3xl text-white flex-shrink-0" x-text="'$' + Number(actual.pvp).toFixed(2)"></p>
+                                <template x-if="!actual.proximoLanzamiento && Number(actual.pvp) > 0">
+                                    <p class="serif text-2xl sm:text-3xl text-white flex-shrink-0" x-text="'$' + Number(actual.pvp).toFixed(2)"></p>
+                                </template>
+                                <template x-if="actual.proximoLanzamiento || Number(actual.pvp) <= 0">
+                                    <span class="px-3 py-1 rounded-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200">Precio por definir · Confección en Margarita</span>
+                                </template>
                             </div>
                             <p class="text-zinc-400 text-sm sm:text-base mt-3 sm:mt-5 leading-relaxed" x-text="actual.descripcion || 'Una pieza seleccionada por nuestro equipo. Escríbenos y te asesoramos con la talla y el estilo.'"></p>
 
@@ -252,7 +294,7 @@
                             <template x-if="coloresDe(actual).length > 0">
                                 <div class="mt-5 sm:mt-7">
                                     <div class="flex items-center justify-between mb-2.5">
-                                        <p class="label-ui text-zinc-500">Color / Variante</p>
+                                        <p class="label-ui text-zinc-500" x-text="actual.proximoLanzamiento ? 'Tonos previstos de confección' : 'Color / Variante'"></p>
                                         <span class="text-xs text-zinc-200 font-medium" x-text="coloresDe(actual)[fotoActiva] || coloresDe(actual)[0]"></span>
                                     </div>
                                     <div class="flex sm:flex-wrap gap-2 overflow-x-auto no-scrollbar pb-1 -mx-3.5 px-3.5 sm:mx-0 sm:px-0">
@@ -265,8 +307,8 @@
                                 </div>
                             </template>
 
-                            <!-- Selector de Talla -->
-                            <div class="mt-5 sm:mt-7" x-show="actual.stock > 0">
+                            <!-- Selector de Talla (Prendas disponibles) -->
+                            <div class="mt-5 sm:mt-7" x-show="actual.stock > 0 && !actual.proximoLanzamiento">
                                 <div class="flex items-center justify-between mb-2.5">
                                     <p class="label-ui text-zinc-500">Selecciona tu talla</p>
                                     <button type="button" @click="consultarTallaWhatsApp(actual)" class="text-xs text-zinc-300 underline hover:text-white">
@@ -292,7 +334,29 @@
                                 </div>
                                 <p x-show="actual.stock <= 3" class="mt-3 text-xs text-zinc-500" x-text="'Quedan ' + actual.stock + ' unidades disponibles'"></p>
                             </div>
-                            <div x-show="actual.stock <= 0" class="mt-6 text-sm text-zinc-500">Agotado por ahora. Escríbenos para avisarte cuando regrese.</div>
+
+                            <!-- Bloque especial: Próxima Colección / Confección Propia en Margarita -->
+                            <div class="mt-5 sm:mt-7 space-y-4" x-show="actual.proximoLanzamiento">
+                                <div>
+                                    <p class="label-ui text-zinc-500 mb-2.5">Elige tu talla para lista de espera</p>
+                                    <div class="grid grid-cols-4 sm:flex sm:flex-wrap gap-2">
+                                        <template x-for="t in tallasDe(actual)" :key="t">
+                                            <button @click="tallaSel = t" x-text="t"
+                                                    :class="tallaSel === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-950 border-zinc-800 text-zinc-300'"
+                                                    class="h-11 px-4 rounded-xl border text-sm transition active:scale-95"></button>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-zinc-300 space-y-1.5 leading-relaxed">
+                                    <p class="font-medium text-white">Confección local en la Isla de Margarita</p>
+                                    <p>Esta prenda será confeccionada directamente en la isla junto a nuestros costureros. Actualmente estamos cerrando el costo de telas, insumos y confección por prenda para anunciar el precio oficial de lanzamiento.</p>
+                                </div>
+                                <button type="button" @click="reservarProximoLanzamiento(actual)" class="w-full h-12 px-6 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white transition flex items-center justify-center gap-2">
+                                    <i data-lucide="bell" class="w-4 h-4"></i> Anotarme en Lista de Espera / Votar Tono
+                                </button>
+                            </div>
+
+                            <div x-show="actual.stock <= 0 && !actual.proximoLanzamiento" class="mt-6 text-sm text-zinc-500">Agotado por ahora. Escríbenos para avisarte cuando regrese.</div>
 
                             <!-- Ficha Técnica y Transparencia (Pilar 1) adaptada a lectura móvil -->
                             <template x-if="actual.ficha">
@@ -791,6 +855,8 @@
                             colores: (Array.isArray(ref.colores) && ref.colores.length >= ((p.colores && p.colores.length) || 0)) ? ref.colores : p.colores,
                             descripcion: p.descripcion || ref.descripcion,
                             ficha: p.ficha || ref.ficha,
+                            proximoLanzamiento: ref.proximoLanzamiento || p.proximoLanzamiento || false,
+                            hechoEnMargarita: ref.hechoEnMargarita || p.hechoEnMargarita || false,
                             tallas: p.tallas || ref.tallas,
                             genero: p.genero || ref.genero,
                             destacado: p.destacado !== undefined ? p.destacado : ref.destacado
@@ -798,7 +864,7 @@
                     });
                     for (const ref of base) {
                         const existe = resultado.some(p => String(p.id) === String(ref.id) || normalizar(p.nombre) === normalizar(ref.nombre));
-                        if (!existe) resultado.push({ ...ref });
+                        if (!existe) resultado.unshift({ ...ref });
                     }
                     return resultado;
                 },
@@ -853,24 +919,35 @@
                 esc(t) { return String(t ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])); },
 
                 tarjeta(p) {
-                    const agotada = p.stock <= 0;
+                    const proximo = !!p.proximoLanzamiento;
+                    const agotada = !proximo && p.stock <= 0;
                     const imgs = this.imagenesDe(p);
                     const portada = imgs[0] || p.imagen_url || '';
                     const media = portada
                         ? `<img src="${this.esc(portada)}" alt="${this.esc(p.nombre)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">`
-                        : `<span class="serif text-5xl sm:text-6xl text-zinc-700">${this.esc(this.iniciales(p.nombre))}</span>`;
+                        : (proximo
+                            ? `<div class="p-4 text-center space-y-2">
+                                   <span class="inline-block text-[9px] sm:text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-zinc-900 border border-zinc-700 text-zinc-200">Hecho en Margarita</span>
+                                   <p class="serif text-xl sm:text-2xl text-white leading-tight">${this.esc(p.nombre)}</p>
+                                   <p class="text-[10px] text-zinc-400">Confección propia · En taller</p>
+                               </div>`
+                            : `<span class="serif text-5xl sm:text-6xl text-zinc-700">${this.esc(this.iniciales(p.nombre))}</span>`);
                     const badgeTonos = imgs.length > 1
                         ? `<span class="absolute bottom-2.5 right-2.5 text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full bg-black/70 border border-zinc-800/90 text-zinc-200">${imgs.length} fotos</span>`
-                        : '';
+                        : (proximo ? `<span class="absolute bottom-2.5 right-2.5 text-[10px] px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-950 font-semibold">Próximo Drop</span>` : '');
+                    const textoPrecio = (proximo || Number(p.pvp) <= 0)
+                        ? `<span class="text-zinc-400">Precio por definir</span>`
+                        : `$${Number(p.pvp).toFixed(2)}`;
                     return `<a href="#/prenda/${p.id}" class="group block">
-                        <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative">
+                        <div class="aspect-[4/5] rounded-2xl overflow-hidden border ${proximo ? 'border-zinc-700' : 'border-zinc-900'} tile flex items-center justify-center relative">
                             ${media}
                             ${agotada ? '<span class="absolute top-2.5 left-2.5 text-[9px] sm:text-[10px] label-ui px-2 py-0.5 rounded-full bg-black/75 text-zinc-300">Agotado</span>' : ''}
+                            ${proximo ? '<span class="absolute top-2.5 left-2.5 text-[9px] sm:text-[10px] label-ui px-2 py-0.5 rounded-full bg-black/80 border border-zinc-700 text-zinc-200">Confección Propia</span>' : ''}
                             ${badgeTonos}
                         </div>
                         <p class="mt-2 sm:mt-3 label-ui text-zinc-500 truncate">${this.esc(p.categoria)}</p>
                         <h3 class="serif text-[16px] sm:text-2xl leading-snug mt-0.5 truncate">${this.esc(p.nombre)}</h3>
-                        <p class="text-xs sm:text-sm text-zinc-300 mt-0.5">$${Number(p.pvp).toFixed(2)}</p>
+                        <p class="text-xs sm:text-sm text-zinc-300 mt-0.5">${textoPrecio}</p>
                     </a>`;
                 },
 
@@ -960,6 +1037,16 @@
                     const talla = this.tallaSel ? `, talla ${this.tallaSel}` : '';
                     const variante = tono ? ` (${tono}${talla})` : talla;
                     const msg = `Hola aura.mgta, quisiera asesoría de talla y medidas exactas en centímetros para la prenda: ${p.nombre}${variante}.`;
+                    const num = (this.c.whatsapp || '').replace(/\D/g, '');
+                    window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
+                },
+
+                reservarProximoLanzamiento(p) {
+                    if (!p) return;
+                    const cols = this.coloresDe(p);
+                    const tono = cols[this.fotoActiva] || cols[0] || 'Por definir';
+                    const talla = this.tallaSel || 'Por definir';
+                    const msg = `Hola aura.mgta, quiero anotarme en la lista de espera para la próxima colección hecha en Margarita:\n- Prenda: ${p.nombre}\n- Tono preferido: ${tono}\n- Talla preferida: ${talla}\nPor favor avísenme apenas tengan el precio oficial y el primer lote listo.`;
                     const num = (this.c.whatsapp || '').replace(/\D/g, '');
                     window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
                 },

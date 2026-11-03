@@ -154,8 +154,46 @@ window.AURA_CONTENIDO = {
         ]
     },
 
+    // Próxima colección de confección propia en la Isla de Margarita
+    proximaColeccion: {
+        id: 1793713500001,
+        etiqueta: 'Próxima Colección · Confección Propia en Margarita',
+        nombre: 'Pantalones Bruno Sastre Baggy',
+        subtitulo: 'Nuestro primer corte de sastrería urbana confeccionado directamente en la Isla de Margarita por nuestros propios costureros.',
+        estadoPrecio: 'Precio por definir (En fase de costeo de telas y taller)',
+        detalles: [
+            { titulo: 'Hecho en Margarita', texto: 'Confección local junto a nuestros costureros en la isla, cuidando cada costura, pinza y acabado interno.' },
+            { titulo: 'Corte Bruno Sastre Baggy', texto: 'Fusión entre la elegancia de un pantalón de vestir con pinzas sastre y la caída amplia y relajada del corte baggy contemporáneo.' },
+            { titulo: 'Transparencia de Costos', texto: 'Actualmente seleccionando la tela ideal y definiendo costos de materiales y confección para ofrecer un precio justo y accesible.' }
+        ]
+    },
+
     // Catalogo de prendas y galerias de estudio unificadas (42 fotos en formato estudio 4:5)
     catalogoEstudio: [
+        {
+            id: 1793713500001,
+            nombre: 'Pantalones Bruno Sastre Baggy',
+            categoria: 'Sastrería Baggy',
+            costo: 0,
+            pvp: 0,
+            stock: 0,
+            proximoLanzamiento: true,
+            hechoEnMargarita: true,
+            genero: 'Unisex',
+            tallas: 'S, M, L, XL',
+            destacado: true,
+            imagen_url: '',
+            imagenes: [],
+            colores: ['Negro Sastre', 'Gris Carbón', 'Arena / Beige', 'Marrón Oscuro'],
+            descripcion: 'Próxima colección confeccionada directamente en la Isla de Margarita con nuestros costureros locales. Corte baggy de sastrería con pinzas frontales y caída estructurada. Precio en definición según selección final de telas y taller.',
+            ficha: {
+                tela: 'Tela de sastrería seleccionada (en fase de pruebas de gramaje y caída en Margarita)',
+                caida: 'Corte Bruno Sastre Baggy: cintura estructurada con pinzas y pierna ancha fluida',
+                tacto: 'Acabado suave de vestir con cuerpo firme que no pierde la línea',
+                elasticidad: 'Entalle sastre cómodo pensado para uso formal-urbano',
+                cuidado: 'Confección local reforzada por nuestros costureros en la isla'
+            }
+        },
         {
             id: 1793641003024,
             nombre: 'Baggy - Styles',
