@@ -62,7 +62,7 @@
             <!-- Navegación Desktop -->
             <nav class="hidden md:flex items-center gap-8 text-[13px] tracking-wide text-zinc-400">
                 <template x-for="l in links" :key="l.ruta">
-                    <a :href="'#/' + l.ruta" x-text="l.texto"
+                    <a :href="l.ruta === 'inicio' ? '#/' : '#/' + l.ruta" x-text="l.texto"
                        :class="vista === l.ruta ? 'text-white font-medium' : 'hover:text-white'" class="transition"></a>
                 </template>
             </nav>
@@ -867,6 +867,7 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
             <img src="/logo.png" alt="AURA" class="h-5 w-auto opacity-70">
             <div class="flex gap-6">
+                <a href="#/" class="hover:text-white transition">Inicio</a>
                 <a href="#/coleccion" class="hover:text-white transition">Colección</a>
                 <a href="#/nosotros" class="hover:text-white transition">Quiénes somos</a>
                 <a href="#/embajadoras" class="hover:text-white transition">Embajadores</a>
@@ -1463,6 +1464,7 @@ window.AURA_CONTENIDO = {
             return {
                 c: window.AURA_CONTENIDO,
                 links: [
+                    { ruta: 'inicio', texto: 'Inicio' },
                     { ruta: 'coleccion', texto: 'Colección' },
                     { ruta: 'nosotros', texto: 'Quiénes somos' },
                     { ruta: 'embajadoras', texto: 'Embajadores' }
