@@ -159,7 +159,73 @@
                     </div>
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                         <template x-for="p in destacadas" :key="'d' + p.id">
-                            <div x-html="tarjeta(p)"></div>
+                            <div class="group flex flex-col justify-between rounded-2xl border border-zinc-900/90 bg-zinc-950/60 p-2 sm:p-3 hover:border-zinc-700/80 transition">
+                                <div>
+                                    <div class="aspect-[4/5] rounded-xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative">
+                                        <a :href="'#/prenda/' + p.id" class="w-full h-full flex items-center justify-center">
+                                            <template x-if="imagenesDe(p).length > 0">
+                                                <img :src="imagenesDe(p)[fotoDeCard(p)] || p.imagen_url" :alt="p.nombre" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">
+                                            </template>
+                                            <template x-if="imagenesDe(p).length === 0 && p.proximoLanzamiento">
+                                                <div class="p-3 text-center space-y-1.5">
+                                                    <span class="inline-block text-[9px] uppercase tracking-widest px-2 py-0.5 rounded-full bg-zinc-900 border border-zinc-700 text-zinc-200">Hecho en Margarita</span>
+                                                    <p class="serif text-lg sm:text-xl text-white leading-tight" x-text="p.nombre"></p>
+                                                    <p class="text-[10px] text-zinc-400">Confección propia · En taller</p>
+                                                </div>
+                                            </template>
+                                            <template x-if="imagenesDe(p).length === 0 && !p.proximoLanzamiento">
+                                                <span class="serif text-5xl text-zinc-700" x-text="iniciales(p.nombre)"></span>
+                                            </template>
+                                        </a>
+
+                                        <template x-if="imagenesDe(p).length > 1">
+                                            <div>
+                                                <button type="button" @click.stop="cambiarFotoCard(p, -1)" class="absolute left-1.5 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-xs transition">&lsaquo;</button>
+                                                <button type="button" @click.stop="cambiarFotoCard(p, 1)" class="absolute right-1.5 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-xs transition">&rsaquo;</button>
+                                                <span class="absolute bottom-2 right-2 text-[10px] px-2 py-0.5 rounded-full bg-black/75 border border-zinc-800 text-zinc-200" x-text="(fotoDeCard(p) + 1) + '/' + imagenesDe(p).length"></span>
+                                            </div>
+                                        </template>
+                                        <template x-if="coloresDe(p).length > 0">
+                                            <span class="absolute bottom-2 left-2 max-w-[65%] truncate text-[10px] px-2 py-0.5 rounded-full bg-black/75 border border-zinc-800 text-zinc-200" x-text="coloresDe(p)[fotoDeCard(p)] || coloresDe(p)[0]"></span>
+                                        </template>
+                                    </div>
+
+                                    <div class="mt-2.5 px-0.5">
+                                        <p class="label-ui text-zinc-500 truncate" x-text="p.categoria"></p>
+                                        <a :href="'#/prenda/' + p.id" class="block">
+                                            <h3 class="serif text-[16px] sm:text-xl leading-snug mt-0.5 truncate hover:underline" x-text="p.nombre"></h3>
+                                        </a>
+                                        <p class="text-xs sm:text-sm text-zinc-200 font-medium mt-0.5" x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'Precio por definir' : ('$' + Number(p.pvp).toFixed(2))"></p>
+                                    </div>
+                                </div>
+
+                                <!-- Selector rápido de talla y botón Agregar a la bolsa desde afuera -->
+                                <div class="mt-2.5 pt-2 border-t border-zinc-900 space-y-2">
+                                    <div class="flex items-center gap-1 overflow-x-auto no-scrollbar">
+                                        <template x-for="t in tallasDe(p)" :key="t">
+                                            <button type="button" @click="tallasCard[p.id] = t" x-text="t"
+                                                    :class="tallaDeCard(p) === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-900/80 border-zinc-800 text-zinc-400 hover:text-white'"
+                                                    class="flex-shrink-0 min-w-[28px] h-7 px-2 rounded-lg border text-[11px] transition"></button>
+                                        </template>
+                                    </div>
+                                    <template x-if="!p.proximoLanzamiento && p.stock > 0">
+                                        <button type="button" @click="agregarDesdeCard(p)"
+                                                class="w-full h-9 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-[0.98] transition">
+                                            <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+                                            <span>Agregar a la bolsa</span>
+                                        </button>
+                                    </template>
+                                    <template x-if="p.proximoLanzamiento">
+                                        <button type="button" @click="reservarDesdeCard(p)"
+                                                class="w-full h-9 rounded-xl border border-zinc-700 hover:border-zinc-400 bg-zinc-900 text-zinc-100 text-xs font-medium flex items-center justify-center gap-1.5 transition">
+                                            <span>Lista de espera</span>
+                                        </button>
+                                    </template>
+                                    <template x-if="!p.proximoLanzamiento && p.stock <= 0">
+                                        <span class="block text-center text-[11px] text-zinc-500 py-1">Agotado</span>
+                                    </template>
+                                </div>
+                            </div>
                         </template>
                     </div>
                 </div>
@@ -208,7 +274,73 @@
 
                 <div class="mt-5 sm:mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                     <template x-for="p in filtradas" :key="'c' + p.id">
-                        <div x-html="tarjeta(p)"></div>
+                        <div class="group flex flex-col justify-between rounded-2xl border border-zinc-900/90 bg-zinc-950/60 p-2 sm:p-3 hover:border-zinc-700/80 transition">
+                            <div>
+                                <div class="aspect-[4/5] rounded-xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative">
+                                    <a :href="'#/prenda/' + p.id" class="w-full h-full flex items-center justify-center">
+                                        <template x-if="imagenesDe(p).length > 0">
+                                            <img :src="imagenesDe(p)[fotoDeCard(p)] || p.imagen_url" :alt="p.nombre" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">
+                                        </template>
+                                        <template x-if="imagenesDe(p).length === 0 && p.proximoLanzamiento">
+                                            <div class="p-3 text-center space-y-1.5">
+                                                <span class="inline-block text-[9px] uppercase tracking-widest px-2 py-0.5 rounded-full bg-zinc-900 border border-zinc-700 text-zinc-200">Hecho en Margarita</span>
+                                                <p class="serif text-lg sm:text-xl text-white leading-tight" x-text="p.nombre"></p>
+                                                <p class="text-[10px] text-zinc-400">Confección propia · En taller</p>
+                                            </div>
+                                        </template>
+                                        <template x-if="imagenesDe(p).length === 0 && !p.proximoLanzamiento">
+                                            <span class="serif text-5xl text-zinc-700" x-text="iniciales(p.nombre)"></span>
+                                        </template>
+                                    </a>
+
+                                    <template x-if="imagenesDe(p).length > 1">
+                                        <div>
+                                            <button type="button" @click.stop="cambiarFotoCard(p, -1)" class="absolute left-1.5 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-xs transition">&lsaquo;</button>
+                                            <button type="button" @click.stop="cambiarFotoCard(p, 1)" class="absolute right-1.5 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-xs transition">&rsaquo;</button>
+                                            <span class="absolute bottom-2 right-2 text-[10px] px-2 py-0.5 rounded-full bg-black/75 border border-zinc-800 text-zinc-200" x-text="(fotoDeCard(p) + 1) + '/' + imagenesDe(p).length"></span>
+                                        </div>
+                                    </template>
+                                    <template x-if="coloresDe(p).length > 0">
+                                        <span class="absolute bottom-2 left-2 max-w-[65%] truncate text-[10px] px-2 py-0.5 rounded-full bg-black/75 border border-zinc-800 text-zinc-200" x-text="coloresDe(p)[fotoDeCard(p)] || coloresDe(p)[0]"></span>
+                                    </template>
+                                </div>
+
+                                <div class="mt-2.5 px-0.5">
+                                    <p class="label-ui text-zinc-500 truncate" x-text="p.categoria"></p>
+                                    <a :href="'#/prenda/' + p.id" class="block">
+                                        <h3 class="serif text-[16px] sm:text-xl leading-snug mt-0.5 truncate hover:underline" x-text="p.nombre"></h3>
+                                    </a>
+                                    <p class="text-xs sm:text-sm text-zinc-200 font-medium mt-0.5" x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'Precio por definir' : ('$' + Number(p.pvp).toFixed(2))"></p>
+                                </div>
+                            </div>
+
+                            <!-- Selector rápido de talla y botón Agregar a la bolsa desde afuera -->
+                            <div class="mt-2.5 pt-2 border-t border-zinc-900 space-y-2">
+                                <div class="flex items-center gap-1 overflow-x-auto no-scrollbar">
+                                    <template x-for="t in tallasDe(p)" :key="t">
+                                        <button type="button" @click="tallasCard[p.id] = t" x-text="t"
+                                                :class="tallaDeCard(p) === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-900/80 border-zinc-800 text-zinc-400 hover:text-white'"
+                                                class="flex-shrink-0 min-w-[28px] h-7 px-2 rounded-lg border text-[11px] transition"></button>
+                                    </template>
+                                </div>
+                                <template x-if="!p.proximoLanzamiento && p.stock > 0">
+                                    <button type="button" @click="agregarDesdeCard(p)"
+                                            class="w-full h-9 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-[0.98] transition">
+                                        <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+                                        <span>Agregar a la bolsa</span>
+                                    </button>
+                                </template>
+                                <template x-if="p.proximoLanzamiento">
+                                    <button type="button" @click="reservarDesdeCard(p)"
+                                            class="w-full h-9 rounded-xl border border-zinc-700 hover:border-zinc-400 bg-zinc-900 text-zinc-100 text-xs font-medium flex items-center justify-center gap-1.5 transition">
+                                        <span>Lista de espera</span>
+                                    </button>
+                                </template>
+                                <template x-if="!p.proximoLanzamiento && p.stock <= 0">
+                                    <span class="block text-center text-[11px] text-zinc-500 py-1">Agotado</span>
+                                </template>
+                            </div>
+                        </div>
                     </template>
                 </div>
             </div>
@@ -801,7 +933,8 @@
                 ],
                 vista: 'inicio', idPrenda: null,
                 prendas: [], cargando: true, filtro: 'Todas', genero: 'Todos',
-                tallaSel: '', fotoActiva: 0, menuAbierto: false, bolsaAbierta: false,
+                tallaSel: '', fotoActiva: 0, tallasCard: {}, fotosCard: {},
+                menuAbierto: false, bolsaAbierta: false,
                 bolsa: [], cliente: '', telefono: '', codigoBolsa: '',
                 codigo: '', resultado: null, consultandoCodigo: false,
                 pilarFiltro: 'todos', touchStartX: 0,
@@ -949,6 +1082,49 @@
                         <h3 class="serif text-[16px] sm:text-2xl leading-snug mt-0.5 truncate">${this.esc(p.nombre)}</h3>
                         <p class="text-xs sm:text-sm text-zinc-300 mt-0.5">${textoPrecio}</p>
                     </a>`;
+                },
+
+                tallaDeCard(p) {
+                    if (!p) return 'M';
+                    if (this.tallasCard[p.id]) return this.tallasCard[p.id];
+                    const ts = this.tallasDe(p);
+                    return ts[0] || 'M';
+                },
+                fotoDeCard(p) {
+                    if (!p) return 0;
+                    return this.fotosCard[p.id] || 0;
+                },
+                cambiarFotoCard(p, dir) {
+                    const imgs = this.imagenesDe(p);
+                    if (imgs.length <= 1) return;
+                    const actualIdx = this.fotoDeCard(p);
+                    this.fotosCard[p.id] = (actualIdx + dir + imgs.length) % imgs.length;
+                },
+                agregarDesdeCard(p) {
+                    if (!p) return;
+                    const tallaElegida = this.tallaDeCard(p);
+                    const idxFoto = this.fotoDeCard(p);
+                    const cols = this.coloresDe(p);
+                    const imgs = this.imagenesDe(p);
+                    const colorElegido = cols[idxFoto] || cols[0] || '';
+                    const etiquetaTalla = colorElegido ? `${tallaElegida} · ${colorElegido}` : tallaElegida;
+                    const imgElegida = imgs[idxFoto] || p.imagen_url || '';
+                    const ex = this.bolsa.find(i => i.id === p.id && i.talla === etiquetaTalla);
+                    if (ex) ex.cantidad++;
+                    else this.bolsa.push({ id: p.id, nombre: p.nombre, pvp: Number(p.pvp), talla: etiquetaTalla, cantidad: 1, imagen_url: imgElegida });
+                    this.guardarBolsa();
+                    this.bolsaAbierta = true;
+                    this.refrescarIconos();
+                },
+                reservarDesdeCard(p) {
+                    if (!p) return;
+                    const talla = this.tallaDeCard(p);
+                    const idxFoto = this.fotoDeCard(p);
+                    const cols = this.coloresDe(p);
+                    const tono = cols[idxFoto] || cols[0] || 'Por definir';
+                    const msg = `Hola aura.mgta, quiero anotarme en la lista de espera para la próxima colección hecha en Margarita:\n- Prenda: ${p.nombre}\n- Tono preferido: ${tono}\n- Talla preferida: ${talla}\nPor favor avísenme apenas tengan el precio oficial y el primer lote listo.`;
+                    const num = (this.c.whatsapp || '').replace(/\D/g, '');
+                    window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
                 },
 
                 agregar(p) {
