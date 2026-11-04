@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
@@ -548,43 +548,78 @@
                     </p>
                 </div>
 
-                <!-- 2. LAS 3 TARJETAS DE BENEFICIO (ALTO IMPACTO VISUAL) -->
-                <div class="grid sm:grid-cols-3 gap-4 sm:gap-6">
-                    <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-zinc-900/90 to-zinc-950 border border-zinc-800 space-y-4 hover:border-zinc-700 transition">
-                        <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white">
-                            <i data-lucide="sparkles" class="w-6 h-6"></i>
+                                                <!-- 2. LAS 3 TARJETAS DE BENEFICIO (DISEÑO DESAHOGADO Y BALANCEADO) -->
+                <div class="grid sm:grid-cols-3 gap-5 lg:gap-6">
+                    <!-- Tarjeta 1 -->
+                    <div class="p-6 sm:p-7 rounded-2xl bg-[#111114] border border-zinc-800/80 hover:border-zinc-700 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-3">
+                                <div class="w-11 h-11 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white flex-shrink-0">
+                                    <i data-lucide="sparkles" class="w-5 h-5 text-emerald-400"></i>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[11px] font-medium tracking-wide">
+                                    Beneficio Directo
+                                </span>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-normal text-white mt-6 leading-snug">
+                                10% OFF para tus amigos
+                            </h3>
+                            <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light mt-3">
+                                Quien use tu código en su pedido recibe 10% de descuento directo en compras a partir de $25.00 USD.
+                            </p>
                         </div>
-                        <span class="text-xs label-ui text-emerald-400 font-medium">Beneficio Inmediato</span>
-                        <h3 class="font-display text-xl sm:text-2xl text-white leading-snug">10% OFF para tus amigos</h3>
-                        <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
-                            Cada persona que use tu código en su pedido recibe 10% de descuento directo en compras a partir de $25.00 USD.
-                        </p>
+                        <div class="pt-5 mt-5 border-t border-zinc-900 text-[11px] text-zinc-500">
+                            Aplica en su primera compra con el código
+                        </div>
                     </div>
 
-                    <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-zinc-900/90 to-zinc-950 border border-zinc-800 space-y-4 hover:border-zinc-700 transition relative overflow-hidden">
-                        <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white">
-                            <i data-lucide="gift" class="w-6 h-6"></i>
+                    <!-- Tarjeta 2 -->
+                    <div class="p-6 sm:p-7 rounded-2xl bg-[#111114] border border-zinc-800/80 hover:border-zinc-700 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-3">
+                                <div class="w-11 h-11 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white flex-shrink-0">
+                                    <i data-lucide="gift" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-300 text-[11px] font-medium tracking-wide">
+                                    Tu Bono Acumulado
+                                </span>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-normal text-white mt-6 leading-snug">
+                                $10.00 USD de regalo
+                            </h3>
+                            <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light mt-3">
+                                Cada 5 amigos que compren con tu código desbloqueas un bono de $10.00 USD para llevarte la prenda que quieras.
+                            </p>
                         </div>
-                        <span class="text-xs label-ui text-zinc-300 font-medium">Tu Premio Acumulado</span>
-                        <h3 class="font-display text-xl sm:text-2xl text-white leading-snug">$10.00 USD de regalo</h3>
-                        <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
-                            Cada 5 compras verificadas con tu código desbloqueas un bono de $10.00 USD de descuento para llevarte la prenda que quieras.
-                        </p>
+                        <div class="pt-5 mt-5 border-t border-zinc-900 text-[11px] text-zinc-500">
+                            Meta 5/5 compras · Válido en compras $30+
+                        </div>
                     </div>
 
-                    <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-zinc-900/90 to-zinc-950 border border-zinc-800 space-y-4 hover:border-zinc-700 transition">
-                        <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white">
-                            <i data-lucide="crown" class="w-6 h-6"></i>
+                    <!-- Tarjeta 3 -->
+                    <div class="p-6 sm:p-7 rounded-2xl bg-[#111114] border border-zinc-800/80 hover:border-zinc-700 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-3">
+                                <div class="w-11 h-11 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white flex-shrink-0">
+                                    <i data-lucide="crown" class="w-5 h-5 text-zinc-300"></i>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 text-[11px] font-medium tracking-wide">
+                                    Taller Margarita
+                                </span>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-normal text-white mt-6 leading-snug">
+                                Acceso VIP a lanzamientos
+                            </h3>
+                            <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light mt-3">
+                                Prioridad exclusiva para reservar los Pantalones Bruno Sastre y nuevas piezas de confección propia antes del público general.
+                            </p>
                         </div>
-                        <span class="text-xs label-ui text-zinc-400 font-medium">Comunidad y Taller</span>
-                        <h3 class="font-display text-xl sm:text-2xl text-white leading-snug">Acceso VIP a drops</h3>
-                        <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed font-light">
-                            Prioridad de reserva en las piezas de confección propia en Margarita (como los Pantalones Bruno Sastre) antes del lanzamiento general.
-                        </p>
+                        <div class="pt-5 mt-5 border-t border-zinc-900 text-[11px] text-zinc-500">
+                            Reserva prioritaria vía WhatsApp
+                        </div>
                     </div>
                 </div>
-
-                <!-- 3. VERIFICADOR EN VIVO (TARJETA DE SOCIA VIP CON BARRA DE PROGRESO) -->
+<!-- 3. VERIFICADOR EN VIVO (TARJETA DE SOCIA VIP CON BARRA DE PROGRESO) -->
                 <div class="p-6 sm:p-12 rounded-3xl border border-zinc-700/80 bg-gradient-to-b from-zinc-900/95 via-zinc-950 to-black shadow-2xl relative">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800 pb-6">
                         <div>
