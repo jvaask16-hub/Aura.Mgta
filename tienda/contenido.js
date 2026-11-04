@@ -1,25 +1,34 @@
 /* ============================================================
    CONTENIDO EDITABLE DE LA TIENDA aura.mgta
-   Todo el texto de "Quiénes somos y por qué nacimos", pilares y catálogo vive aquí.
+   Textos de marca, pilares estratégicos y catálogo de estudio.
    ============================================================ */
 window.AURA_CONTENIDO = {
-    // Numero de WhatsApp de la tienda en formato internacional, solo digitos. Ej: '584121234567'
     whatsapp: '584160306788',
     instagram: '',
 
     hero: {
         etiqueta: 'aura.mgta · Isla de Margarita',
-        titulo: 'Ropa con criterio, transparencia técnica y trato humano.',
-        subtitulo: 'Ropa de mujer y de hombre seleccionada con filtro real. Conoce qué tela vistes, cómo cae y cómo te queda antes de pagar.'
+        titulo: 'Ropa con criterio, siluetas contemporáneas y trato humano.',
+        subtitulo: 'Curaduría exigente de piezas listas para usar y confección propia en el trópico. Conoce la tela, la caída y cómo te queda antes de pagar.'
     },
 
     manifiesto: [
-        'Rompemos con el patrón de ropa cara, anticuada y traída sin filtro en la isla.',
+        'Rompemos con el patrón de ropa cara, anticuada y traída sin filtro a la isla.',
         'Cada prenda tiene su ficha clara: tela, grosor, caída, elasticidad y medidas reales sin rodeos.',
         'Más que una tienda, construimos comunidad, alianzas locales y el camino hacia nuestra propia confección en Margarita.'
     ],
 
-    // Pestaña unificada: "Quiénes somos" (incluye "Por qué nacimos" y los 4 pilares estratégicos)
+    proximaColeccion: {
+        nombre: 'Pantalones Bruno Sastre Baggy',
+        etiqueta: 'Primer Drop de Confección Propia · Isla de Margarita',
+        subtitulo: 'Nuestra primera pieza de autor confeccionada íntegramente por costureros locales en la Isla de Margarita. Corte sastre contemporáneo con pinzas profundas, caída pesada y tiro fluido.',
+        detalles: [
+            { titulo: 'Confección Local', texto: 'Hecho a mano en Margarita por sastres y costureros experimentados.' },
+            { titulo: 'Corte Contemporáneo', texto: 'Silueta baggy relajada con pinzas frontales dobles y bota ancha.' },
+            { titulo: 'Tejido Gabardina', texto: 'Estructura con peso ideal para lograr una caída recta y elegante.' }
+        ]
+    },
+
     nosotros: {
         etiqueta: 'Identidad y Propósito · Margarita',
         titulo: 'Quiénes somos y por qué nacimos',
@@ -72,110 +81,40 @@ window.AURA_CONTENIDO = {
                 resumen: 'Crecemos en red recompensando a quienes nos recomiendan y conectando con el talento local.',
                 puntos: [
                     {
-                        subtitulo: 'Beneficios por recomendación',
-                        texto: 'Recompensamos la lealtad y el voz a voz con cupones de descuento y premios reales tanto para quien recomienda como para el nuevo comprador.'
+                        subtitulo: 'Beneficio mutuo real',
+                        texto: 'Quien usa tu código de embajador recibe 10% OFF directo en compras desde $25, y tú acumulas ventas verificadas hacia premios canjeables de $10 OFF en compras desde $30.'
                     },
                     {
-                        subtitulo: 'Red de Aliados',
-                        texto: 'Conectamos con otros proyectos, marcas y creadores de la isla para generar sinergia y apoyarnos mutuamente en visibilidad y alcance.'
+                        subtitulo: 'Alianzas con comercios locales',
+                        texto: 'Colaboramos con barberías, cafés, estudios de tatuaje y espacios creativos de la isla para exhibir muestras físicas, hacer activaciones conjuntas y conectar con gente afín a nuestra estética.'
                     }
                 ]
             },
             {
                 numero: '04',
                 categoria: 'Futuro y Desarrollo Local',
-                titulo: 'Visión de Impacto Local y Financiamiento',
-                resumen: 'De la curaduría selecta a la confección propia y el impulso a nuevos emprendedores en Margarita.',
+                titulo: 'Hacia Nuestra Propia Confección',
+                resumen: 'Construimos las bases para fabricar nuestras prendas directamente en la Isla de Margarita.',
                 puntos: [
                     {
-                        subtitulo: 'Evolución a producción propia',
-                        texto: 'Damos el salto progresivo de la reventa curada a la confección propia con telas seleccionadas, garantizando cortes únicos a precios realmente accesibles.'
+                        subtitulo: 'Activación del talento margariteño',
+                        texto: 'Trabajamos con costureros y talleres independientes de la isla para prototipar y confeccionar nuestras propias piezas, generando empleo digno y valor artesanal insular.'
                     },
                     {
-                        subtitulo: 'Planes para emprendedores',
-                        texto: 'Proyectamos facilidades y planes de financiamiento a futuro para que nuevos proyectos, marcas locales o personas emergentes en Margarita puedan vestirse, equiparse o emprender junto a nosotros sin ahogarse económicamente.'
+                        subtitulo: 'De la importación al diseño propio',
+                        texto: 'Nuestra meta es que la mayoría de piezas de aura.mgta lleven la etiqueta Hecho en Margarita, diseñadas pensando en el clima, la silueta contemporánea y la identidad de nuestra tierra.'
                     }
-                ]
-            }
-        ],
-        compromisos: [
-            {
-                etiqueta: 'Protocolo de Atención',
-                titulo: 'Cómo te asesoramos por WhatsApp e Instagram',
-                pasos: [
-                    '1. Contextura y estilo: Nos dices tu estatura aproximada y cómo te gusta que te quede la prenda (suelta, boxy o al cuerpo).',
-                    '2. Medidas en centímetros: Te confirmamos ancho de cintura, tiro, largo total o ancho de pecho medidos sobre la prenda real.',
-                    '3. Tacto y lavado: Te explicamos el peso de la tela, si cede con el uso y cómo lavarla para conservar el color y la estructura.'
-                ]
-            },
-            {
-                etiqueta: 'Laboratorio Aura',
-                titulo: 'Dinámica de Prendas DEMO y Drops',
-                pasos: [
-                    '1. Muestra piloto: Traemos o confeccionamos lotes cortos de nuevos cortes urbanos que no se consiguen en la isla.',
-                    '2. Votación y feedback real: Nuestra comunidad y embajadores evalúan la tela, el entalle y el precio.',
-                    '3. Escala con respaldo: Solo los modelos mejor valorados pasan a producción o reposición completa en el catálogo.'
                 ]
             }
         ]
     },
 
     embajadoras: {
-        titulo: 'Embajadores y Cupones Aura',
-        texto: 'Consulta al instante el estado de tu código, cuántas personas llevas referidas y las condiciones para aplicar tu descuento o canjear tu premio.',
-        minimoReferido: 25.00,
-        minimoPremioEmbajador: 30.00,
-        pasos: [
-            { titulo: 'Tu código personal', texto: 'Cada embajador o aliado cuenta con un código único vinculado a su perfil para compartir con amigos o seguidores.' },
-            { titulo: 'Beneficio para tus referidos', texto: 'Quien compra con tu código recibe 10% OFF en compras desde $25.00 y suma 1 punto a tu meta al concretar el pago.' },
-            { titulo: 'Premio del Embajador ($10 OFF)', texto: 'Al completar tus 5 referidos verificados, desbloqueas $10.00 OFF canjeables en una compra mínima de $30.00.' }
-        ],
-        condiciones: [
-            {
-                etiqueta: 'Monto mínimo de compra',
-                titulo: '¿En qué prendas o montos aplica cada cupón?',
-                detalle: 'El cupón de premio de embajador ($10.00 OFF) solo es válido en prendas o pedidos con un subtotal mínimo de $30.00 (no aplica en prendas de $15 a $25 individuales). El código de referido (10% OFF para amigos) aplica en compras a partir de $25.00.'
-            },
-            {
-                etiqueta: 'Momento de activación',
-                titulo: '¿Cuándo se suma un referido y cuándo puedo usar mi premio?',
-                detalle: 'Cada referido se contabiliza únicamente cuando el pedido del invitado ha sido pagado y entregado. El premio de $10.00 OFF del embajador se habilita al alcanzar 5/5 compras efectivas y se usa en su siguiente compra.'
-            },
-            {
-                etiqueta: 'Uso único y exclusiones',
-                titulo: '¿Se pueden acumular varios cupones o aplicar en rebajas?',
-                detalle: 'Solo se puede utilizar un (1) código o cupón por pedido. Los cupones aplican sobre prendas de colección a precio regular; no son acumulables con promociones, liquidaciones ni prendas DEMO a precio de costo.'
-            },
-            {
-                etiqueta: 'Validación al pedir',
-                titulo: '¿Cómo se aplica al pagar?',
-                detalle: 'Al ingresar tu código en la bolsa, el sistema verifica que tu pedido cumpla el monto mínimo ($25.00 para 10% OFF de referido o $30.00 para el premio de $10.00 OFF) y lo adjunta a tu orden de WhatsApp para validación final.'
-            }
-        ]
+        etiqueta: 'Comunidad y Beneficios · Margarita',
+        titulo: 'Programa de Embajadores y Cupones',
+        texto: 'En aura.mgta creemos en el crecimiento orgánico de la mano de nuestra gente. Comparte tu código de embajador: tus conocidos reciben 10% OFF en compras desde $25 y tú acumulas beneficios directos para canjear en tus prendas favoritas.'
     },
 
-    // Próxima colección exclusiva de confección propia en la Isla de Margarita
-    proximaColeccion: {
-        id: 1793713500001,
-        etiqueta: 'Atelier Aura · Edición Exclusiva Hecha en Margarita',
-        sello: '1ra Colección Propia · Lote Limitado',
-        nombre: 'Pantalones Bruno Sastre Baggy',
-        subtitulo: 'Nuestra primera pieza de autor confeccionada íntegramente en la Isla de Margarita junto a nuestros propios costureros. Una silueta de sastrería contemporánea con pinzas dobles, pretina estructurada y caída baggy amplia que no existe en las tiendas de la isla.',
-        estadoPrecio: 'Lanzamiento Exclusivo · Precio en definición (costeo de telas y taller)',
-        etapas: [
-            { paso: '01', nombre: 'Diseño y Patronaje Baggy Sastre', estado: 'Completado' },
-            { paso: '02', nombre: 'Curaduría de Tela y Pruebas en Isla', estado: 'En curso' },
-            { paso: '03', nombre: 'Costeo con Costureros y Precio Oficial', estado: 'En curso' },
-            { paso: '04', nombre: 'Confección 1er Lote Limitado', estado: 'Próximo paso' }
-        ],
-        detalles: [
-            { titulo: 'Confección Artesanal en Margarita', texto: 'Cero reventa masiva. Cada pantalón será cortado y cosido en la isla por nuestros costureros aliados, cuidando cada pinza, pretina y costura interna.' },
-            { titulo: 'Corte Bruno Sastre Baggy de Autor', texto: 'Fusión entre la elegancia de un pantalón de vestir con pinzas sastre y la caída amplia del corte baggy contemporáneo.' },
-            { titulo: 'Acceso Prioritario · 1er Lote Limitado', texto: 'Al ser nuestra primera producción local, los cupos por talla serán limitados. Anotarte en la Lista VIP te garantiza prioridad apenas anunciemos el precio oficial.' }
-        ]
-    },
-
-    // Catalogo de prendas y galerias de estudio unificadas
     catalogoEstudio: [
         {
             id: 1793713500001,
@@ -183,12 +122,10 @@ window.AURA_CONTENIDO = {
             categoria: 'Sastrería Baggy',
             pvp: 0,
             stock: 0,
-            proximoLanzamiento: true,
-            exclusivo: true,
-            hechoEnMargarita: true,
             genero: 'Unisex',
-            tallas: 'S, M, L, XL',
+            tallas: 'XS, S, M, L, XL',
             destacado: true,
+            proximoLanzamiento: true,
             imagen_url: '/tienda/fotos/bruno-sastre-1.jpg?v=1',
             imagenes: [
                 '/tienda/fotos/bruno-sastre-1.jpg?v=1',
@@ -196,202 +133,111 @@ window.AURA_CONTENIDO = {
                 '/tienda/fotos/bruno-sastre-3.jpg?v=1',
                 '/tienda/fotos/bruno-sastre-4.jpg?v=1'
             ],
-            colores: ['Negro Sastre', 'Gris Carbón', 'Arena / Beige', 'Marrón Oscuro'],
-            descripcion: 'Edición Exclusiva · Primera colección de confección propia hecha directamente en la Isla de Margarita por nuestros costureros locales. Pantalón de autor con corte Bruno Sastre Baggy, pinzas dobles frontales, pretina de vestir estructurada y caída amplia sobre el calzado. Actualmente en cierre de costos de materiales y taller para anunciar su precio oficial.',
+            colores: ['Negro Sastre', 'Gris Carbón Plisado', 'Arena / Beige Neutro', 'Gris Jaspeado'],
+            descripcion: 'Nuestra primera confección propia hecha por costureros locales en la Isla de Margarita. Pantalón sastre de corte baggy con pinzas dobles, tiro medio-alto, caída pesada y bota ancha contemporánea.',
             ficha: {
-                tela: 'Casimir / Gabardina Sastre de caída pesada (en selección final de gramaje en Margarita)',
-                caida: 'Corte Bruno Sastre Baggy: cintura estructurada con pinzas dobles y pierna ancha fluida',
-                tacto: 'Acabado suave y elegante de sastrería con cuerpo firme que mantiene la línea',
-                elasticidad: 'Pretina sastre firme con trabillas para cinturón y calce holgado de alta comodidad',
-                cuidado: 'Confección artesanal reforzada por nuestros costureros en la Isla de Margarita'
-            }
-        },
-        {
-            id: 1793641003024,
-            nombre: 'Baggy - Styles',
-            categoria: 'Baggy',
-            pvp: 25.00,
-            stock: 6,
-            genero: 'Unisex',
-            tallas: 'S, M, L, XL',
-            destacado: true,
-            imagen_url: '/tienda/fotos/baggy-styles-1.jpg?v=2',
-            imagenes: [
-                '/tienda/fotos/baggy-styles-1.jpg?v=2',
-                '/tienda/fotos/baggy-styles-2.jpg?v=2',
-                '/tienda/fotos/baggy-styles-3.jpg?v=2',
-                '/tienda/fotos/baggy-styles-4.jpg?v=2',
-                '/tienda/fotos/baggy-styles-5.jpg?v=2'
-            ],
-            colores: ['Taupe', 'Crema', 'Gris Jaspeado', 'Gris Claro', 'Negro'],
-            descripcion: 'Pantalón corte baggy de caída amplia y cintura elástica con cordón ajustable. Disponible en 5 tonos de alta versatilidad.',
-            ficha: {
-                tela: 'Algodón perchado suave de gramaje medio-alto',
-                caida: 'Caída fluida de pierna ancha (Wide Leg / Baggy) con apilamiento natural sobre el calzado',
-                tacto: 'Interior suave y cálido, exterior liso y firme',
-                elasticidad: 'Cintura elástica con cordón; el cuerpo de la tela tiene elasticidad moderada sin deformarse',
-                cuidado: 'Lavar al revés en agua fría, no usar secadora de calor alto para proteger el estampado'
+                tela: 'Gabardina sastre de peso medio (280 gsm) con caída pesada y tacto suave',
+                caida: 'Estructurada con quiebre recto desde la rodilla; pinzas frontales profundas',
+                tacto: 'Sedoso y firme, sin sensación sintética; ideal para clima cálido y eventos',
+                elasticidad: 'Tela no elástica que preserva la silueta de sastrería formal',
+                cuidado: 'Lavar en seco o ciclo delicado en agua fría; planchar con paño protector'
             }
         },
         {
             id: 1793646300001,
-            nombre: 'Baggy Jeans - OEN',
+            nombre: 'Baggy Jeans OEN - Dark Blue',
             categoria: 'Jeans',
             pvp: 35.00,
-            stock: 6,
+            stock: 8,
             genero: 'Unisex',
-            tallas: '28, 30, 32, 34',
+            tallas: '28, 30, 32, 34, 36',
             destacado: true,
             imagen_url: '/tienda/fotos/baggy-jeans-oen-1.jpg?v=2',
             imagenes: [
                 '/tienda/fotos/baggy-jeans-oen-1.jpg?v=2',
                 '/tienda/fotos/baggy-jeans-oen-2.jpg?v=2',
-                '/tienda/fotos/baggy-jeans-oen-3.jpg?v=2',
-                '/tienda/fotos/baggy-jeans-oen-4.jpg?v=2'
+                '/tienda/fotos/baggy-jeans-oen-3.jpg?v=2'
             ],
-            colores: ['Negro Whiskers', 'Gris Acid Wash', 'Gris Claro Acid', 'Negro Sólido'],
-            descripcion: 'Denim pesado de corte baggy relajado con lavado de carácter y estructura firme. Diseñado para un fit urbano limpio.',
+            colores: ['Azul Oscuro / Dark Blue', 'Azul Índigo Clásico', 'Azul Lavado Medio'],
+            descripcion: 'Jeans corte baggy auténtico con lavado oscuro y costuras reforzadas.',
             ficha: {
-                tela: 'Denim 100% algodón rígido de alta densidad (alto gramaje)',
-                caida: 'Estructurada y tubular; mantiene la silueta ancha desde la cadera hasta el ruedo',
-                tacto: 'Textura denim firme con prelavado suavizado',
-                elasticidad: 'No estira (denim rígido); recomendamos pedir tu talla exacta de cintura en centímetros',
-                cuidado: 'Lavar por separado en agua fría, secar a la sombra sin retorcer'
+                tela: 'Denim rígido 100% algodón de 12.5 oz',
+                caida: 'Caída amplia con quiebre sobre el calzado (stacking natural)',
+                tacto: 'Textura denim clásica resistente pero suavizada al tacto',
+                elasticidad: 'Rígido sin elastano para mantener el corte original con el uso',
+                cuidado: 'Lavar del revés en agua fría; no usar secadora'
             }
         },
         {
             id: 1793646300002,
-            nombre: 'Baggy Pants Premium - OEN',
+            nombre: 'Baggy Premium OEN - Dirty Wash',
             categoria: 'Baggy',
-            pvp: 30.00,
-            stock: 6,
+            pvp: 38.00,
+            stock: 5,
             genero: 'Unisex',
-            tallas: 'S, M, L',
+            tallas: '28, 30, 32, 34, 36',
             destacado: true,
             imagen_url: '/tienda/fotos/baggy-premium-oen-1.jpg?v=2',
             imagenes: [
                 '/tienda/fotos/baggy-premium-oen-1.jpg?v=2',
                 '/tienda/fotos/baggy-premium-oen-2.jpg?v=2',
-                '/tienda/fotos/baggy-premium-oen-3.jpg?v=2',
-                '/tienda/fotos/baggy-premium-oen-4.jpg?v=2'
+                '/tienda/fotos/baggy-premium-oen-3.jpg?v=2'
             ],
-            colores: ['Rosa / Vivo Blanco', 'Gris / Vivo Negro', 'Crema / Vivo Negro', 'Negro / Vivo Blanco'],
-            descripcion: 'Baggy jogging premium con costuras curvas en contraste (piping) y pretina elástica con cordón.',
+            colores: ['Dirty Wash Tint', 'Gris Ceniza Desgastado', 'Azul Petróleo Envejecido'],
+            descripcion: 'Edición especial baggy con tratamiento dirty wash y matices vintage.',
             ficha: {
-                tela: 'French Terry pesado de algodón con vivo (piping) tejido en contraste',
-                caida: 'Caída pesada con volumen arquitectónico gracias a las costuras laterales curvas',
-                tacto: 'Suave, fresco por dentro y con cuerpo firme por fuera',
-                elasticidad: 'Pretina elástica adaptable; la tela cede ligeramente al movimiento',
-                cuidado: 'Lavado suave en agua fría con colores similares; no aplicar cloro'
-            }
-        },
-        {
-            id: 1793383598668,
-            nombre: 'Baggy Pants Unicolor - OEN',
-            categoria: 'Baggy',
-            pvp: 28.00,
-            stock: 6,
-            genero: 'Unisex',
-            tallas: 'S, M, L, XL',
-            destacado: false,
-            imagen_url: '/tienda/fotos/baggy-unicolor-oen-1.jpg?v=2',
-            imagenes: [
-                '/tienda/fotos/baggy-unicolor-oen-1.jpg?v=2',
-                '/tienda/fotos/baggy-unicolor-oen-2.jpg?v=2',
-                '/tienda/fotos/baggy-unicolor-oen-3.jpg?v=2',
-                '/tienda/fotos/baggy-unicolor-oen-4.jpg?v=2'
-            ],
-            colores: ['Gris Melange', 'Vinotinto', 'Marrón Camel', 'Negro'],
-            descripcion: 'Baggy unicolor de algodón suave con caída fluida y bota ancha. Un esencial diario para combinar sin esfuerzo.',
-            ficha: {
-                tela: 'Algodón French Terry transpirable de densidad media',
-                caida: 'Holgada y ligera, ideal para el clima de la isla sin perder el corte baggy',
-                tacto: 'Muy suave al contacto con la piel, fresco para uso diario',
-                elasticidad: 'Cintura elástica con ajuste de cordón y ligera flexibilidad en pierna',
-                cuidado: 'Lavar en ciclo suave con agua fría y secar al aire'
-            }
-        },
-        {
-            id: 1793383575598,
-            nombre: 'Sueter Boxy Fit - OEN',
-            categoria: 'Sueter/Sudadera',
-            pvp: 30.00,
-            stock: 6,
-            genero: 'Unisex',
-            tallas: 'S, M, L',
-            destacado: true,
-            imagen_url: '/tienda/fotos/sueter-boxy-oen-1.jpg?v=2',
-            imagenes: [
-                '/tienda/fotos/sueter-boxy-oen-1.jpg?v=2',
-                '/tienda/fotos/sueter-boxy-oen-2.jpg?v=2',
-                '/tienda/fotos/sueter-boxy-oen-3.jpg?v=2'
-            ],
-            colores: ['Gris Melange', 'Marrón Camel', 'Negro'],
-            descripcion: 'Hoodie con capucha y bolsillo canguro en silueta boxy fit de hombros caídos y puños acanalados.',
-            ficha: {
-                tela: 'Algodón perchado de alto gramaje con capucha de doble capa',
-                caida: 'Corte Boxy Fit: ancho en pecho y hombros caídos con largo ligeramente recortado a la cintura',
-                tacto: 'Afelpado interno ultrasuave y exterior compacto',
-                elasticidad: 'Puños y pretina en rib elástico firme que mantiene la forma',
-                cuidado: 'Lavar al revés en agua fría; secar en superficie plana o colgado sin pinzas en hombros'
+                tela: 'Denim grueso con tinte artesanal en tonos arena/óxido vintage',
+                caida: 'Silueta balloon-baggy de gran presencia y volumen en piernas',
+                tacto: 'Denim lavado con acabado suave al roce',
+                elasticidad: '100% algodón rígido con pre-encogido',
+                cuidado: 'Lavar por separado las primeras veces para fijar el tinte'
             }
         },
         {
             id: 1793646300003,
-            nombre: 'Mom Jeans - OEN',
-            categoria: 'Jeans',
-            pvp: 34.00,
-            stock: 6,
+            nombre: 'Baggy Unicolor OEN - Black',
+            categoria: 'Baggy',
+            pvp: 35.00,
+            stock: 7,
             genero: 'Unisex',
-            tallas: '28, 30, 32, 34',
-            destacado: false,
-            imagen_url: '/tienda/fotos/mom-jeans-oen-1.jpg?v=2',
+            tallas: '28, 30, 32, 34, 36',
+            destacado: true,
+            imagen_url: '/tienda/fotos/baggy-unicolor-oen-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/mom-jeans-oen-1.jpg?v=2',
-                '/tienda/fotos/mom-jeans-oen-2.jpg?v=2'
+                '/tienda/fotos/baggy-unicolor-oen-1.jpg?v=2',
+                '/tienda/fotos/baggy-unicolor-oen-2.jpg?v=2',
+                '/tienda/fotos/baggy-unicolor-oen-3.jpg?v=2'
             ],
-            colores: ['Azul Clásico', 'Negro'],
-            descripcion: 'Jeans de corte recto clásico con entalle limpio en cintura y caída estructurada.',
+            colores: ['Negro Intenso', 'Negro Deslavado / Washed Black', 'Gris Carbón'],
+            descripcion: 'Baggy minimalista en color negro uniforme con herrajes pavonados oscuros.',
             ficha: {
-                tela: 'Denim clásico de algodón de grosor medio-alto',
-                caida: 'Tiro medio-alto con pierna recta holgada que estiliza sin apretar',
-                tacto: 'Denim suave al tacto, resistente al uso continuo',
-                elasticidad: 'Estructura firme sin spandex (no estira); te asesoramos con la medida exacta de cintura',
-                cuidado: 'Lavar al revés con agua fría para preservar el tono azul o negro profundo'
+                tela: 'Denim negro teñido reactivo para mayor retención de color',
+                caida: 'Recta-ancha desde la cadera hasta el ruedo',
+                tacto: 'Firme y estructurado con acabado limpio',
+                elasticidad: 'Sin elastano (100% algodón)',
+                cuidado: 'Lavar siempre con prendas oscuras y agua fría'
             }
         },
         {
             id: 1793646300004,
-            nombre: 'Track Pants - Style',
-            categoria: 'Track Pants',
-            pvp: 28.00,
-            stock: 6,
+            nombre: 'Baggy Styles - Parachute / Cargo',
+            categoria: 'Baggy',
+            pvp: 32.00,
+            stock: 9,
             genero: 'Unisex',
             tallas: 'S, M, L, XL',
             destacado: false,
-            imagen_url: '/tienda/fotos/track-pants-style-1.jpg?v=2',
+            imagen_url: '/tienda/fotos/baggy-styles-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/track-pants-style-1.jpg?v=2',
-                '/tienda/fotos/track-pants-style-2.jpg?v=2',
-                '/tienda/fotos/track-pants-style-3.jpg?v=2',
-                '/tienda/fotos/track-pants-style-4.jpg?v=2',
-                '/tienda/fotos/track-pants-style-5.jpg?v=2',
-                '/tienda/fotos/track-pants-style-6.jpg?v=2',
-                '/tienda/fotos/track-pants-style-7.jpg?v=2'
+                '/tienda/fotos/baggy-styles-1.jpg?v=2',
+                '/tienda/fotos/baggy-styles-2.jpg?v=2',
+                '/tienda/fotos/baggy-styles-3.jpg?v=2'
             ],
-            colores: [
-                'Beige / Línea Negra',
-                'Gris / Línea Blanca',
-                'Negro / Línea Blanca',
-                'Blanco / Línea Negra',
-                'Dúo Negro y Blanco',
-                'Trío Negro / Verde Militar / Beige',
-                'Trío Negro / Azul Marino / Beige'
-            ],
-            descripcion: 'Track pants de tela ligera con líneas laterales en contraste y cintura elástica con cordón.',
+            colores: ['Gris Cemento', 'Verde Militar / Oliva', 'Negro Mate'],
+            descripcion: 'Pantalón ligero de silueta oversized con bolsillos utilitarios.',
             ficha: {
-                tela: 'Nylon / Microfibra deportiva ligera repelente a salpicaduras',
-                caida: 'Caída recta y suelta tipo parachute/track con mucho movimiento',
+                tela: 'Nailon técnico ripstop ligero y transpirable',
+                caida: 'Caída recta y suelta tipo parachute con gran movimiento',
                 tacto: 'Fresco, liso y ultraligero, ideal para el calor de Margarita',
                 elasticidad: 'Tela no elástica de corte amplio; cintura 100% elástica con cordón ajustable',
                 cuidado: 'Secado rápido; lavar en agua fría y no planchar a alta temperatura'
@@ -415,7 +261,7 @@ window.AURA_CONTENIDO = {
                 'Gama Vibrante (Fucsia, Rosa, Morado, Verde Esmeralda, Oliva)',
                 'Gama Clásica (Negro, Gris, Blanco, Marrón, Beige, Rojo)'
             ],
-            descripcion: 'Track pants ligeros con vivo lateral en contraste. Disponibles en 11 colores entre la gama vibrante y la gama clásica.',
+            descripcion: 'Track pants ligeros con vivo lateral en contraste. Disponibles en gama vibrante y clásica.',
             ficha: {
                 tela: 'Tejido técnico deportivo de secado rápido con vivo blanco cosido',
                 caida: 'Corte relajado de pierna ancha que no se pega al cuerpo',
@@ -458,7 +304,7 @@ window.AURA_CONTENIDO = {
                 'Negro + Lila',
                 'Negro + Rojo'
             ],
-            descripcion: 'Kit completo de 5 piezas (chaqueta/jogger o conjunto con capucha, franela algodón, franela deportiva, short y medias) disponible en 10 combinaciones de color.',
+            descripcion: 'Kit completo de 5 piezas (conjunto deportivo, franela algodón, franela deportiva, short y medias).',
             ficha: {
                 tela: 'Mix de algodón suave en franelas/short y tejido deportivo transpirable en conjunto',
                 caida: 'Calce regular-relajado pensado para combinar las 5 piezas por separado o en set',
@@ -488,6 +334,52 @@ window.AURA_CONTENIDO = {
                 tacto: 'Interior afelpado suave de tacto premium',
                 elasticidad: 'Pretinas elásticas firmes con cordón y rib en tobillos/puños',
                 cuidado: 'Lavar el short blanco por separado del conjunto negro en agua fría'
+            }
+        },
+        {
+            id: 1793646300008,
+            nombre: 'Suéter Cuello Redondo Oversize',
+            categoria: 'Suéter / Sudadera',
+            pvp: 28.00,
+            stock: 5,
+            genero: 'Unisex',
+            tallas: 'S, M, L, XL',
+            destacado: false,
+            imagen_url: '/tienda/fotos/sueter-suave-1.jpg?v=1',
+            imagenes: [
+                '/tienda/fotos/sueter-suave-1.jpg?v=1'
+            ],
+            colores: ['Gris Melange'],
+            descripcion: 'Suéter cuello redondo de corte boxy relajado con caída suelta y puños acanalados.',
+            ficha: {
+                tela: 'Mezcla de algodón y felpa francesa ligera',
+                caida: 'Corte boxy amplio que cae natural sobre los hombros',
+                tacto: 'Suave y transpirable para noches frescas en la isla',
+                elasticidad: 'Tejido con elasticidad en cuello y puños',
+                cuidado: 'Lavar con agua fría en ciclo suave'
+            }
+        },
+        {
+            id: 1793646300009,
+            nombre: 'Mom Jeans Vintage Wash',
+            categoria: 'Jeans',
+            pvp: 32.00,
+            stock: 4,
+            genero: 'Mujer',
+            tallas: '26, 28, 30, 32',
+            destacado: false,
+            imagen_url: '/tienda/fotos/mom-jeans-1.jpg?v=1',
+            imagenes: [
+                '/tienda/fotos/mom-jeans-1.jpg?v=1'
+            ],
+            colores: ['Azul Vintage'],
+            descripcion: 'Jeans de tiro alto con corte clásico cónico en tobillos y lavado retro.',
+            ficha: {
+                tela: 'Denim resistente 100% algodón con efecto deslavado',
+                caida: 'Ajuste ceñido a la cintura y holgado en muslos',
+                tacto: 'Denim con cuerpo y textura genuina',
+                elasticidad: 'Rígido clásico',
+                cuidado: 'Lavar del revés para preservar el tono vintage'
             }
         }
     ]

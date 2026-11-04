@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
@@ -15,8 +15,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: {
-            sans: ['Outfit', 'sans-serif'], serif: ['Outfit', 'sans-serif'] } } } }
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif']
+                    },
+                    colors: {
+                        aura: {
+                            base: '#09090b',
+                            card: '#101013',
+                            border: '#1f1f24',
+                            muted: '#71717a'
+                        }
+                    }
+                }
+            }
+        };
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js" onerror="var s=document.createElement('script');s.defer=true;s.src='https://unpkg.com/alpinejs@3.14.3/dist/cdn.min.js';document.head.appendChild(s);"></script>
 
@@ -39,22 +56,35 @@
         @media (min-width: 768px) {
             body { font-size: 17px; line-height: 1.65; padding-bottom: 0; }
         }
-        .serif { font-family: 'Outfit', sans-serif; font-weight: 300; letter-spacing: -0.015em; line-height: 1.08; font-variant-numeric: lining-nums; }
-        .label-ui { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 400; }
-        @media (min-width: 640px) { .label-ui { font-size: 12px; letter-spacing: .24em; } }
+        .font-display {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            font-variant-numeric: lining-nums;
+        }
+        .label-ui {
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        @media (min-width: 640px) {
+            .label-ui { font-size: 12px; letter-spacing: 0.24em; }
+        }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .tile { background: #141416; }
+        .tile { background: #101013; }
         .fade-in { animation: fade .35s ease both; }
         @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
         .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
     </style>
 </head>
-<body x-data="tienda()" x-init="init()" class="min-h-screen flex flex-col overflow-x-hidden">
+<body x-data="tienda()" x-init="init()" class="min-h-screen flex flex-col overflow-x-hidden bg-[#09090b]">
 
-    <!-- CABECERA SUPERIOR -->
-    <header class="sticky top-0 z-40 border-b border-zinc-900/90 bg-[#09090b]/95 backdrop-blur-md">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-3">
+    <!-- CABECERA SUPERIOR (LIMPIA, SIMÉTRICA Y ELEGANTE) -->
+    <header class="sticky top-0 z-40 border-b border-zinc-900/80 bg-[#09090b]/95 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-4">
             <a href="#/" class="flex items-center gap-2.5 flex-shrink-0">
                 <img src="/logo.png" alt="AURA" class="h-5 sm:h-6 w-auto">
             </a>
@@ -63,20 +93,16 @@
             <nav class="hidden md:flex items-center gap-8 text-[13px] tracking-wide text-zinc-400">
                 <template x-for="l in links" :key="l.ruta">
                     <a :href="l.ruta === 'inicio' ? '#/' : '#/' + l.ruta" x-text="l.texto"
-                       :class="vista === l.ruta ? 'text-white font-medium' : 'hover:text-white'" class="transition"></a>
+                       :class="vista === l.ruta ? 'text-white font-medium border-b border-white pb-0.5' : 'hover:text-white pb-0.5'" class="transition"></a>
                 </template>
             </nav>
 
             <!-- Acciones Derecha -->
             <div class="flex items-center gap-2">
-                <a href="#/nosotros" class="md:hidden h-8 px-3 rounded-full border text-[11px] tracking-wider uppercase flex items-center transition"
-                   :class="vista === 'nosotros' ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'border-zinc-800 text-zinc-300'">
-                    Quiénes somos
-                </a>
-                <button @click="bolsaAbierta = true" class="relative h-9 sm:h-10 px-3 sm:px-3.5 rounded-full border border-zinc-800 hover:border-zinc-600 text-xs sm:text-sm flex items-center gap-1.5 transition">
+                <button @click="bolsaAbierta = true" class="relative h-9 sm:h-10 px-3.5 sm:px-4 rounded-full border border-zinc-800 hover:border-zinc-600 text-xs sm:text-sm flex items-center gap-2 transition text-zinc-200">
                     <i data-lucide="shopping-bag" class="w-4 h-4"></i>
                     <span class="hidden sm:inline">Bolsa</span>
-                    <span x-show="totalPiezas > 0" x-cloak x-text="totalPiezas" class="min-w-[18px] h-[18px] px-1 rounded-full bg-zinc-100 text-zinc-950 text-[10px] font-bold flex items-center justify-center"></span>
+                    <span x-show="totalPiezas > 0" x-cloak x-text="totalPiezas" class="min-w-[18px] h-[18px] px-1 rounded-full bg-white text-zinc-950 text-[10px] font-bold flex items-center justify-center"></span>
                 </button>
             </div>
         </div>
@@ -84,103 +110,76 @@
 
     <main class="flex-grow">
 
-        <!-- ================= INICIO ================= -->
+        <!-- ================= INICIO (EDITORIAL, ESPACIOSO Y ARMONIOSO) ================= -->
         <section x-show="vista === 'inicio'" class="fade-in">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-28 pb-14 sm:pb-24">
-                <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 label-ui text-zinc-400" x-text="c.hero.etiqueta"></span>
-                <h1 class="serif text-[34px] sm:text-6xl lg:text-7xl mt-5 sm:mt-8 max-w-4xl leading-[1.1]" x-text="c.hero.titulo"></h1>
-                <p class="mt-5 sm:mt-8 text-zinc-400 max-w-xl text-[16px] sm:text-[18px] leading-[1.7]" x-text="c.hero.subtitulo"></p>
+            <!-- Hero -->
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-14 sm:pt-28 pb-16 sm:pb-28">
+                <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-400" x-text="c.hero.etiqueta"></span>
+                <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl mt-6 sm:mt-8 max-w-4xl text-white" x-text="c.hero.titulo"></h1>
+                <p class="mt-6 sm:mt-8 text-zinc-400 max-w-2xl text-[16px] sm:text-[18px] leading-[1.7] font-light" x-text="c.hero.subtitulo"></p>
 
-                <!-- Botones con respiro y adaptados a móvil -->
-                <div class="mt-8 sm:mt-12 grid grid-cols-1 sm:flex sm:flex-wrap gap-3 sm:gap-4">
-                    <a href="#/coleccion" class="h-12 sm:h-13 px-7 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold flex items-center justify-center gap-2 hover:bg-white active:scale-[0.99] transition shadow-lg shadow-white/5">
-                        Ver la colección <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                <!-- Botones con respiro -->
+                <div class="mt-8 sm:mt-12 flex flex-wrap gap-3 sm:gap-4">
+                    <a href="#/coleccion" class="h-12 sm:h-13 px-8 rounded-full bg-white text-zinc-950 text-sm font-medium flex items-center justify-center gap-2 hover:bg-zinc-100 transition shadow-lg shadow-white/5 active:scale-95">
+                        Explorar Colección <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
-                    <a href="#/nosotros" class="h-12 sm:h-13 px-7 rounded-full border border-zinc-700/80 bg-zinc-950/60 text-sm flex items-center justify-center gap-2 hover:border-zinc-400 active:scale-[0.99] transition text-zinc-200">
+                    <a href="#/nosotros" class="h-12 sm:h-13 px-7 rounded-full border border-zinc-800 bg-zinc-950/60 text-sm text-zinc-300 flex items-center justify-center gap-2 hover:border-zinc-500 hover:text-white transition active:scale-95">
                         Quiénes somos y por qué nacimos
                     </a>
                 </div>
             </div>
 
-            <!-- Próxima Colección: Confección Propia en Margarita (Diseño editorial espacioso) -->
+            <!-- Spotlight de Autor: Pantalones Bruno Sastre Baggy (Confección Propia · Margarita) -->
             <template x-if="c.proximaColeccion && prendaExclusiva">
-                <div class="border-t border-zinc-900/90">
-                    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-28">
-                        <div class="flex items-end justify-between mb-8 sm:mb-12">
-                            <div>
-                                <p class="label-ui text-zinc-500">Próxima Colección · Confección Propia en Margarita</p>
-                                <h2 class="serif text-2xl sm:text-4xl mt-1.5" x-text="c.proximaColeccion.nombre"></h2>
-                            </div>
-                            <a :href="'#/prenda/' + prendaExclusiva.id" class="text-xs sm:text-sm text-zinc-300 hover:text-white flex items-center gap-1.5 transition">
-                                Ver ficha completa <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                            </a>
-                        </div>
-
-                        <div class="grid md:grid-cols-12 gap-8 lg:gap-14 items-center">
-                            <!-- Galería 4:5 limpia y desahogada -->
-                            <div class="md:col-span-5 space-y-3">
-                                <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900 tile relative group">
-                                    <a :href="'#/prenda/' + prendaExclusiva.id" class="block w-full h-full">
-                                        <img :src="imagenesDe(prendaExclusiva)[fotoDeCard(prendaExclusiva)] || prendaExclusiva.imagen_url"
-                                             :alt="prendaExclusiva.nombre"
-                                             class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">
-                                    </a>
-                                    <span class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-black/75 border border-zinc-800 text-[10px] label-ui text-zinc-200">
+                <div class="border-t border-zinc-900/80 bg-gradient-to-b from-zinc-950/50 to-[#09090b]">
+                    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-28">
+                        <div class="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+                            <!-- Retrato de Estudio 4:5 -->
+                            <div class="lg:col-span-5">
+                                <a :href="'#/prenda/' + prendaExclusiva.id" class="group block aspect-[4/5] rounded-3xl overflow-hidden border border-zinc-800/80 tile relative shadow-2xl">
+                                    <img :src="imagenesDe(prendaExclusiva)[0] || prendaExclusiva.imagen_url"
+                                         :alt="prendaExclusiva.nombre"
+                                         class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-700 ease-out">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"></div>
+                                    <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-700/80 text-[10px] label-ui text-zinc-200">
                                         Hecho en Margarita
                                     </span>
-                                    <button type="button" @click.stop="cambiarFotoCard(prendaExclusiva, -1)" class="absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-sm transition">&lsaquo;</button>
-                                    <button type="button" @click.stop="cambiarFotoCard(prendaExclusiva, 1)" class="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-sm transition">&rsaquo;</button>
-                                    <span class="absolute bottom-3.5 left-3.5 px-3 py-1 rounded-full bg-black/75 border border-zinc-800 text-[11px] text-zinc-200" x-text="coloresDe(prendaExclusiva)[fotoDeCard(prendaExclusiva)]"></span>
-                                    <span class="absolute bottom-3.5 right-3.5 px-2.5 py-1 rounded-full bg-black/75 border border-zinc-800 text-[11px] text-zinc-300" x-text="(fotoDeCard(prendaExclusiva) + 1) + '/' + imagenesDe(prendaExclusiva).length"></span>
-                                </div>
-                                <div class="flex gap-2 overflow-x-auto no-scrollbar pt-1">
-                                    <template x-for="(col, idx) in coloresDe(prendaExclusiva)" :key="col">
-                                        <button type="button" @click="fotosCard[prendaExclusiva.id] = idx" x-text="col"
-                                                :class="fotoDeCard(prendaExclusiva) === idx ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white'"
-                                                class="flex-shrink-0 h-8 px-3 rounded-full border text-xs transition"></button>
-                                    </template>
-                                </div>
+                                    <div class="absolute bottom-4 inset-x-4 flex items-center justify-between text-xs text-zinc-300">
+                                        <span class="px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-sm border border-zinc-800">Primer Drop de Autor</span>
+                                        <span class="px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-sm border border-zinc-800">4 fotos</span>
+                                    </div>
+                                </a>
                             </div>
 
-                            <!-- Información limpia con amplio espaciado -->
-                            <div class="md:col-span-7 space-y-6">
-                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/90 border border-zinc-800 label-ui text-zinc-400">
-                                    <span>Confección propia · Costureros locales</span>
+                            <!-- Editorial del Taller -->
+                            <div class="lg:col-span-7 space-y-6">
+                                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-400">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                                    <span>Confección Propia · Costureros Locales</span>
                                 </div>
-                                <h3 class="serif text-3xl sm:text-5xl text-white leading-tight">
-                                    Sastrería baggy hecha directamente en la Isla de Margarita.
-                                </h3>
-                                <p class="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-xl" x-text="c.proximaColeccion.subtitulo"></p>
+                                <h2 class="font-display text-3xl sm:text-5xl text-white leading-tight">
+                                    Pantalones Bruno Sastre Baggy
+                                </h2>
+                                <p class="text-sm sm:text-base text-zinc-400 leading-relaxed font-light max-w-xl" x-text="c.proximaColeccion.subtitulo"></p>
 
-                                <div class="grid sm:grid-cols-3 gap-3 sm:gap-4 pt-1">
+                                <!-- 3 Detalles del Drop -->
+                                <div class="grid sm:grid-cols-3 gap-3 sm:gap-4 pt-2">
                                     <template x-for="det in c.proximaColeccion.detalles" :key="det.titulo">
-                                        <div class="p-4 sm:p-5 rounded-2xl bg-zinc-950/80 border border-zinc-900/90">
-                                            <p class="serif text-base text-zinc-100" x-text="det.titulo"></p>
-                                            <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed" x-text="det.texto"></p>
+                                        <div class="p-4 sm:p-5 rounded-2xl bg-zinc-950/80 border border-zinc-900">
+                                            <p class="font-medium text-sm text-zinc-200" x-text="det.titulo"></p>
+                                            <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed font-light" x-text="det.texto"></p>
                                         </div>
                                     </template>
                                 </div>
 
-                                <div class="pt-4 border-t border-zinc-900 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                    <div class="flex items-center gap-2">
-                                        <span class="label-ui text-zinc-500 mr-1">Talla</span>
-                                        <template x-for="t in tallasDe(prendaExclusiva)" :key="t">
-                                            <button type="button" @click="tallasCard[prendaExclusiva.id] = t" x-text="t"
-                                                    :class="tallaDeCard(prendaExclusiva) === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white'"
-                                                    class="h-9 min-w-[36px] px-2.5 rounded-xl border text-xs transition"></button>
-                                        </template>
-                                    </div>
-                                    <div class="flex flex-wrap gap-3">
-                                        <button type="button" @click="reservarDesdeCard(prendaExclusiva)"
-                                                class="h-11 sm:h-12 px-6 rounded-full bg-zinc-100 hover:bg-white text-zinc-950 text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 transition">
-                                            <span>Lista de espera</span>
-                                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                                        </button>
-                                        <a :href="'#/prenda/' + prendaExclusiva.id"
-                                           class="h-11 sm:h-12 px-5 rounded-full border border-zinc-800 hover:border-zinc-500 text-zinc-200 text-xs sm:text-sm inline-flex items-center justify-center transition">
-                                            Ver detalles
-                                        </a>
-                                    </div>
+                                <!-- Acción principal -->
+                                <div class="pt-4 flex flex-wrap items-center gap-4">
+                                    <a :href="'#/prenda/' + prendaExclusiva.id"
+                                       class="h-12 px-8 rounded-full bg-white text-zinc-950 text-sm font-medium inline-flex items-center gap-2 hover:bg-zinc-100 transition shadow-lg shadow-white/5 active:scale-95">
+                                        <span>Ver pieza & Lista de espera</span>
+                                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                    </a>
+                                    <span class="text-xs text-zinc-400">Tallas XS a XL · Gabardina sastre</span>
                                 </div>
                             </div>
                         </div>
@@ -188,28 +187,29 @@
                 </div>
             </template>
 
-            <!-- Piezas destacadas -->
-            <div class="border-t border-zinc-900/90">
-                <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-28">
+            <!-- Vitrina Curada ("Piezas del Momento") -->
+            <div class="border-t border-zinc-900/80">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-28">
                     <div class="flex items-end justify-between mb-8 sm:mb-12">
                         <div>
-                            <p class="label-ui text-zinc-500">Estudio 4:5</p>
-                            <h2 class="serif text-2xl sm:text-4xl mt-1.5">Piezas del momento</h2>
+                            <p class="label-ui text-zinc-400">Selección de Estudio</p>
+                            <h2 class="font-display text-2xl sm:text-4xl mt-2 text-white">Piezas del momento</h2>
                         </div>
-                        <a href="#/coleccion" class="text-xs sm:text-sm text-zinc-300 hover:text-white flex items-center gap-1.5 transition">
-                            Ver todo el catálogo <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                        <a href="#/coleccion" class="text-xs sm:text-sm text-zinc-400 hover:text-white flex items-center gap-1.5 transition">
+                            Ver todo el catálogo (11) <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
                     </div>
+
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-8 sm:gap-y-14">
                         <template x-for="p in destacadas" :key="'d' + p.id">
                             <a :href="'#/prenda/' + p.id" class="group block">
-                                <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900/90 tile relative group-hover:border-zinc-700/80 transition-all duration-300">
+                                <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-800/60 tile relative group-hover:border-zinc-700 transition duration-300">
                                     <template x-if="imagenesDe(p).length > 0">
                                         <img :src="imagenesDe(p)[0] || p.imagen_url" :alt="p.nombre" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.04] transition duration-500 ease-out">
                                     </template>
                                     <template x-if="imagenesDe(p).length === 0">
                                         <div class="w-full h-full flex items-center justify-center">
-                                            <span class="serif text-5xl text-zinc-700" x-text="iniciales(p.nombre)"></span>
+                                            <span class="font-display text-5xl text-zinc-700" x-text="iniciales(p.nombre)"></span>
                                         </div>
                                     </template>
 
@@ -218,20 +218,13 @@
                                             Hecho en Margarita
                                         </span>
                                     </template>
-
-                                    <template x-if="imagenesDe(p).length > 1">
-                                        <span class="absolute bottom-3 right-3 text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-800 text-zinc-300" x-text="imagenesDe(p).length + ' fotos'"></span>
-                                    </template>
-                                    <template x-if="coloresDe(p).length > 0">
-                                        <span class="absolute bottom-3 left-3 max-w-[65%] truncate text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-800 text-zinc-300" x-text="coloresDe(p).length + ' tonos'"></span>
-                                    </template>
                                 </div>
 
                                 <div class="mt-3.5 sm:mt-4 space-y-1">
-                                    <p class="label-ui text-zinc-500 text-[10px] sm:text-[11px] tracking-wider truncate" x-text="p.proximoLanzamiento ? 'Próxima Colección · Sastrería' : p.categoria"></p>
-                                    <h3 class="serif text-lg sm:text-2xl text-zinc-100 group-hover:text-white transition leading-snug truncate" x-text="p.nombre"></h3>
+                                    <p class="label-ui text-zinc-400 text-[10px] sm:text-[11px]" x-text="p.proximoLanzamiento ? 'Sastrería · Confección Propia' : p.categoria"></p>
+                                    <h3 class="text-sm sm:text-base font-normal text-zinc-100 group-hover:text-white transition leading-snug" x-text="p.nombre"></h3>
                                     <p class="text-xs sm:text-sm text-zinc-400 font-light pt-0.5"
-                                       x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'Precio por definir' : ('$' + Number(p.pvp).toFixed(2))"></p>
+                                       x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'Próximo Drop · Taller Propio' : ('$' + Number(p.pvp).toFixed(2))"></p>
                                 </div>
                             </a>
                         </template>
@@ -239,40 +232,40 @@
                 </div>
             </div>
 
-            <!-- Manifiesto con espacio editorial amplio -->
-            <div class="border-t border-zinc-900/90">
+            <!-- Manifiesto de Marca (Editorial, Poético y Amplio) -->
+            <div class="border-t border-zinc-900/80 bg-zinc-950/40">
                 <div class="max-w-3xl mx-auto px-4 sm:px-6 py-20 sm:py-32 text-center space-y-6 sm:space-y-8">
-                    <p class="label-ui text-zinc-500">Manifiesto Aura</p>
+                    <p class="label-ui text-zinc-400">Filosofía Aura</p>
                     <template x-for="(m, i) in c.manifiesto" :key="i">
-                        <p class="serif text-xl sm:text-3xl text-zinc-300 leading-relaxed" :class="i === c.manifiesto.length - 1 ? 'text-white' : ''" x-text="m"></p>
+                        <p class="font-display text-xl sm:text-3xl text-zinc-300 leading-relaxed font-light" :class="i === c.manifiesto.length - 1 ? 'text-white' : ''" x-text="m"></p>
                     </template>
                     <div class="pt-4">
-                        <a href="#/nosotros" class="inline-flex items-center gap-2 h-11 px-6 rounded-full border border-zinc-800 text-xs sm:text-sm text-zinc-200 hover:border-zinc-500 transition">
-                            Conoce nuestros 4 pilares <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        <a href="#/nosotros" class="inline-flex items-center gap-2 h-11 px-7 rounded-full border border-zinc-800 text-xs sm:text-sm text-zinc-300 hover:border-zinc-500 hover:text-white transition active:scale-95">
+                            Nuestra historia y los 4 pilares <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ================= COLECCION ================= -->
+        <!-- ================= COLECCIÓN (CATÁLOGO LIMPIO Y ORDENADO) ================= -->
         <section x-show="vista === 'coleccion'" x-cloak class="fade-in">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-20">
-                <div>
-                    <p class="label-ui text-zinc-500">Catálogo de Estudio</p>
-                    <div class="flex items-baseline justify-between gap-2 mt-2">
-                        <h1 class="serif text-3xl sm:text-6xl">Nuestras prendas</h1>
-                        <span class="text-xs sm:text-sm text-zinc-500" x-text="filtradas.length + ' piezas'"></span>
+                <div class="flex items-baseline justify-between gap-4">
+                    <div>
+                        <p class="label-ui text-zinc-400">Catálogo de Estudio</p>
+                        <h1 class="font-display text-3xl sm:text-6xl text-white mt-2">Nuestras prendas</h1>
                     </div>
+                    <span class="text-xs sm:text-sm text-zinc-400" x-text="filtradas.length + ' piezas'"></span>
                 </div>
 
-                <!-- Barra de filtros con espaciado amplio -->
+                <!-- Barra de filtros -->
                 <div class="sticky top-14 sm:static z-30 bg-[#09090b]/95 backdrop-blur-md py-4 -mx-4 px-4 sm:mx-0 sm:px-0 border-b border-zinc-900/80 sm:border-none my-4 sm:my-8">
                     <div class="flex gap-2.5 overflow-x-auto no-scrollbar">
                         <template x-for="cat in categorias" :key="cat">
                             <button @click="filtro = cat" x-text="cat"
-                                    :class="filtro === cat ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white'"
-                                    class="flex-shrink-0 h-9 sm:h-10 px-4 sm:px-5 rounded-full border text-xs sm:text-[13px] transition active:scale-95"></button>
+                                    :class="filtro === cat ? 'bg-white text-zinc-950 font-medium' : 'bg-zinc-950 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'"
+                                    class="flex-shrink-0 h-9 sm:h-10 px-4 sm:px-5 rounded-full text-xs sm:text-[13px] transition active:scale-95"></button>
                         </template>
                     </div>
                 </div>
@@ -283,13 +276,13 @@
                 <div class="mt-6 sm:mt-10 grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-8 sm:gap-y-14">
                     <template x-for="p in filtradas" :key="'c' + p.id">
                         <a :href="'#/prenda/' + p.id" class="group block">
-                            <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900/90 tile relative group-hover:border-zinc-700/80 transition-all duration-300">
+                            <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-800/60 tile relative group-hover:border-zinc-700 transition duration-300">
                                 <template x-if="imagenesDe(p).length > 0">
                                     <img :src="imagenesDe(p)[0] || p.imagen_url" :alt="p.nombre" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.04] transition duration-500 ease-out">
                                 </template>
                                 <template x-if="imagenesDe(p).length === 0">
                                     <div class="w-full h-full flex items-center justify-center">
-                                        <span class="serif text-5xl text-zinc-700" x-text="iniciales(p.nombre)"></span>
+                                        <span class="font-display text-5xl text-zinc-700" x-text="iniciales(p.nombre)"></span>
                                     </div>
                                 </template>
 
@@ -298,20 +291,13 @@
                                         Hecho en Margarita
                                     </span>
                                 </template>
-
-                                <template x-if="imagenesDe(p).length > 1">
-                                    <span class="absolute bottom-3 right-3 text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-800 text-zinc-300" x-text="imagenesDe(p).length + ' fotos'"></span>
-                                </template>
-                                <template x-if="coloresDe(p).length > 0">
-                                    <span class="absolute bottom-3 left-3 max-w-[65%] truncate text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-800 text-zinc-300" x-text="coloresDe(p).length + ' tonos'"></span>
-                                </template>
                             </div>
 
                             <div class="mt-3.5 sm:mt-4 space-y-1">
-                                <p class="label-ui text-zinc-500 text-[10px] sm:text-[11px] tracking-wider truncate" x-text="p.proximoLanzamiento ? 'Próxima Colección · Sastrería' : p.categoria"></p>
-                                <h3 class="serif text-lg sm:text-2xl text-zinc-100 group-hover:text-white transition leading-snug truncate" x-text="p.nombre"></h3>
+                                <p class="label-ui text-zinc-400 text-[10px] sm:text-[11px]" x-text="p.proximoLanzamiento ? 'Sastrería · Confección Propia' : p.categoria"></p>
+                                <h3 class="text-sm sm:text-base font-normal text-zinc-100 group-hover:text-white transition leading-snug" x-text="p.nombre"></h3>
                                 <p class="text-xs sm:text-sm text-zinc-400 font-light pt-0.5"
-                                   x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'Precio por definir' : ('$' + Number(p.pvp).toFixed(2))"></p>
+                                   x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'Próximo Drop · Taller Propio' : ('$' + Number(p.pvp).toFixed(2))"></p>
                             </div>
                         </a>
                     </template>
@@ -319,22 +305,22 @@
             </div>
         </section>
 
-        <!-- ================= DETALLE DE PRENDA (OPTIMIZADO CON AIRE Y ELEGANCIA) ================= -->
+        <!-- ================= DETALLE DE PRENDA ================= -->
         <section x-show="vista === 'prenda'" x-cloak class="fade-in">
             <template x-if="actual">
                 <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-16 pb-28 sm:pb-20">
-                    <!-- Barra superior de retorno rápida -->
+                    <!-- Retorno rápido -->
                     <div class="flex items-center justify-between mb-6 sm:mb-10">
-                        <a href="#/coleccion" class="inline-flex items-center gap-2 h-10 px-4 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs sm:text-sm text-zinc-200 hover:text-white transition">
+                        <a href="#/coleccion" class="inline-flex items-center gap-2 h-10 px-4 rounded-full bg-zinc-900 border border-zinc-800 text-xs sm:text-sm text-zinc-300 hover:text-white transition">
                             <i data-lucide="arrow-left" class="w-4 h-4"></i> Colección completa
                         </a>
-                        <span class="label-ui text-zinc-500" x-text="actual.categoria"></span>
+                        <span class="label-ui text-zinc-400" x-text="actual.categoria"></span>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-8 lg:gap-16">
-                        <!-- Galería con soporte Swipe táctil en móvil -->
+                        <!-- Galería con swipe en móvil -->
                         <div class="space-y-3">
-                            <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative select-none"
+                            <div class="aspect-[4/5] rounded-3xl overflow-hidden border border-zinc-800 tile flex items-center justify-center relative select-none shadow-2xl"
                                  @touchstart.passive="touchStartX = $event.changedTouches[0].screenX"
                                  @touchend.passive="manejarSwipe($event.changedTouches[0].screenX)">
                                 <template x-if="imagenesDe(actual).length > 0">
@@ -343,37 +329,37 @@
                                 <template x-if="imagenesDe(actual).length === 0">
                                     <div class="p-6 text-center space-y-3">
                                         <span class="inline-block px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-300" x-text="actual.proximoLanzamiento ? 'En Taller · Isla de Margarita' : 'Estudio Aura'"></span>
-                                        <p class="serif text-4xl sm:text-5xl text-zinc-200 leading-tight" x-text="actual.nombre"></p>
-                                        <p class="text-xs text-zinc-400 max-w-xs mx-auto" x-text="actual.proximoLanzamiento ? 'Confección propia con nuestros costureros en Margarita. Fotos de estudio disponibles al finalizar la primera muestra.' : ''"></p>
+                                        <p class="font-display text-4xl sm:text-5xl text-zinc-200 leading-tight" x-text="actual.nombre"></p>
                                     </div>
                                 </template>
 
-                                <!-- Etiqueta del tono activo sobre la foto en móvil -->
+                                <!-- Tono activo -->
                                 <template x-if="coloresDe(actual).length > 0">
-                                    <span class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-black/75 backdrop-blur-sm border border-zinc-800 text-[11px] text-zinc-200"
+                                    <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-800 text-[11px] text-zinc-200"
                                           x-text="coloresDe(actual)[fotoActiva] || coloresDe(actual)[0]"></span>
                                 </template>
 
+                                <!-- Controles flechas -->
                                 <template x-if="imagenesDe(actual).length > 1">
                                     <div>
-                                        <button type="button" @click="cambiarFoto(-1)" aria-label="Foto anterior" class="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/65 hover:bg-black/85 border border-zinc-700/80 text-white flex items-center justify-center active:scale-95 transition">
+                                        <button type="button" @click="cambiarFoto(-1)" aria-label="Foto anterior" class="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/60 hover:bg-black/90 border border-zinc-700 text-white flex items-center justify-center active:scale-95 transition">
                                             <i data-lucide="chevron-left" class="w-4 h-4"></i>
                                         </button>
-                                        <button type="button" @click="cambiarFoto(1)" aria-label="Foto siguiente" class="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/65 hover:bg-black/85 border border-zinc-700/80 text-white flex items-center justify-center active:scale-95 transition">
+                                        <button type="button" @click="cambiarFoto(1)" aria-label="Foto siguiente" class="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/60 hover:bg-black/90 border border-zinc-700 text-white flex items-center justify-center active:scale-95 transition">
                                             <i data-lucide="chevron-right" class="w-4 h-4"></i>
                                         </button>
-                                        <span class="absolute bottom-3.5 right-3.5 px-2.5 py-1 rounded-full bg-black/75 border border-zinc-800 text-[11px] text-zinc-200"
+                                        <span class="absolute bottom-4 right-4 px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-800 text-[11px] text-zinc-200"
                                               x-text="(fotoActiva + 1) + ' / ' + imagenesDe(actual).length"></span>
                                     </div>
                                 </template>
                             </div>
 
-                            <!-- Carrusel horizontal de miniaturas táctiles en móvil, grilla en desktop -->
+                            <!-- Miniaturas -->
                             <template x-if="imagenesDe(actual).length > 1">
                                 <div class="flex sm:grid sm:grid-cols-5 gap-2.5 overflow-x-auto no-scrollbar pt-1 snap-x">
                                     <template x-for="(imgUrl, idx) in imagenesDe(actual)" :key="imgUrl">
                                         <button type="button" @click="fotoActiva = idx"
-                                                :class="fotoActiva === idx ? 'border-white ring-1 ring-white/50 opacity-100' : 'border-zinc-900 opacity-55 hover:opacity-90'"
+                                                :class="fotoActiva === idx ? 'border-white ring-1 ring-white/50 opacity-100' : 'border-zinc-800 opacity-55 hover:opacity-90'"
                                                 class="snap-start flex-shrink-0 w-16 sm:w-auto aspect-[4/5] rounded-xl overflow-hidden border tile transition">
                                             <img :src="imgUrl" :alt="actual.nombre + ' ' + (idx + 1)" class="w-full h-full object-cover">
                                         </button>
@@ -382,116 +368,106 @@
                             </template>
                         </div>
 
-                        <!-- Información y selectores -->
-                        <div class="md:py-2 space-y-6">
+                        <!-- Información y Compra -->
+                        <div class="space-y-6 sm:space-y-8">
                             <div>
-                                <div class="flex flex-wrap items-start justify-between gap-3">
-                                    <h1 class="serif text-3xl sm:text-5xl leading-tight text-white" x-text="actual.nombre"></h1>
-                                    <template x-if="!actual.proximoLanzamiento && Number(actual.pvp) > 0">
-                                        <p class="serif text-2xl sm:text-3xl text-white flex-shrink-0" x-text="'$' + Number(actual.pvp).toFixed(2)"></p>
-                                    </template>
-                                    <template x-if="actual.proximoLanzamiento || Number(actual.pvp) <= 0">
-                                        <span class="px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200">Precio por definir · Confección en Margarita</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="label-ui text-zinc-400" x-text="actual.categoria"></span>
+                                    <template x-if="actual.proximoLanzamiento">
+                                        <span class="text-[10px] label-ui px-2 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-300">Confección Propia</span>
                                     </template>
                                 </div>
-                                <p class="text-zinc-400 text-sm sm:text-base mt-4 leading-relaxed" x-text="actual.descripcion || 'Una pieza seleccionada por nuestro equipo. Escríbenos y te asesoramos con la talla y el estilo.'"></p>
+                                <h1 class="font-display text-3xl sm:text-5xl text-white mt-2 leading-tight" x-text="actual.nombre"></h1>
+                                <p class="text-2xl sm:text-3xl text-zinc-100 mt-3 font-light"
+                                   x-text="(actual.proximoLanzamiento || Number(actual.pvp) <= 0) ? 'Precio por definir · Próximo Drop' : ('$' + Number(actual.pvp).toFixed(2))"></p>
                             </div>
 
-                            <!-- Selector de Tono / Variante -->
+                            <p class="text-sm sm:text-base text-zinc-400 leading-relaxed font-light" x-text="actual.descripcion"></p>
+
+                            <!-- Selector de Color / Tono -->
                             <template x-if="coloresDe(actual).length > 0">
-                                <div class="pt-2">
-                                    <div class="flex items-center justify-between mb-3">
-                                        <p class="label-ui text-zinc-500" x-text="actual.proximoLanzamiento ? 'Tonos previstos de confección' : 'Color / Variante'"></p>
-                                        <span class="text-xs text-zinc-200 font-medium" x-text="coloresDe(actual)[fotoActiva] || coloresDe(actual)[0]"></span>
-                                    </div>
-                                    <div class="flex sm:flex-wrap gap-2.5 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4 sm:mx-0 sm:px-0">
+                                <div>
+                                    <p class="label-ui text-zinc-400 mb-2.5">Tono / Combinación</p>
+                                    <div class="flex flex-wrap gap-2">
                                         <template x-for="(col, idx) in coloresDe(actual)" :key="col">
-                                            <button type="button" @click="fotoActiva = idx" x-text="col"
-                                                    :class="fotoActiva === idx ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 border-zinc-800 text-zinc-300 hover:text-white'"
-                                                    class="flex-shrink-0 h-9 sm:h-10 px-4 rounded-xl border text-xs transition active:scale-95"></button>
+                                            <button type="button" @click="fotoActiva = idx"
+                                                    :class="fotoActiva === idx ? 'bg-white text-zinc-950 font-medium' : 'bg-zinc-950 border border-zinc-800 text-zinc-400 hover:text-white'"
+                                                    class="h-9 px-3.5 rounded-full text-xs transition" x-text="col"></button>
                                         </template>
                                     </div>
                                 </div>
                             </template>
 
-                            <!-- Selector de Talla (Prendas disponibles) -->
-                            <div class="pt-2" x-show="actual.stock > 0 && !actual.proximoLanzamiento">
-                                <div class="flex items-center justify-between mb-3">
-                                    <p class="label-ui text-zinc-500">Selecciona tu talla</p>
-                                    <button type="button" @click="consultarTallaWhatsApp(actual)" class="text-xs text-zinc-300 underline hover:text-white">
-                                        ¿Dudas? Pedir medidas en cm
+                            <!-- Selector de Tallas -->
+                            <div>
+                                <div class="flex items-center justify-between mb-2.5">
+                                    <p class="label-ui text-zinc-400">Talla</p>
+                                    <button type="button" @click="consultarTallaWhatsApp(actual)" class="text-xs text-zinc-400 hover:text-white underline">
+                                        Guía de medidas en cm
                                     </button>
                                 </div>
-                                <div class="grid grid-cols-4 sm:flex sm:flex-wrap gap-2.5">
+                                <div class="flex flex-wrap gap-2">
                                     <template x-for="t in tallasDe(actual)" :key="t">
-                                        <button @click="tallaSel = t" x-text="t"
-                                                :class="tallaSel === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-950 border-zinc-800 text-zinc-300 hover:text-white'"
-                                                class="h-11 sm:h-12 px-4 rounded-xl border text-sm transition active:scale-95"></button>
+                                        <button type="button" @click="tallaSel = t" x-text="t"
+                                                :class="tallaSel === t ? 'bg-white text-zinc-950 font-semibold' : 'bg-zinc-950 border border-zinc-800 text-zinc-300 hover:text-white'"
+                                                class="h-11 min-w-[44px] px-3.5 rounded-xl text-xs sm:text-sm transition"></button>
                                     </template>
                                 </div>
-
-                                <!-- Botones de acción con respiro -->
-                                <div class="mt-6 grid grid-cols-1 sm:flex gap-3">
-                                    <button @click="agregar(actual)" class="h-12 sm:h-13 px-8 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white active:scale-[0.99] transition flex items-center justify-center gap-2 shadow-lg shadow-white/5">
-                                        <i data-lucide="shopping-bag" class="w-4 h-4"></i> Añadir a la bolsa
-                                    </button>
-                                    <button type="button" @click="consultarTallaWhatsApp(actual)" class="h-12 sm:h-13 px-6 rounded-full border border-zinc-800 bg-zinc-950 text-xs sm:text-sm text-zinc-200 hover:border-zinc-500 transition flex items-center justify-center gap-2">
-                                        <i data-lucide="ruler" class="w-4 h-4"></i> Asesoría de talla en vivo
-                                    </button>
-                                </div>
-                                <p x-show="actual.stock <= 3" class="mt-3 text-xs text-zinc-500" x-text="'Quedan ' + actual.stock + ' unidades disponibles'"></p>
                             </div>
 
-                            <!-- Bloque especial: Próxima Colección / Confección Propia en Margarita -->
-                            <div class="pt-2 space-y-5" x-show="actual.proximoLanzamiento">
-                                <div>
-                                    <p class="label-ui text-zinc-500 mb-3">Elige tu talla para lista de espera</p>
-                                    <div class="grid grid-cols-4 sm:flex sm:flex-wrap gap-2.5">
-                                        <template x-for="t in tallasDe(actual)" :key="t">
-                                            <button @click="tallaSel = t" x-text="t"
-                                                    :class="tallaSel === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-950 border-zinc-800 text-zinc-300 hover:text-white'"
-                                                    class="h-11 sm:h-12 px-4 rounded-xl border text-sm transition active:scale-95"></button>
-                                        </template>
+                            <!-- Botones de Acción -->
+                            <div class="space-y-3 pt-2">
+                                <template x-if="actual.proximoLanzamiento">
+                                    <div class="space-y-2">
+                                        <button type="button" @click="reservarProximoLanzamiento(actual)"
+                                                class="w-full h-13 rounded-full bg-white text-zinc-950 text-sm font-semibold hover:bg-zinc-100 transition flex items-center justify-center gap-2 shadow-lg shadow-white/5 active:scale-95">
+                                            <span>Anotarme en lista de espera</span>
+                                            <i data-lucide="send" class="w-4 h-4"></i>
+                                        </button>
+                                        <p class="text-[11px] text-zinc-400 text-center">Te avisaremos con prioridad apenas esté listo el primer lote en Margarita.</p>
                                     </div>
-                                </div>
-                                <div class="p-5 rounded-2xl bg-zinc-950/80 border border-zinc-800/80 text-xs text-zinc-300 space-y-2 leading-relaxed">
-                                    <p class="font-medium text-white text-sm">Confección local en la Isla de Margarita</p>
-                                    <p>Esta prenda será confeccionada directamente en la isla junto a nuestros costureros. Actualmente estamos cerrando el costo de telas, insumos y confección por prenda para anunciar el precio oficial de lanzamiento.</p>
-                                </div>
-                                <button type="button" @click="reservarProximoLanzamiento(actual)" class="w-full h-12 sm:h-13 px-6 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white transition flex items-center justify-center gap-2 shadow-lg shadow-white/5">
-                                    <i data-lucide="bell" class="w-4 h-4"></i> Anotarme en Lista de Espera / Votar Tono
-                                </button>
+                                </template>
+
+                                <template x-if="!actual.proximoLanzamiento">
+                                    <div class="space-y-2">
+                                        <button type="button" @click="agregar(actual)"
+                                                class="w-full h-13 rounded-full bg-white text-zinc-950 text-sm font-semibold hover:bg-zinc-100 transition flex items-center justify-center gap-2 shadow-lg shadow-white/5 active:scale-95">
+                                            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                            <span>Añadir a la bolsa</span>
+                                        </button>
+                                        <button type="button" @click="consultarTallaWhatsApp(actual)"
+                                                class="w-full h-12 rounded-full border border-zinc-800 hover:border-zinc-500 text-zinc-300 text-xs sm:text-sm flex items-center justify-center gap-2 transition active:scale-95">
+                                            <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                            <span>Preguntar caída y tela por WhatsApp</span>
+                                        </button>
+                                    </div>
+                                </template>
                             </div>
 
-                            <div x-show="actual.stock <= 0 && !actual.proximoLanzamiento" class="mt-6 text-sm text-zinc-500">Agotado por ahora. Escríbenos para avisarte cuando regrese.</div>
-
-                            <!-- Ficha Técnica y Transparencia con amplio espacio -->
+                            <!-- Ficha Técnica -->
                             <template x-if="actual.ficha">
-                                <div class="mt-8 pt-8 border-t border-zinc-900 space-y-4">
-                                    <div class="flex items-center justify-between">
-                                        <p class="label-ui text-zinc-300">Ficha Técnica y Transparencia</p>
-                                        <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400">Sin rodeos</span>
-                                    </div>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-                                        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-900/90 sm:col-span-2">
-                                            <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Tela y densidad</span>
-                                            <span class="text-zinc-200 mt-1 block leading-relaxed" x-text="actual.ficha.tela"></span>
+                                <div class="pt-6 border-t border-zinc-900 space-y-3">
+                                    <p class="label-ui text-zinc-400">Ficha Técnica y Cuidados</p>
+                                    <div class="grid gap-2.5 text-xs">
+                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900 flex justify-between gap-4">
+                                            <span class="text-zinc-500 font-medium">Tela:</span>
+                                            <span class="text-zinc-200 text-right" x-text="actual.ficha.tela"></span>
                                         </div>
-                                        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-900/90 sm:col-span-2">
-                                            <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Caída y calce</span>
-                                            <span class="text-zinc-200 mt-1 block leading-relaxed" x-text="actual.ficha.caida"></span>
+                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900 flex justify-between gap-4">
+                                            <span class="text-zinc-500 font-medium">Caída:</span>
+                                            <span class="text-zinc-200 text-right" x-text="actual.ficha.caida"></span>
                                         </div>
-                                        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-900/90">
-                                            <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Sensación al tacto</span>
-                                            <span class="text-zinc-300 mt-1 block leading-relaxed" x-text="actual.ficha.tacto"></span>
+                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900 flex justify-between gap-4">
+                                            <span class="text-zinc-500 font-medium">Tacto:</span>
+                                            <span class="text-zinc-200 text-right" x-text="actual.ficha.tacto"></span>
                                         </div>
-                                        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-900/90">
-                                            <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Elasticidad</span>
-                                            <span class="text-zinc-300 mt-1 block leading-relaxed" x-text="actual.ficha.elasticidad"></span>
+                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900 flex justify-between gap-4">
+                                            <span class="text-zinc-500 font-medium">Elasticidad:</span>
+                                            <span class="text-zinc-200 text-right" x-text="actual.ficha.elasticidad"></span>
                                         </div>
-                                        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-900/90 sm:col-span-2">
-                                            <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Cuidado al lavar</span>
-                                            <span class="text-zinc-300 mt-1 block leading-relaxed" x-text="actual.ficha.cuidado"></span>
+                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900 flex justify-between gap-4">
+                                            <span class="text-zinc-500 font-medium">Cuidado:</span>
+                                            <span class="text-zinc-200 text-right" x-text="actual.ficha.cuidado"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -500,305 +476,102 @@
                     </div>
                 </div>
             </template>
-            <template x-if="!actual && !cargando">
-                <div class="py-28 text-center text-zinc-500 text-sm">Esta prenda ya no está disponible. <a href="#/coleccion" class="underline">Volver a la colección</a></div>
-            </template>
         </section>
 
-        <!-- ================= QUIÉNES SOMOS Y POR QUÉ NACIMOS (PRESENTACIÓN MÓVIL INTERACTIVA) ================= -->
+        <!-- ================= QUIÉNES SOMOS ================= -->
         <section x-show="vista === 'nosotros'" x-cloak class="fade-in">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-28">
-                <!-- Encabezado Editorial con aire -->
-                <span class="inline-flex items-center px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-400" x-text="c.nosotros.etiqueta || 'aura.mgta'"></span>
-                <h1 class="serif text-[34px] sm:text-6xl lg:text-7xl mt-5 max-w-4xl leading-[1.1]" x-text="c.nosotros.titulo"></h1>
-                <p class="serif text-lg sm:text-2xl text-zinc-200 mt-6 sm:mt-8 max-w-3xl leading-relaxed" x-text="c.nosotros.intro"></p>
+                <span class="inline-flex items-center px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-400" x-text="c.nosotros.etiqueta"></span>
+                <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl mt-5 max-w-4xl text-white" x-text="c.nosotros.titulo"></h1>
+                <p class="font-display text-lg sm:text-2xl text-zinc-300 mt-6 sm:mt-8 max-w-3xl leading-relaxed font-light" x-text="c.nosotros.intro"></p>
 
-                <div class="mt-6 sm:mt-8 space-y-4 text-zinc-400 text-sm sm:text-[17px] leading-[1.8] max-w-3xl">
+                <div class="mt-6 sm:mt-8 space-y-4 text-zinc-400 text-sm sm:text-[17px] leading-[1.8] font-light max-w-3xl">
                     <template x-for="(t, i) in c.nosotros.parrafos" :key="i">
                         <p x-text="t"></p>
                     </template>
                 </div>
 
-                <!-- 4 Pilares Fundamentales -->
+                <!-- 4 Pilares -->
                 <div class="mt-14 sm:mt-24">
-                    <div class="flex items-center justify-between mb-4">
-                        <p class="label-ui text-zinc-400">Nuestros 4 Pilares Fundamentales</p>
-                        <button type="button" @click="pilarFiltro = (pilarFiltro === 'todos' ? '01' : 'todos')"
-                                class="md:hidden text-xs text-zinc-300 underline"
-                                x-text="pilarFiltro === 'todos' ? 'Ver uno por uno' : 'Ver los 4 juntos'"></button>
-                    </div>
-
-                    <!-- Tabs táctiles -->
-                    <div class="flex gap-2.5 overflow-x-auto no-scrollbar pb-3 -mx-4 px-4 sm:mx-0 sm:px-0">
-                        <button type="button" @click="pilarFiltro = 'todos'"
-                                :class="pilarFiltro === 'todos' ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 text-zinc-400 border-zinc-800'"
-                                class="flex-shrink-0 h-9 px-4 rounded-full border text-xs transition">
-                            Todos (4)
-                        </button>
-                        <template x-for="pilar in c.nosotros.pilares" :key="'tab' + pilar.numero">
-                            <button type="button" @click="pilarFiltro = pilar.numero"
-                                    :class="pilarFiltro === pilar.numero ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 text-zinc-400 border-zinc-800'"
-                                    class="flex-shrink-0 h-9 px-4 rounded-full border text-xs transition flex items-center gap-1.5">
-                                <span x-text="pilar.numero"></span>
-                                <span x-text="pilar.categoria"></span>
-                            </button>
-                        </template>
-                    </div>
-
-                    <!-- Tarjetas de los 4 Pilares -->
-                    <div class="mt-6 grid gap-6 sm:gap-8">
+                    <p class="label-ui text-zinc-400 mb-6">Nuestros 4 Pilares Fundamentales</p>
+                    <div class="grid gap-6 sm:gap-8">
                         <template x-for="pilar in c.nosotros.pilares" :key="pilar.numero">
-                            <div x-show="pilarFiltro === 'todos' || pilarFiltro === pilar.numero"
-                                 class="p-6 sm:p-10 rounded-3xl border border-zinc-900 bg-zinc-950/95 space-y-6 sm:space-y-8 transition">
-                                <div class="flex items-start justify-between gap-4 border-b border-zinc-900 pb-5">
-                                    <div class="flex items-start gap-4 sm:gap-5">
-                                        <span class="serif text-3xl sm:text-5xl text-zinc-500 leading-none mt-0.5" x-text="pilar.numero"></span>
-                                        <div>
-                                            <p class="label-ui text-zinc-500" x-text="pilar.categoria"></p>
-                                            <h2 class="serif text-xl sm:text-3xl text-white mt-1.5 leading-snug" x-text="pilar.titulo"></h2>
-                                            <p class="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed" x-text="pilar.resumen"></p>
-                                        </div>
+                            <div class="p-6 sm:p-10 rounded-3xl border border-zinc-900 bg-zinc-950 space-y-6">
+                                <div class="flex items-start gap-4 sm:gap-5 border-b border-zinc-900 pb-5">
+                                    <span class="font-display text-3xl sm:text-5xl text-zinc-500 leading-none" x-text="pilar.numero"></span>
+                                    <div>
+                                        <p class="label-ui text-zinc-400" x-text="pilar.categoria"></p>
+                                        <h2 class="font-display text-xl sm:text-3xl text-white mt-1.5" x-text="pilar.titulo"></h2>
+                                        <p class="text-xs sm:text-sm text-zinc-400 mt-2 font-light" x-text="pilar.resumen"></p>
                                     </div>
                                 </div>
 
-                                <!-- Sub-bloques del pilar con respiro -->
-                                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                                    <template x-for="(pt, idxPt) in pilar.puntos" :key="pt.subtitulo">
-                                        <div class="p-5 sm:p-6 rounded-2xl bg-[#0d0d10] border border-zinc-900/90 flex flex-col justify-between">
-                                            <div>
-                                                <div class="flex items-center gap-2.5">
-                                                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 flex-shrink-0"></span>
-                                                    <h3 class="text-sm sm:text-base font-medium text-zinc-100" x-text="pt.subtitulo"></h3>
-                                                </div>
-                                                <p class="text-xs sm:text-sm text-zinc-400 mt-2.5 leading-relaxed" x-text="pt.texto"></p>
-                                            </div>
+                                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <template x-for="pt in pilar.puntos" :key="pt.subtitulo">
+                                        <div class="p-5 rounded-2xl bg-[#0d0d10] border border-zinc-900/90">
+                                            <h3 class="text-sm sm:text-base font-medium text-zinc-200" x-text="pt.subtitulo"></h3>
+                                            <p class="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed font-light" x-text="pt.texto"></p>
                                         </div>
                                     </template>
                                 </div>
-
-                                <!-- Controles Siguiente Pilar en móvil -->
-                                <div x-show="pilarFiltro !== 'todos'" class="pt-3 flex items-center justify-between text-xs text-zinc-400">
-                                    <button type="button" @click="cambiarPilar(-1)" class="h-9 px-4 rounded-full border border-zinc-800 text-zinc-200 flex items-center gap-1.5">
-                                        <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i> Anterior
-                                    </button>
-                                    <span x-text="'Pilar ' + pilar.numero + ' de 04'"></span>
-                                    <button type="button" @click="cambiarPilar(1)" class="h-9 px-4 rounded-full bg-zinc-100 text-zinc-950 font-medium flex items-center gap-1.5">
-                                        Siguiente <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                                    </button>
-                                </div>
                             </div>
                         </template>
                     </div>
                 </div>
 
-                <!-- Protocolo de Atención y Laboratorio DEMO -->
-                <template x-if="c.nosotros.compromisos && c.nosotros.compromisos.length">
-                    <div class="mt-14 sm:mt-24">
-                        <p class="label-ui text-zinc-500 mb-4">Cómo lo llevamos a la práctica</p>
-                        <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
-                            <template x-for="comp in c.nosotros.compromisos" :key="comp.titulo">
-                                <div class="p-6 sm:p-10 rounded-3xl border border-zinc-800/80 bg-zinc-950 space-y-4 sm:space-y-5">
-                                    <p class="label-ui text-zinc-500" x-text="comp.etiqueta"></p>
-                                    <h3 class="serif text-xl sm:text-3xl text-white leading-snug" x-text="comp.titulo"></h3>
-                                    <div class="space-y-2.5 pt-2">
-                                        <template x-for="paso in comp.pasos" :key="paso">
-                                            <div class="p-4 rounded-2xl bg-zinc-900/50 border border-zinc-900 text-xs sm:text-sm text-zinc-300 leading-relaxed" x-text="paso"></div>
-                                        </template>
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-                </template>
-
-                <!-- Botones finales con respiro -->
-                <div class="mt-12 sm:mt-20 grid grid-cols-1 sm:flex sm:flex-wrap gap-3 sm:gap-4">
-                    <a href="#/coleccion" class="h-12 sm:h-13 px-8 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold flex items-center justify-center gap-2 hover:bg-white transition shadow-lg shadow-white/5">
+                <div class="mt-12 sm:mt-20 flex flex-wrap gap-4">
+                    <a href="#/coleccion" class="h-12 px-8 rounded-full bg-white text-zinc-950 text-sm font-medium flex items-center gap-2 hover:bg-zinc-100 transition active:scale-95">
                         Explorar la colección <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
-                    <a href="#/embajadoras" class="h-12 sm:h-13 px-8 rounded-full border border-zinc-700 text-sm flex items-center justify-center hover:border-zinc-400 transition text-zinc-200">
-                        Programa de Embajadores y Aliados
+                    <a href="#/embajadoras" class="h-12 px-8 rounded-full border border-zinc-800 text-sm flex items-center hover:border-zinc-500 transition text-zinc-300">
+                        Programa de Embajadores
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- ================= EMBAJADORAS Y CUPONES (DISEÑO ESPACIOSO Y CLARO) ================= -->
+        <!-- ================= EMBAJADORAS ================= -->
         <section x-show="vista === 'embajadoras'" x-cloak class="fade-in">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-24">
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                    <span class="inline-flex items-center px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-300">Cupones y Comunidad Aura</span>
-                    <span class="text-xs text-zinc-400">Verificación en tiempo real</span>
-                </div>
-                <h1 class="serif text-[32px] sm:text-5xl mt-4 leading-[1.1]" x-text="c.embajadoras.titulo"></h1>
-                <p class="mt-3 text-zinc-400 text-xs sm:text-base leading-relaxed max-w-2xl" x-text="c.embajadoras.texto"></p>
+                <span class="inline-flex items-center px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-400" x-text="c.embajadoras.etiqueta"></span>
+                <h1 class="font-display text-3xl sm:text-5xl mt-4 text-white" x-text="c.embajadoras.titulo"></h1>
+                <p class="mt-3 text-zinc-400 text-sm sm:text-base leading-relaxed font-light max-w-2xl" x-text="c.embajadoras.texto"></p>
 
-                <!-- 1. BUSCADOR DE CÓDIGO / CUPÓN (CON PADDING AMPLIO) -->
-                <div class="mt-8 sm:mt-12 p-6 sm:p-10 rounded-3xl border border-zinc-700/90 bg-gradient-to-b from-zinc-900/90 to-zinc-950 shadow-2xl">
-                    <div class="flex flex-wrap items-center justify-between gap-3">
-                        <div>
-                            <p class="label-ui text-emerald-400">Paso 1 · Consulta aquí primero</p>
-                            <h2 class="serif text-2xl sm:text-3xl text-white mt-1">Consulta tu código o cupón</h2>
-                        </div>
-                        <div class="flex flex-wrap gap-1.5 text-[11px]">
-                            <span class="px-2.5 py-1 rounded-full bg-zinc-950 border border-zinc-800 text-zinc-300">10% OFF referido: mín. $25</span>
-                            <span class="px-2.5 py-1 rounded-full bg-zinc-950 border border-zinc-800 text-zinc-300">$10 OFF premio: mín. $30</span>
-                        </div>
-                    </div>
-                    <p class="text-xs sm:text-sm text-zinc-300 mt-2">Ingresa tu código para ver cuántas personas llevas referidas, por cuál premio participas, qué beneficio recibe quien lo usa y en qué monto de compra aplica.</p>
+                <!-- Validador de código -->
+                <div class="mt-8 sm:mt-12 p-6 sm:p-10 rounded-3xl border border-zinc-800 bg-zinc-950 shadow-2xl">
+                    <p class="label-ui text-zinc-400">Consulta tu código o cupón</p>
+                    <h2 class="font-display text-2xl sm:text-3xl text-white mt-1">Verificación en vivo</h2>
+                    <p class="text-xs sm:text-sm text-zinc-400 mt-2 font-light">Ingresa tu código para conocer tus beneficios y compras acumuladas.</p>
 
-                    <form @submit.prevent="validar()" class="mt-4 flex flex-col sm:flex-row gap-2.5">
-                        <input x-model="codigo" placeholder="Escribe tu código (Ej. ACS-345)" autocapitalize="characters"
-                               class="uppercase flex-grow h-12 px-4 rounded-xl bg-zinc-950 border border-zinc-700 focus:border-white focus:outline-none text-base tracking-wider text-white placeholder:text-zinc-500">
-                        <button type="submit" :disabled="consultandoCodigo" class="h-12 px-7 rounded-xl bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white active:scale-[0.99] transition disabled:opacity-50">
-                            <span x-text="consultandoCodigo ? 'Consultando...' : 'Consultar cupón'"></span>
+                    <form @submit.prevent="validar()" class="mt-5 flex flex-col sm:flex-row gap-3">
+                        <input x-model="codigo" placeholder="Ej: SOFIA5 o VALE8" class="uppercase h-12 px-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-white focus:outline-none text-base flex-grow font-mono">
+                        <button type="submit" :disabled="consultandoCodigo" class="h-12 px-7 rounded-xl bg-white text-zinc-950 font-medium text-sm hover:bg-zinc-100 transition disabled:opacity-50">
+                            <span x-show="!consultandoCodigo">Consultar</span>
+                            <span x-show="consultandoCodigo">Buscando...</span>
                         </button>
                     </form>
 
-                    <!-- Resumen rápido de restricción de precios siempre visible debajo del input -->
-                    <div class="mt-3.5 pt-3.5 border-t border-zinc-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] sm:text-xs text-zinc-400">
-                        <span>Importante: Un cupón de <strong class="text-zinc-200">$10.00 OFF</strong> no aplica sobre prendas de $15–$25 individuales (requiere compra mínima de <strong class="text-zinc-200">$30.00</strong>).</span>
-                        <a href="#reglas-cupones" class="text-zinc-200 underline flex-shrink-0">Ver todas las condiciones</a>
-                    </div>
-
-                    <!-- Estado: No encontrado -->
-                    <div x-show="resultado && !resultado.valido" x-cloak class="mt-4 p-4 rounded-xl border border-zinc-800 bg-zinc-950 text-xs sm:text-sm text-zinc-300">
-                        No encontramos ese código registrado. Verifica que esté bien escrito (ej. <span class="text-white font-medium">ACS-345</span>).
-                    </div>
-
-                    <!-- Estado: Código válido con progreso, premios y condiciones de monto -->
-                    <div x-show="resultado && resultado.valido" x-cloak class="mt-5 rounded-2xl border border-zinc-700 bg-zinc-950 p-4 sm:p-6 space-y-4 sm:space-y-5">
-                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-800 pb-3.5">
-                            <div>
-                                <span class="label-ui text-zinc-500">Embajador(a) AURA</span>
-                                <h4 class="serif text-xl sm:text-2xl text-white mt-0.5" x-text="resultado?.embajadora"></h4>
+                    <template x-if="resultado && resultado.valido">
+                        <div class="mt-6 p-5 rounded-2xl bg-zinc-900/90 border border-zinc-800 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="label-ui text-emerald-400">Código Activo</span>
+                                <span class="font-mono text-xs text-zinc-400" x-text="resultado.codigo"></span>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <span class="px-3 py-1 rounded-lg bg-zinc-900 border border-zinc-700 text-xs font-semibold tracking-widest text-zinc-100" x-text="resultado?.codigo"></span>
-                                <span class="px-2.5 py-1 rounded-full text-[11px] font-medium"
-                                      :class="(resultado?.usos >= resultado?.meta) ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30' : 'bg-zinc-800 text-zinc-300'"
-                                      x-text="(resultado?.usos >= resultado?.meta) ? 'Meta 5/5 alcanzada' : 'En progreso'"></span>
-                            </div>
-                        </div>
-
-                        <!-- Contador de personas referidas y barra de progreso -->
-                        <div class="p-3.5 sm:p-4 rounded-xl bg-zinc-900/60 border border-zinc-800 space-y-2.5">
-                            <div class="flex items-baseline justify-between gap-2">
-                                <span class="text-[11px] uppercase tracking-wider text-zinc-300">Compras referidas verificadas</span>
-                                <div class="text-right">
-                                    <span class="serif text-2xl sm:text-3xl text-white" x-text="resultado?.usos ?? 0"></span>
-                                    <span class="text-xs sm:text-sm text-zinc-400" x-text="' / ' + (resultado?.meta ?? 5) + ' personas'"></span>
-                                </div>
-                            </div>
-                            <div class="w-full h-2.5 rounded-full bg-zinc-950 overflow-hidden border border-zinc-800">
-                                <div class="h-full bg-zinc-100 rounded-full transition-all duration-500"
-                                     :style="'width: ' + Math.min(100, Math.round(((resultado?.usos || 0) / Math.max(1, resultado?.meta || 5)) * 100)) + '%'"></div>
-                            </div>
-                            <p class="text-xs text-zinc-300"
-                               x-text="(resultado?.usos >= resultado?.meta)
-                                   ? (resultado?.reclamado ? 'Esta meta ya fue completada y el premio fue canjeado.' : '¡Meta completada! Tu premio de $10.00 OFF está habilitado para una compra mínima de $30.00.')
-                                   : ('Te faltan ' + Math.max(0, (resultado?.meta || 5) - (resultado?.usos || 0)) + ' compra(s) referida(s) pagada(s) para desbloquear tu bono de $10.00 OFF.')">
-                            </p>
-                        </div>
-
-                        <!-- A qué participa el cupón + Condición de Monto Mínimo explícita -->
-                        <div class="grid sm:grid-cols-2 gap-3">
-                            <div class="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 flex flex-col justify-between space-y-2">
-                                <div>
-                                    <div class="flex items-center justify-between gap-2">
-                                        <p class="label-ui text-zinc-400">Premio del Embajador</p>
-                                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-200">Compra mín. $30.00</span>
-                                    </div>
-                                    <p class="serif text-xl text-white mt-1.5" x-text="resultado?.premio || '$10.00 OFF en tu compra'"></p>
-                                    <p class="text-xs text-zinc-400 mt-1" x-text="'Cuándo se activa: Al completar ' + (resultado?.meta ?? 5) + ' compras referidas pagadas.'"></p>
-                                </div>
-                                <p class="text-[11px] text-zinc-300 pt-2 border-t border-zinc-800/80">
-                                    Válido en prendas o pedidos desde <strong>$30.00</strong>. No aplica sobre prendas de $15–$25 por separado.
-                                </p>
-                            </div>
-
-                            <div class="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 flex flex-col justify-between space-y-2">
-                                <div>
-                                    <div class="flex items-center justify-between gap-2">
-                                        <p class="label-ui text-zinc-400">Beneficio para Invitados</p>
-                                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">Compra mín. $25.00</span>
-                                    </div>
-                                    <p class="serif text-xl text-emerald-400 mt-1.5" x-text="resultado?.beneficio || '10% OFF en su compra'"></p>
-                                    <p class="text-xs text-zinc-400 mt-1">Cuándo se usa: Al realizar su primer pedido usando este código.</p>
-                                </div>
-                                <p class="text-[11px] text-zinc-300 pt-2 border-t border-zinc-800/80">
-                                    Válido en pedidos desde <strong>$25.00</strong> a precio regular. Suma 1 referido al concretarse el pago.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Acción rápida para aplicar a la bolsa -->
-                        <div class="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                            <span class="text-xs text-zinc-400" x-text="codigoBolsa === resultado?.codigo ? 'Código cargado en tu bolsa de compra.' : '¿Quieres aplicar este código en tu pedido actual?'"></span>
-                            <button type="button" @click="aplicarCodigoABolsa()"
-                                    class="h-10 px-5 rounded-full bg-zinc-100 text-zinc-950 text-xs font-semibold hover:bg-white transition w-full sm:w-auto">
-                                <span x-text="codigoBolsa === resultado?.codigo ? 'Ir a la colección con el código activo' : 'Usar este código en mi pedido'"></span>
+                            <p class="text-lg text-white font-medium">¡Hola <span x-text="resultado.embajadora"></span>!</p>
+                            <p class="text-sm text-zinc-300">Tus conocidos reciben: <strong class="text-white" x-text="resultado.beneficio"></strong></p>
+                            <p class="text-xs text-zinc-400">Usos verificados: <span x-text="resultado.usos"></span> de <span x-text="resultado.meta"></span> hacia tu premio (<span x-text="resultado.premio"></span>).</p>
+                            <button type="button" @click="aplicarCodigoABolsa()" class="h-10 px-5 rounded-full bg-white text-zinc-950 text-xs font-semibold hover:bg-zinc-100 transition">
+                                Aplicar a mi compra
                             </button>
                         </div>
-                    </div>
-                </div>
-
-                <!-- 2. CONDICIONES DE USO Y REGLAS SEGÚN EL VALOR DE LA PRENDA -->
-                <div id="reglas-cupones" class="mt-8 sm:mt-12 space-y-4">
-                    <div class="border-b border-zinc-900 pb-3 flex flex-col sm:flex-row sm:items-end justify-between gap-1">
-                        <div>
-                            <p class="label-ui text-zinc-400">Transparencia en Descuentos</p>
-                            <h2 class="serif text-2xl sm:text-3xl text-white mt-1">Condiciones de uso según el valor de la prenda</h2>
-                        </div>
-                        <span class="text-xs text-zinc-500">Cuándo y cómo aplican los cupones</span>
-                    </div>
-
-                    <div class="grid sm:grid-cols-2 gap-3.5 sm:gap-4">
-                        <template x-for="cond in c.embajadoras.condiciones" :key="cond.titulo">
-                            <div class="p-4 sm:p-5 rounded-2xl border border-zinc-900 bg-zinc-950 space-y-2">
-                                <span class="inline-block text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-300" x-text="cond.etiqueta"></span>
-                                <h3 class="serif text-lg sm:text-xl text-white leading-snug" x-text="cond.titulo"></h3>
-                                <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed" x-text="cond.detalle"></p>
-                            </div>
-                        </template>
-                    </div>
-                </div>
-
-                <!-- 3. CÓMO FUNCIONA EL PROGRAMA EN 3 PASOS -->
-                <div class="mt-8 sm:mt-12">
-                    <p class="label-ui text-zinc-500 mb-3">Cómo funciona el programa</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-                        <template x-for="(p, i) in c.embajadoras.pasos" :key="i">
-                            <div class="p-4 sm:p-6 rounded-2xl border border-zinc-900 bg-zinc-950 flex sm:block items-start gap-3.5">
-                                <span class="serif text-2xl sm:text-4xl text-zinc-500 leading-none mt-0.5" x-text="'0' + (i + 1)"></span>
-                                <div>
-                                    <h3 class="serif text-lg sm:text-2xl sm:mt-2 text-white" x-text="p.titulo"></h3>
-                                    <p class="text-xs sm:text-sm text-zinc-400 mt-1 sm:mt-2 leading-relaxed" x-text="p.texto"></p>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
+                    </template>
                 </div>
             </div>
         </section>
+
     </main>
 
-    <!-- PIE DE PÁGINA -->
-    <footer class="border-t border-zinc-900">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-            <img src="/logo.png" alt="AURA" class="h-5 w-auto opacity-70">
-            <div class="flex gap-6">
-                <a href="#/" class="hover:text-white transition">Inicio</a>
-                <a href="#/coleccion" class="hover:text-white transition">Colección</a>
-                <a href="#/nosotros" class="hover:text-white transition">Quiénes somos</a>
-                <a href="#/embajadoras" class="hover:text-white transition">Embajadores</a>
-                <template x-if="c.instagram"><a :href="'https://instagram.com/' + c.instagram.replace('@','')" target="_blank" rel="noopener" class="hover:text-white transition">Instagram</a></template>
-            </div>
-            <span>aura.mgta · Isla de Margarita</span>
-        </div>
-    </footer>
-
-    <!-- BARRA DE NAVEGACIÓN INFERIOR NATIVA PARA MÓVIL -->
+    <!-- BARRA INFERIOR MÓVIL (NATIVA Y FLUIDA) -->
     <nav class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[#09090b]/95 backdrop-blur-lg border-t border-zinc-900 safe-bottom">
         <div class="grid grid-cols-5 h-16">
             <a href="#/" class="flex flex-col items-center justify-center gap-1 transition"
@@ -824,7 +597,7 @@
             <button type="button" @click="bolsaAbierta = true" class="relative flex flex-col items-center justify-center gap-1 text-zinc-400">
                 <i data-lucide="shopping-bag" class="w-4 h-4"></i>
                 <span class="text-[10px] tracking-wide">Bolsa</span>
-                <span x-show="totalPiezas > 0" x-cloak x-text="totalPiezas" class="absolute top-2 right-4 min-w-[16px] h-[16px] px-1 rounded-full bg-zinc-100 text-zinc-950 text-[9px] font-bold flex items-center justify-center"></span>
+                <span x-show="totalPiezas > 0" x-cloak x-text="totalPiezas" class="absolute top-2 right-4 min-w-[16px] h-[16px] px-1 rounded-full bg-white text-zinc-950 text-[9px] font-bold flex items-center justify-center"></span>
             </button>
         </div>
     </nav>
@@ -835,80 +608,94 @@
         <aside class="absolute right-0 top-0 h-full w-full max-w-md bg-[#0c0c0e] border-l border-zinc-900 flex flex-col safe-bottom"
                x-transition:enter="transition ease-out duration-200" x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0">
             <div class="h-14 sm:h-16 px-5 flex items-center justify-between border-b border-zinc-900">
-                <h2 class="serif text-2xl">Tu bolsa</h2>
-                <button @click="bolsaAbierta = false" class="h-9 w-9 rounded-full border border-zinc-800 flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></button>
+                <h2 class="font-display text-2xl text-white">Tu bolsa</h2>
+                <button @click="bolsaAbierta = false" class="h-9 w-9 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
 
             <div class="flex-grow overflow-y-auto p-4 sm:p-5 space-y-4">
                 <p x-show="bolsa.length === 0" class="text-sm text-zinc-500 text-center py-16">Tu bolsa está vacía.</p>
                 <template x-for="(it, i) in bolsa" :key="it.id + it.talla">
-                    <div class="flex gap-3.5 items-center p-2.5 rounded-xl bg-zinc-950/80 border border-zinc-900">
-                        <div class="w-16 h-20 rounded-lg tile border border-zinc-900 flex-shrink-0 overflow-hidden flex items-center justify-center">
+                    <div class="flex gap-3.5 items-center p-3 rounded-2xl bg-zinc-950 border border-zinc-900">
+                        <div class="w-16 h-20 rounded-xl tile border border-zinc-900 flex-shrink-0 overflow-hidden flex items-center justify-center">
                             <template x-if="it.imagen_url"><img :src="it.imagen_url" class="w-full h-full object-cover"></template>
-                            <template x-if="!it.imagen_url"><span class="serif text-2xl text-zinc-600" x-text="iniciales(it.nombre)"></span></template>
+                            <template x-if="!it.imagen_url"><span class="font-display text-2xl text-zinc-600" x-text="iniciales(it.nombre)"></span></template>
                         </div>
                         <div class="flex-grow min-w-0">
-                            <p class="text-sm font-medium truncate" x-text="it.nombre"></p>
+                            <p class="text-sm font-medium text-white truncate" x-text="it.nombre"></p>
                             <p class="text-xs text-zinc-400 mt-0.5 truncate" x-text="'Talla ' + it.talla"></p>
                             <div class="flex items-center gap-3 mt-2">
-                                <button @click="cambiarCantidad(i, -1)" class="h-7 w-7 rounded-full border border-zinc-800 text-sm">-</button>
-                                <span class="text-sm w-4 text-center" x-text="it.cantidad"></span>
-                                <button @click="cambiarCantidad(i, 1)" class="h-7 w-7 rounded-full border border-zinc-800 text-sm">+</button>
+                                <button @click="cambiarCantidad(i, -1)" class="h-7 w-7 rounded-full border border-zinc-800 text-sm hover:border-zinc-600 text-zinc-300">-</button>
+                                <span class="text-sm w-4 text-center text-white" x-text="it.cantidad"></span>
+                                <button @click="cambiarCantidad(i, 1)" class="h-7 w-7 rounded-full border border-zinc-800 text-sm hover:border-zinc-600 text-zinc-300">+</button>
                             </div>
                         </div>
-                        <p class="text-sm font-medium" x-text="'$' + (it.pvp * it.cantidad).toFixed(2)"></p>
+                        <p class="text-sm font-medium text-white" x-text="'$' + (it.pvp * it.cantidad).toFixed(2)"></p>
                     </div>
                 </template>
             </div>
 
-            <div x-show="bolsa.length > 0" class="p-4 sm:p-5 border-t border-zinc-900 space-y-2.5">
-                <input x-model="cliente" placeholder="Tu nombre" class="w-full h-11 px-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-base">
-                <input x-model="telefono" inputmode="tel" placeholder="Tu WhatsApp" class="w-full h-11 px-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-base">
-                <input x-model="codigoBolsa" placeholder="Código de embajador / cupón (opcional)" class="uppercase w-full h-11 px-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-base">
+            <div x-show="bolsa.length > 0" class="p-4 sm:p-5 border-t border-zinc-900 space-y-3">
+                <input x-model="cliente" placeholder="Tu nombre" class="w-full h-11 px-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-sm text-white">
+                <input x-model="telefono" inputmode="tel" placeholder="Tu WhatsApp (ej: 0416...)" class="w-full h-11 px-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-sm text-white">
+                <input x-model="codigoBolsa" placeholder="Código de embajador / cupón (opcional)" class="uppercase w-full h-11 px-4 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-zinc-500 focus:outline-none text-sm text-white font-mono">
 
-                <!-- Validación en vivo del monto mínimo según el cupón en la bolsa -->
+                <!-- Validación en vivo -->
                 <div x-show="codigoBolsa.trim().length > 0" x-cloak class="p-3 rounded-xl border text-xs leading-relaxed"
                      :class="totalBolsa < 25 ? 'bg-amber-500/10 border-amber-500/30 text-amber-200' : 'bg-zinc-900/90 border-zinc-800 text-zinc-300'">
                     <template x-if="totalBolsa < 25">
-                        <p><strong>Monto insuficiente para cupón:</strong> El código de referido (10% OFF) aplica desde <strong>$25.00</strong> y el premio de embajador ($10.00 OFF) desde <strong>$30.00</strong>. Un cupón de $10 no aplica sobre prendas de $15–$24.</p>
+                        <p><strong>Monto mínimo:</strong> El código de referido (10% OFF) aplica desde <strong>$25.00</strong> y el premio de embajador ($10.00 OFF) desde <strong>$30.00</strong>.</p>
                     </template>
                     <template x-if="totalBolsa >= 25 && totalBolsa < 30">
-                        <p><strong>Válido para 10% OFF de referido</strong> (compra mín. $25.00). Nota: Si vas a canjear el premio de embajador de <strong>$10.00 OFF</strong>, el subtotal mínimo requerido es de <strong>$30.00</strong>.</p>
+                        <p><strong>Válido para 10% OFF de referido</strong> (compra mín. $25.00). El premio de embajador de $10.00 OFF requiere subtotal de $30.00+.</p>
                     </template>
                     <template x-if="totalBolsa >= 30">
-                        <p><strong>Monto válido para cupón:</strong> Cumple el mínimo tanto para <strong>10% OFF de referido</strong> ($25+) como para canje de <strong>premio de embajador $10.00 OFF</strong> ($30+, sujeto a meta 5/5 verificada).</p>
+                        <p><strong>Monto válido:</strong> Cumple el mínimo tanto para 10% OFF como para premio $10 OFF de embajador.</p>
                     </template>
                 </div>
 
-                <div class="flex justify-between items-baseline pt-1">
+                <div class="flex justify-between items-baseline pt-2">
                     <span class="text-sm text-zinc-400">Subtotal prendas</span>
-                    <span class="text-2xl font-normal" x-text="'$' + totalBolsa.toFixed(2)"></span>
+                    <span class="text-2xl font-normal text-white" x-text="'$' + totalBolsa.toFixed(2)"></span>
                 </div>
-                <button @click="enviarPedido()" class="w-full h-12 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white transition flex items-center justify-center gap-2">
+                <button @click="enviarPedido()" class="w-full h-12 rounded-full bg-white text-zinc-950 text-sm font-semibold hover:bg-zinc-100 transition flex items-center justify-center gap-2 active:scale-95">
                     <i data-lucide="send" class="w-4 h-4"></i> Pedir por WhatsApp
                 </button>
-                <p class="text-[11px] text-zinc-500 text-center">Confirmamos disponibilidad, validación de cupón y envío por WhatsApp.</p>
+                <p class="text-[11px] text-zinc-500 text-center">Confirmamos disponibilidad, validación de cupón y entrega por WhatsApp.</p>
             </div>
         </aside>
     </div>
 
     <script>
+/* ============================================================
+   CONTENIDO EDITABLE DE LA TIENDA aura.mgta
+   Textos de marca, pilares estratégicos y catálogo de estudio.
+   ============================================================ */
 window.AURA_CONTENIDO = {
-
     whatsapp: '584160306788',
     instagram: '',
 
     hero: {
         etiqueta: 'aura.mgta · Isla de Margarita',
-        titulo: 'Ropa con criterio, transparencia técnica y trato humano.',
-        subtitulo: 'Ropa de mujer y de hombre seleccionada con filtro real. Conoce qué tela vistes, cómo cae y cómo te queda antes de pagar.'
+        titulo: 'Ropa con criterio, siluetas contemporáneas y trato humano.',
+        subtitulo: 'Curaduría exigente de piezas listas para usar y confección propia en el trópico. Conoce la tela, la caída y cómo te queda antes de pagar.'
     },
 
     manifiesto: [
-        'Rompemos con el patrón de ropa cara, anticuada y traída sin filtro en la isla.',
+        'Rompemos con el patrón de ropa cara, anticuada y traída sin filtro a la isla.',
         'Cada prenda tiene su ficha clara: tela, grosor, caída, elasticidad y medidas reales sin rodeos.',
         'Más que una tienda, construimos comunidad, alianzas locales y el camino hacia nuestra propia confección en Margarita.'
     ],
+
+    proximaColeccion: {
+        nombre: 'Pantalones Bruno Sastre Baggy',
+        etiqueta: 'Primer Drop de Confección Propia · Isla de Margarita',
+        subtitulo: 'Nuestra primera pieza de autor confeccionada íntegramente por costureros locales en la Isla de Margarita. Corte sastre contemporáneo con pinzas profundas, caída pesada y tiro fluido.',
+        detalles: [
+            { titulo: 'Confección Local', texto: 'Hecho a mano en Margarita por sastres y costureros experimentados.' },
+            { titulo: 'Corte Contemporáneo', texto: 'Silueta baggy relajada con pinzas frontales dobles y bota ancha.' },
+            { titulo: 'Tejido Gabardina', texto: 'Estructura con peso ideal para lograr una caída recta y elegante.' }
+        ]
+    },
 
     nosotros: {
         etiqueta: 'Identidad y Propósito · Margarita',
@@ -962,106 +749,38 @@ window.AURA_CONTENIDO = {
                 resumen: 'Crecemos en red recompensando a quienes nos recomiendan y conectando con el talento local.',
                 puntos: [
                     {
-                        subtitulo: 'Beneficios por recomendación',
-                        texto: 'Recompensamos la lealtad y el voz a voz con cupones de descuento y premios reales tanto para quien recomienda como para el nuevo comprador.'
+                        subtitulo: 'Beneficio mutuo real',
+                        texto: 'Quien usa tu código de embajador recibe 10% OFF directo en compras desde $25, y tú acumulas ventas verificadas hacia premios canjeables de $10 OFF en compras desde $30.'
                     },
                     {
-                        subtitulo: 'Red de Aliados',
-                        texto: 'Conectamos con otros proyectos, marcas y creadores de la isla para generar sinergia y apoyarnos mutuamente en visibilidad y alcance.'
+                        subtitulo: 'Alianzas con comercios locales',
+                        texto: 'Colaboramos con barberías, cafés, estudios de tatuaje y espacios creativos de la isla para exhibir muestras físicas, hacer activaciones conjuntas y conectar con gente afín a nuestra estética.'
                     }
                 ]
             },
             {
                 numero: '04',
                 categoria: 'Futuro y Desarrollo Local',
-                titulo: 'Visión de Impacto Local y Financiamiento',
-                resumen: 'De la curaduría selecta a la confección propia y el impulso a nuevos emprendedores en Margarita.',
+                titulo: 'Hacia Nuestra Propia Confección',
+                resumen: 'Construimos las bases para fabricar nuestras prendas directamente en la Isla de Margarita.',
                 puntos: [
                     {
-                        subtitulo: 'Evolución a producción propia',
-                        texto: 'Damos el salto progresivo de la reventa curada a la confección propia con telas seleccionadas, garantizando cortes únicos a precios realmente accesibles.'
+                        subtitulo: 'Activación del talento margariteño',
+                        texto: 'Trabajamos con costureros y talleres independientes de la isla para prototipar y confeccionar nuestras propias piezas, generando empleo digno y valor artesanal insular.'
                     },
                     {
-                        subtitulo: 'Planes para emprendedores',
-                        texto: 'Proyectamos facilidades y planes de financiamiento a futuro para que nuevos proyectos, marcas locales o personas emergentes en Margarita puedan vestirse, equiparse o emprender junto a nosotros sin ahogarse económicamente.'
+                        subtitulo: 'De la importación al diseño propio',
+                        texto: 'Nuestra meta es que la mayoría de piezas de aura.mgta lleven la etiqueta Hecho en Margarita, diseñadas pensando en el clima, la silueta contemporánea y la identidad de nuestra tierra.'
                     }
-                ]
-            }
-        ],
-        compromisos: [
-            {
-                etiqueta: 'Protocolo de Atención',
-                titulo: 'Cómo te asesoramos por WhatsApp e Instagram',
-                pasos: [
-                    '1. Contextura y estilo: Nos dices tu estatura aproximada y cómo te gusta que te quede la prenda (suelta, boxy o al cuerpo).',
-                    '2. Medidas en centímetros: Te confirmamos ancho de cintura, tiro, largo total o ancho de pecho medidos sobre la prenda real.',
-                    '3. Tacto y lavado: Te explicamos el peso de la tela, si cede con el uso y cómo lavarla para conservar el color y la estructura.'
-                ]
-            },
-            {
-                etiqueta: 'Laboratorio Aura',
-                titulo: 'Dinámica de Prendas DEMO y Drops',
-                pasos: [
-                    '1. Muestra piloto: Traemos o confeccionamos lotes cortos de nuevos cortes urbanos que no se consiguen en la isla.',
-                    '2. Votación y feedback real: Nuestra comunidad y embajadores evalúan la tela, el entalle y el precio.',
-                    '3. Escala con respaldo: Solo los modelos mejor valorados pasan a producción o reposición completa en el catálogo.'
                 ]
             }
         ]
     },
 
     embajadoras: {
-        titulo: 'Embajadores y Cupones Aura',
-        texto: 'Consulta al instante el estado de tu código, cuántas personas llevas referidas y las condiciones para aplicar tu descuento o canjear tu premio.',
-        minimoReferido: 25.00,
-        minimoPremioEmbajador: 30.00,
-        pasos: [
-            { titulo: 'Tu código personal', texto: 'Cada embajador o aliado cuenta con un código único vinculado a su perfil para compartir con amigos o seguidores.' },
-            { titulo: 'Beneficio para tus referidos', texto: 'Quien compra con tu código recibe 10% OFF en compras desde $25.00 y suma 1 punto a tu meta al concretar el pago.' },
-            { titulo: 'Premio del Embajador ($10 OFF)', texto: 'Al completar tus 5 referidos verificados, desbloqueas $10.00 OFF canjeables en una compra mínima de $30.00.' }
-        ],
-        condiciones: [
-            {
-                etiqueta: 'Monto mínimo de compra',
-                titulo: '¿En qué prendas o montos aplica cada cupón?',
-                detalle: 'El cupón de premio de embajador ($10.00 OFF) solo es válido en prendas o pedidos con un subtotal mínimo de $30.00 (no aplica en prendas de $15 a $25 individuales). El código de referido (10% OFF para amigos) aplica en compras a partir de $25.00.'
-            },
-            {
-                etiqueta: 'Momento de activación',
-                titulo: '¿Cuándo se suma un referido y cuándo puedo usar mi premio?',
-                detalle: 'Cada referido se contabiliza únicamente cuando el pedido del invitado ha sido pagado y entregado. El premio de $10.00 OFF del embajador se habilita al alcanzar 5/5 compras efectivas y se usa en su siguiente compra.'
-            },
-            {
-                etiqueta: 'Uso único y exclusiones',
-                titulo: '¿Se pueden acumular varios cupones o aplicar en rebajas?',
-                detalle: 'Solo se puede utilizar un (1) código o cupón por pedido. Los cupones aplican sobre prendas de colección a precio regular; no son acumulables con promociones, liquidaciones ni prendas DEMO a precio de costo.'
-            },
-            {
-                etiqueta: 'Validación al pedir',
-                titulo: '¿Cómo se aplica al pagar?',
-                detalle: 'Al ingresar tu código en la bolsa, el sistema verifica que tu pedido cumpla el monto mínimo ($25.00 para 10% OFF de referido o $30.00 para el premio de $10.00 OFF) y lo adjunta a tu orden de WhatsApp para validación final.'
-            }
-        ]
-    },
-
-    proximaColeccion: {
-        id: 1793713500001,
-        etiqueta: 'Atelier Aura · Edición Exclusiva Hecha en Margarita',
-        sello: '1ra Colección Propia · Lote Limitado',
-        nombre: 'Pantalones Bruno Sastre Baggy',
-        subtitulo: 'Nuestra primera pieza de autor confeccionada íntegramente en la Isla de Margarita junto a nuestros propios costureros. Una silueta de sastrería contemporánea con pinzas dobles, pretina estructurada y caída baggy amplia que no existe en las tiendas de la isla.',
-        estadoPrecio: 'Lanzamiento Exclusivo · Precio en definición (costeo de telas y taller)',
-        etapas: [
-            { paso: '01', nombre: 'Diseño y Patronaje Baggy Sastre', estado: 'Completado' },
-            { paso: '02', nombre: 'Curaduría de Tela y Pruebas en Isla', estado: 'En curso' },
-            { paso: '03', nombre: 'Costeo con Costureros y Precio Oficial', estado: 'En curso' },
-            { paso: '04', nombre: 'Confección 1er Lote Limitado', estado: 'Próximo paso' }
-        ],
-        detalles: [
-            { titulo: 'Confección Artesanal en Margarita', texto: 'Cero reventa masiva. Cada pantalón será cortado y cosido en la isla por nuestros costureros aliados, cuidando cada pinza, pretina y costura interna.' },
-            { titulo: 'Corte Bruno Sastre Baggy de Autor', texto: 'Fusión entre la elegancia de un pantalón de vestir con pinzas sastre y la caída amplia del corte baggy contemporáneo.' },
-            { titulo: 'Acceso Prioritario · 1er Lote Limitado', texto: 'Al ser nuestra primera producción local, los cupos por talla serán limitados. Anotarte en la Lista VIP te garantiza prioridad apenas anunciemos el precio oficial.' }
-        ]
+        etiqueta: 'Comunidad y Beneficios · Margarita',
+        titulo: 'Programa de Embajadores y Cupones',
+        texto: 'En aura.mgta creemos en el crecimiento orgánico de la mano de nuestra gente. Comparte tu código de embajador: tus conocidos reciben 10% OFF en compras desde $25 y tú acumulas beneficios directos para canjear en tus prendas favoritas.'
     },
 
     catalogoEstudio: [
@@ -1071,12 +790,10 @@ window.AURA_CONTENIDO = {
             categoria: 'Sastrería Baggy',
             pvp: 0,
             stock: 0,
-            proximoLanzamiento: true,
-            exclusivo: true,
-            hechoEnMargarita: true,
             genero: 'Unisex',
-            tallas: 'S, M, L, XL',
+            tallas: 'XS, S, M, L, XL',
             destacado: true,
+            proximoLanzamiento: true,
             imagen_url: '/tienda/fotos/bruno-sastre-1.jpg?v=1',
             imagenes: [
                 '/tienda/fotos/bruno-sastre-1.jpg?v=1',
@@ -1084,202 +801,111 @@ window.AURA_CONTENIDO = {
                 '/tienda/fotos/bruno-sastre-3.jpg?v=1',
                 '/tienda/fotos/bruno-sastre-4.jpg?v=1'
             ],
-            colores: ['Negro Sastre', 'Gris Carbón', 'Arena / Beige', 'Marrón Oscuro'],
-            descripcion: 'Edición Exclusiva · Primera colección de confección propia hecha directamente en la Isla de Margarita por nuestros costureros locales. Pantalón de autor con corte Bruno Sastre Baggy, pinzas dobles frontales, pretina de vestir estructurada y caída amplia sobre el calzado. Actualmente en cierre de costos de materiales y taller para anunciar su precio oficial.',
+            colores: ['Negro Sastre', 'Gris Carbón Plisado', 'Arena / Beige Neutro', 'Gris Jaspeado'],
+            descripcion: 'Nuestra primera confección propia hecha por costureros locales en la Isla de Margarita. Pantalón sastre de corte baggy con pinzas dobles, tiro medio-alto, caída pesada y bota ancha contemporánea.',
             ficha: {
-                tela: 'Casimir / Gabardina Sastre de caída pesada (en selección final de gramaje en Margarita)',
-                caida: 'Corte Bruno Sastre Baggy: cintura estructurada con pinzas dobles y pierna ancha fluida',
-                tacto: 'Acabado suave y elegante de sastrería con cuerpo firme que mantiene la línea',
-                elasticidad: 'Pretina sastre firme con trabillas para cinturón y calce holgado de alta comodidad',
-                cuidado: 'Confección artesanal reforzada por nuestros costureros en la Isla de Margarita'
-            }
-        },
-        {
-            id: 1793641003024,
-            nombre: 'Baggy - Styles',
-            categoria: 'Baggy',
-            pvp: 25.00,
-            stock: 6,
-            genero: 'Unisex',
-            tallas: 'S, M, L, XL',
-            destacado: true,
-            imagen_url: '/tienda/fotos/baggy-styles-1.jpg?v=2',
-            imagenes: [
-                '/tienda/fotos/baggy-styles-1.jpg?v=2',
-                '/tienda/fotos/baggy-styles-2.jpg?v=2',
-                '/tienda/fotos/baggy-styles-3.jpg?v=2',
-                '/tienda/fotos/baggy-styles-4.jpg?v=2',
-                '/tienda/fotos/baggy-styles-5.jpg?v=2'
-            ],
-            colores: ['Taupe', 'Crema', 'Gris Jaspeado', 'Gris Claro', 'Negro'],
-            descripcion: 'Pantalón corte baggy de caída amplia y cintura elástica con cordón ajustable. Disponible en 5 tonos de alta versatilidad.',
-            ficha: {
-                tela: 'Algodón perchado suave de gramaje medio-alto',
-                caida: 'Caída fluida de pierna ancha (Wide Leg / Baggy) con apilamiento natural sobre el calzado',
-                tacto: 'Interior suave y cálido, exterior liso y firme',
-                elasticidad: 'Cintura elástica con cordón; el cuerpo de la tela tiene elasticidad moderada sin deformarse',
-                cuidado: 'Lavar al revés en agua fría, no usar secadora de calor alto para proteger el estampado'
+                tela: 'Gabardina sastre de peso medio (280 gsm) con caída pesada y tacto suave',
+                caida: 'Estructurada con quiebre recto desde la rodilla; pinzas frontales profundas',
+                tacto: 'Sedoso y firme, sin sensación sintética; ideal para clima cálido y eventos',
+                elasticidad: 'Tela no elástica que preserva la silueta de sastrería formal',
+                cuidado: 'Lavar en seco o ciclo delicado en agua fría; planchar con paño protector'
             }
         },
         {
             id: 1793646300001,
-            nombre: 'Baggy Jeans - OEN',
+            nombre: 'Baggy Jeans OEN - Dark Blue',
             categoria: 'Jeans',
             pvp: 35.00,
-            stock: 6,
+            stock: 8,
             genero: 'Unisex',
-            tallas: '28, 30, 32, 34',
+            tallas: '28, 30, 32, 34, 36',
             destacado: true,
             imagen_url: '/tienda/fotos/baggy-jeans-oen-1.jpg?v=2',
             imagenes: [
                 '/tienda/fotos/baggy-jeans-oen-1.jpg?v=2',
                 '/tienda/fotos/baggy-jeans-oen-2.jpg?v=2',
-                '/tienda/fotos/baggy-jeans-oen-3.jpg?v=2',
-                '/tienda/fotos/baggy-jeans-oen-4.jpg?v=2'
+                '/tienda/fotos/baggy-jeans-oen-3.jpg?v=2'
             ],
-            colores: ['Negro Whiskers', 'Gris Acid Wash', 'Gris Claro Acid', 'Negro Sólido'],
-            descripcion: 'Denim pesado de corte baggy relajado con lavado de carácter y estructura firme. Diseñado para un fit urbano limpio.',
+            colores: ['Azul Oscuro / Dark Blue', 'Azul Índigo Clásico', 'Azul Lavado Medio'],
+            descripcion: 'Jeans corte baggy auténtico con lavado oscuro y costuras reforzadas.',
             ficha: {
-                tela: 'Denim 100% algodón rígido de alta densidad (alto gramaje)',
-                caida: 'Estructurada y tubular; mantiene la silueta ancha desde la cadera hasta el ruedo',
-                tacto: 'Textura denim firme con prelavado suavizado',
-                elasticidad: 'No estira (denim rígido); recomendamos pedir tu talla exacta de cintura en centímetros',
-                cuidado: 'Lavar por separado en agua fría, secar a la sombra sin retorcer'
+                tela: 'Denim rígido 100% algodón de 12.5 oz',
+                caida: 'Caída amplia con quiebre sobre el calzado (stacking natural)',
+                tacto: 'Textura denim clásica resistente pero suavizada al tacto',
+                elasticidad: 'Rígido sin elastano para mantener el corte original con el uso',
+                cuidado: 'Lavar del revés en agua fría; no usar secadora'
             }
         },
         {
             id: 1793646300002,
-            nombre: 'Baggy Pants Premium - OEN',
+            nombre: 'Baggy Premium OEN - Dirty Wash',
             categoria: 'Baggy',
-            pvp: 30.00,
-            stock: 6,
+            pvp: 38.00,
+            stock: 5,
             genero: 'Unisex',
-            tallas: 'S, M, L',
+            tallas: '28, 30, 32, 34, 36',
             destacado: true,
             imagen_url: '/tienda/fotos/baggy-premium-oen-1.jpg?v=2',
             imagenes: [
                 '/tienda/fotos/baggy-premium-oen-1.jpg?v=2',
                 '/tienda/fotos/baggy-premium-oen-2.jpg?v=2',
-                '/tienda/fotos/baggy-premium-oen-3.jpg?v=2',
-                '/tienda/fotos/baggy-premium-oen-4.jpg?v=2'
+                '/tienda/fotos/baggy-premium-oen-3.jpg?v=2'
             ],
-            colores: ['Rosa / Vivo Blanco', 'Gris / Vivo Negro', 'Crema / Vivo Negro', 'Negro / Vivo Blanco'],
-            descripcion: 'Baggy jogging premium con costuras curvas en contraste (piping) y pretina elástica con cordón.',
+            colores: ['Dirty Wash Tint', 'Gris Ceniza Desgastado', 'Azul Petróleo Envejecido'],
+            descripcion: 'Edición especial baggy con tratamiento dirty wash y matices vintage.',
             ficha: {
-                tela: 'French Terry pesado de algodón con vivo (piping) tejido en contraste',
-                caida: 'Caída pesada con volumen arquitectónico gracias a las costuras laterales curvas',
-                tacto: 'Suave, fresco por dentro y con cuerpo firme por fuera',
-                elasticidad: 'Pretina elástica adaptable; la tela cede ligeramente al movimiento',
-                cuidado: 'Lavado suave en agua fría con colores similares; no aplicar cloro'
-            }
-        },
-        {
-            id: 1793383598668,
-            nombre: 'Baggy Pants Unicolor - OEN',
-            categoria: 'Baggy',
-            pvp: 28.00,
-            stock: 6,
-            genero: 'Unisex',
-            tallas: 'S, M, L, XL',
-            destacado: false,
-            imagen_url: '/tienda/fotos/baggy-unicolor-oen-1.jpg?v=2',
-            imagenes: [
-                '/tienda/fotos/baggy-unicolor-oen-1.jpg?v=2',
-                '/tienda/fotos/baggy-unicolor-oen-2.jpg?v=2',
-                '/tienda/fotos/baggy-unicolor-oen-3.jpg?v=2',
-                '/tienda/fotos/baggy-unicolor-oen-4.jpg?v=2'
-            ],
-            colores: ['Gris Melange', 'Vinotinto', 'Marrón Camel', 'Negro'],
-            descripcion: 'Baggy unicolor de algodón suave con caída fluida y bota ancha. Un esencial diario para combinar sin esfuerzo.',
-            ficha: {
-                tela: 'Algodón French Terry transpirable de densidad media',
-                caida: 'Holgada y ligera, ideal para el clima de la isla sin perder el corte baggy',
-                tacto: 'Muy suave al contacto con la piel, fresco para uso diario',
-                elasticidad: 'Cintura elástica con ajuste de cordón y ligera flexibilidad en pierna',
-                cuidado: 'Lavar en ciclo suave con agua fría y secar al aire'
-            }
-        },
-        {
-            id: 1793383575598,
-            nombre: 'Sueter Boxy Fit - OEN',
-            categoria: 'Sueter/Sudadera',
-            pvp: 30.00,
-            stock: 6,
-            genero: 'Unisex',
-            tallas: 'S, M, L',
-            destacado: true,
-            imagen_url: '/tienda/fotos/sueter-boxy-oen-1.jpg?v=2',
-            imagenes: [
-                '/tienda/fotos/sueter-boxy-oen-1.jpg?v=2',
-                '/tienda/fotos/sueter-boxy-oen-2.jpg?v=2',
-                '/tienda/fotos/sueter-boxy-oen-3.jpg?v=2'
-            ],
-            colores: ['Gris Melange', 'Marrón Camel', 'Negro'],
-            descripcion: 'Hoodie con capucha y bolsillo canguro en silueta boxy fit de hombros caídos y puños acanalados.',
-            ficha: {
-                tela: 'Algodón perchado de alto gramaje con capucha de doble capa',
-                caida: 'Corte Boxy Fit: ancho en pecho y hombros caídos con largo ligeramente recortado a la cintura',
-                tacto: 'Afelpado interno ultrasuave y exterior compacto',
-                elasticidad: 'Puños y pretina en rib elástico firme que mantiene la forma',
-                cuidado: 'Lavar al revés en agua fría; secar en superficie plana o colgado sin pinzas en hombros'
+                tela: 'Denim grueso con tinte artesanal en tonos arena/óxido vintage',
+                caida: 'Silueta balloon-baggy de gran presencia y volumen en piernas',
+                tacto: 'Denim lavado con acabado suave al roce',
+                elasticidad: '100% algodón rígido con pre-encogido',
+                cuidado: 'Lavar por separado las primeras veces para fijar el tinte'
             }
         },
         {
             id: 1793646300003,
-            nombre: 'Mom Jeans - OEN',
-            categoria: 'Jeans',
-            pvp: 34.00,
-            stock: 6,
+            nombre: 'Baggy Unicolor OEN - Black',
+            categoria: 'Baggy',
+            pvp: 35.00,
+            stock: 7,
             genero: 'Unisex',
-            tallas: '28, 30, 32, 34',
-            destacado: false,
-            imagen_url: '/tienda/fotos/mom-jeans-oen-1.jpg?v=2',
+            tallas: '28, 30, 32, 34, 36',
+            destacado: true,
+            imagen_url: '/tienda/fotos/baggy-unicolor-oen-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/mom-jeans-oen-1.jpg?v=2',
-                '/tienda/fotos/mom-jeans-oen-2.jpg?v=2'
+                '/tienda/fotos/baggy-unicolor-oen-1.jpg?v=2',
+                '/tienda/fotos/baggy-unicolor-oen-2.jpg?v=2',
+                '/tienda/fotos/baggy-unicolor-oen-3.jpg?v=2'
             ],
-            colores: ['Azul Clásico', 'Negro'],
-            descripcion: 'Jeans de corte recto clásico con entalle limpio en cintura y caída estructurada.',
+            colores: ['Negro Intenso', 'Negro Deslavado / Washed Black', 'Gris Carbón'],
+            descripcion: 'Baggy minimalista en color negro uniforme con herrajes pavonados oscuros.',
             ficha: {
-                tela: 'Denim clásico de algodón de grosor medio-alto',
-                caida: 'Tiro medio-alto con pierna recta holgada que estiliza sin apretar',
-                tacto: 'Denim suave al tacto, resistente al uso continuo',
-                elasticidad: 'Estructura firme sin spandex (no estira); te asesoramos con la medida exacta de cintura',
-                cuidado: 'Lavar al revés con agua fría para preservar el tono azul o negro profundo'
+                tela: 'Denim negro teñido reactivo para mayor retención de color',
+                caida: 'Recta-ancha desde la cadera hasta el ruedo',
+                tacto: 'Firme y estructurado con acabado limpio',
+                elasticidad: 'Sin elastano (100% algodón)',
+                cuidado: 'Lavar siempre con prendas oscuras y agua fría'
             }
         },
         {
             id: 1793646300004,
-            nombre: 'Track Pants - Style',
-            categoria: 'Track Pants',
-            pvp: 28.00,
-            stock: 6,
+            nombre: 'Baggy Styles - Parachute / Cargo',
+            categoria: 'Baggy',
+            pvp: 32.00,
+            stock: 9,
             genero: 'Unisex',
             tallas: 'S, M, L, XL',
             destacado: false,
-            imagen_url: '/tienda/fotos/track-pants-style-1.jpg?v=2',
+            imagen_url: '/tienda/fotos/baggy-styles-1.jpg?v=2',
             imagenes: [
-                '/tienda/fotos/track-pants-style-1.jpg?v=2',
-                '/tienda/fotos/track-pants-style-2.jpg?v=2',
-                '/tienda/fotos/track-pants-style-3.jpg?v=2',
-                '/tienda/fotos/track-pants-style-4.jpg?v=2',
-                '/tienda/fotos/track-pants-style-5.jpg?v=2',
-                '/tienda/fotos/track-pants-style-6.jpg?v=2',
-                '/tienda/fotos/track-pants-style-7.jpg?v=2'
+                '/tienda/fotos/baggy-styles-1.jpg?v=2',
+                '/tienda/fotos/baggy-styles-2.jpg?v=2',
+                '/tienda/fotos/baggy-styles-3.jpg?v=2'
             ],
-            colores: [
-                'Beige / Línea Negra',
-                'Gris / Línea Blanca',
-                'Negro / Línea Blanca',
-                'Blanco / Línea Negra',
-                'Dúo Negro y Blanco',
-                'Trío Negro / Verde Militar / Beige',
-                'Trío Negro / Azul Marino / Beige'
-            ],
-            descripcion: 'Track pants de tela ligera con líneas laterales en contraste y cintura elástica con cordón.',
+            colores: ['Gris Cemento', 'Verde Militar / Oliva', 'Negro Mate'],
+            descripcion: 'Pantalón ligero de silueta oversized con bolsillos utilitarios.',
             ficha: {
-                tela: 'Nylon / Microfibra deportiva ligera repelente a salpicaduras',
-                caida: 'Caída recta y suelta tipo parachute/track con mucho movimiento',
+                tela: 'Nailon técnico ripstop ligero y transpirable',
+                caida: 'Caída recta y suelta tipo parachute con gran movimiento',
                 tacto: 'Fresco, liso y ultraligero, ideal para el calor de Margarita',
                 elasticidad: 'Tela no elástica de corte amplio; cintura 100% elástica con cordón ajustable',
                 cuidado: 'Secado rápido; lavar en agua fría y no planchar a alta temperatura'
@@ -1303,7 +929,7 @@ window.AURA_CONTENIDO = {
                 'Gama Vibrante (Fucsia, Rosa, Morado, Verde Esmeralda, Oliva)',
                 'Gama Clásica (Negro, Gris, Blanco, Marrón, Beige, Rojo)'
             ],
-            descripcion: 'Track pants ligeros con vivo lateral en contraste. Disponibles en 11 colores entre la gama vibrante y la gama clásica.',
+            descripcion: 'Track pants ligeros con vivo lateral en contraste. Disponibles en gama vibrante y clásica.',
             ficha: {
                 tela: 'Tejido técnico deportivo de secado rápido con vivo blanco cosido',
                 caida: 'Corte relajado de pierna ancha que no se pega al cuerpo',
@@ -1346,7 +972,7 @@ window.AURA_CONTENIDO = {
                 'Negro + Lila',
                 'Negro + Rojo'
             ],
-            descripcion: 'Kit completo de 5 piezas (chaqueta/jogger o conjunto con capucha, franela algodón, franela deportiva, short y medias) disponible en 10 combinaciones de color.',
+            descripcion: 'Kit completo de 5 piezas (conjunto deportivo, franela algodón, franela deportiva, short y medias).',
             ficha: {
                 tela: 'Mix de algodón suave en franelas/short y tejido deportivo transpirable en conjunto',
                 caida: 'Calce regular-relajado pensado para combinar las 5 piezas por separado o en set',
@@ -1377,13 +1003,61 @@ window.AURA_CONTENIDO = {
                 elasticidad: 'Pretinas elásticas firmes con cordón y rib en tobillos/puños',
                 cuidado: 'Lavar el short blanco por separado del conjunto negro en agua fría'
             }
+        },
+        {
+            id: 1793646300008,
+            nombre: 'Suéter Cuello Redondo Oversize',
+            categoria: 'Suéter / Sudadera',
+            pvp: 28.00,
+            stock: 5,
+            genero: 'Unisex',
+            tallas: 'S, M, L, XL',
+            destacado: false,
+            imagen_url: '/tienda/fotos/sueter-suave-1.jpg?v=1',
+            imagenes: [
+                '/tienda/fotos/sueter-suave-1.jpg?v=1'
+            ],
+            colores: ['Gris Melange'],
+            descripcion: 'Suéter cuello redondo de corte boxy relajado con caída suelta y puños acanalados.',
+            ficha: {
+                tela: 'Mezcla de algodón y felpa francesa ligera',
+                caida: 'Corte boxy amplio que cae natural sobre los hombros',
+                tacto: 'Suave y transpirable para noches frescas en la isla',
+                elasticidad: 'Tejido con elasticidad en cuello y puños',
+                cuidado: 'Lavar con agua fría en ciclo suave'
+            }
+        },
+        {
+            id: 1793646300009,
+            nombre: 'Mom Jeans Vintage Wash',
+            categoria: 'Jeans',
+            pvp: 32.00,
+            stock: 4,
+            genero: 'Mujer',
+            tallas: '26, 28, 30, 32',
+            destacado: false,
+            imagen_url: '/tienda/fotos/mom-jeans-1.jpg?v=1',
+            imagenes: [
+                '/tienda/fotos/mom-jeans-1.jpg?v=1'
+            ],
+            colores: ['Azul Vintage'],
+            descripcion: 'Jeans de tiro alto con corte clásico cónico en tobillos y lavado retro.',
+            ficha: {
+                tela: 'Denim resistente 100% algodón con efecto deslavado',
+                caida: 'Ajuste ceñido a la cintura y holgado en muslos',
+                tacto: 'Denim con cuerpo y textura genuina',
+                elasticidad: 'Rígido clásico',
+                cuidado: 'Lavar del revés para preservar el tono vintage'
+            }
         }
     ]
 };
 
+</script>
+    <script>
         function tienda() {
             return {
-                c: window.AURA_CONTENIDO,
+                c: window.AURA_CONTENIDO || {},
                 links: [
                     { ruta: 'inicio', texto: 'Inicio' },
                     { ruta: 'coleccion', texto: 'Colección' },
@@ -1392,11 +1066,11 @@ window.AURA_CONTENIDO = {
                 ],
                 vista: 'inicio', idPrenda: null,
                 prendas: [], cargando: true, filtro: 'Todas', genero: 'Todos',
-                tallaSel: '', fotoActiva: 0, tallasCard: {}, fotosCard: {},
-                menuAbierto: false, bolsaAbierta: false,
+                tallaSel: '', fotoActiva: 0,
+                bolsaAbierta: false,
                 bolsa: [], cliente: '', telefono: '', codigoBolsa: '',
                 codigo: '', resultado: null, consultandoCodigo: false,
-                pilarFiltro: 'todos', touchStartX: 0,
+                touchStartX: 0,
 
                 async init() {
                     try { this.bolsa = JSON.parse(localStorage.getItem('aura_bolsa') || '[]'); } catch (e) {}
@@ -1414,18 +1088,9 @@ window.AURA_CONTENIDO = {
                     const v = vRaw === 'historia' ? 'nosotros' : vRaw;
                     this.vista = ['coleccion', 'prenda', 'nosotros', 'embajadoras'].includes(v) ? v : 'inicio';
                     this.idPrenda = partes[1] || null;
-                    this.menuAbierto = false;
                     window.scrollTo({ top: 0 });
                     if (this.vista === 'prenda') { this.tallaSel = ''; this.fotoActiva = 0; }
                     this.refrescarIconos();
-                },
-
-                cambiarPilar(dir) {
-                    const nums = (this.c.nosotros?.pilares || []).map(p => p.numero);
-                    if (!nums.length) return;
-                    const idx = nums.indexOf(this.pilarFiltro);
-                    const nextIdx = idx === -1 ? 0 : (idx + dir + nums.length) % nums.length;
-                    this.pilarFiltro = nums[nextIdx];
                 },
 
                 manejarSwipe(endX) {
@@ -1452,7 +1117,6 @@ window.AURA_CONTENIDO = {
                             descripcion: p.descripcion || ref.descripcion,
                             ficha: p.ficha || ref.ficha,
                             proximoLanzamiento: ref.proximoLanzamiento || p.proximoLanzamiento || false,
-                            hechoEnMargarita: ref.hechoEnMargarita || p.hechoEnMargarita || false,
                             tallas: p.tallas || ref.tallas,
                             genero: p.genero || ref.genero,
                             destacado: p.destacado !== undefined ? p.destacado : ref.destacado
@@ -1480,8 +1144,7 @@ window.AURA_CONTENIDO = {
                 },
 
                 get categorias() { return ['Todas', ...new Set(this.prendas.map(p => p.categoria).filter(Boolean))]; },
-                get generos() { return ['Todos', ...new Set(this.prendas.map(p => p.genero).filter(g => g && g !== 'Unisex'))].concat(this.prendas.some(p => p.genero === 'Unisex') ? ['Unisex'] : []); },
-                get filtradas() { return this.prendas.filter(p => (this.filtro === 'Todas' || p.categoria === this.filtro) && (this.genero === 'Todos' || p.genero === this.genero)); },
+                get filtradas() { return this.prendas.filter(p => (this.filtro === 'Todas' || p.categoria === this.filtro)); },
                 get destacadas() {
                     const d = this.prendas.filter(p => p.destacado);
                     return (d.length ? d : this.prendas).slice(0, 4);
@@ -1509,89 +1172,12 @@ window.AURA_CONTENIDO = {
                     if (imgs.length <= 1) return;
                     this.fotoActiva = (this.fotoActiva + dir + imgs.length) % imgs.length;
                 },
-                esc(t) { return String(t ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])); },
-
-                tarjeta(p) {
-                    const proximo = !!p.proximoLanzamiento;
-                    const agotada = !proximo && p.stock <= 0;
-                    const imgs = this.imagenesDe(p);
-                    const portada = imgs[0] || p.imagen_url || '';
-                    const media = portada
-                        ? `<img src="${this.esc(portada)}" alt="${this.esc(p.nombre)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">`
-                        : (proximo
-                            ? `<div class="p-4 text-center space-y-2">
-                                   <span class="inline-block text-[9px] sm:text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-zinc-900 border border-zinc-700 text-zinc-200">Hecho en Margarita</span>
-                                   <p class="serif text-xl sm:text-2xl text-white leading-tight">${this.esc(p.nombre)}</p>
-                                   <p class="text-[10px] text-zinc-400">Confección propia · En taller</p>
-                               </div>`
-                            : `<span class="serif text-5xl sm:text-6xl text-zinc-700">${this.esc(this.iniciales(p.nombre))}</span>`);
-                    const badgeTonos = imgs.length > 1
-                        ? `<span class="absolute bottom-2.5 right-2.5 text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full bg-black/70 border border-zinc-800/90 text-zinc-200">${imgs.length} fotos</span>`
-                        : (proximo ? `<span class="absolute bottom-2.5 right-2.5 text-[10px] px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-950 font-semibold">Próximo Drop</span>` : '');
-                    const textoPrecio = (proximo || Number(p.pvp) <= 0)
-                        ? `<span class="text-zinc-400">Precio por definir</span>`
-                        : `$${Number(p.pvp).toFixed(2)}`;
-                    return `<a href="#/prenda/${p.id}" class="group block">
-                        <div class="aspect-[4/5] rounded-2xl overflow-hidden border ${proximo ? 'border-zinc-700' : 'border-zinc-900'} tile flex items-center justify-center relative">
-                            ${media}
-                            ${agotada ? '<span class="absolute top-2.5 left-2.5 text-[9px] sm:text-[10px] label-ui px-2 py-0.5 rounded-full bg-black/75 text-zinc-300">Agotado</span>' : ''}
-                            ${proximo ? '<span class="absolute top-2.5 left-2.5 text-[9px] sm:text-[10px] label-ui px-2 py-0.5 rounded-full bg-black/80 border border-zinc-700 text-zinc-200">Confección Propia</span>' : ''}
-                            ${badgeTonos}
-                        </div>
-                        <p class="mt-2 sm:mt-3 label-ui text-zinc-500 truncate">${this.esc(p.categoria)}</p>
-                        <h3 class="serif text-[16px] sm:text-2xl leading-snug mt-0.5 truncate">${this.esc(p.nombre)}</h3>
-                        <p class="text-xs sm:text-sm text-zinc-300 mt-0.5">${textoPrecio}</p>
-                    </a>`;
-                },
-
-                tallaDeCard(p) {
-                    if (!p) return 'M';
-                    if (this.tallasCard[p.id]) return this.tallasCard[p.id];
-                    const ts = this.tallasDe(p);
-                    return ts[0] || 'M';
-                },
-                fotoDeCard(p) {
-                    if (!p) return 0;
-                    return this.fotosCard[p.id] || 0;
-                },
-                cambiarFotoCard(p, dir) {
-                    const imgs = this.imagenesDe(p);
-                    if (imgs.length <= 1) return;
-                    const actualIdx = this.fotoDeCard(p);
-                    this.fotosCard[p.id] = (actualIdx + dir + imgs.length) % imgs.length;
-                },
-                agregarDesdeCard(p) {
-                    if (!p) return;
-                    const tallaElegida = this.tallaDeCard(p);
-                    const idxFoto = this.fotoDeCard(p);
-                    const cols = this.coloresDe(p);
-                    const imgs = this.imagenesDe(p);
-                    const colorElegido = cols[idxFoto] || cols[0] || '';
-                    const etiquetaTalla = colorElegido ? `${tallaElegida} · ${colorElegido}` : tallaElegida;
-                    const imgElegida = imgs[idxFoto] || p.imagen_url || '';
-                    const ex = this.bolsa.find(i => i.id === p.id && i.talla === etiquetaTalla);
-                    if (ex) ex.cantidad++;
-                    else this.bolsa.push({ id: p.id, nombre: p.nombre, pvp: Number(p.pvp), talla: etiquetaTalla, cantidad: 1, imagen_url: imgElegida });
-                    this.guardarBolsa();
-                    this.bolsaAbierta = true;
-                    this.refrescarIconos();
-                },
-                reservarDesdeCard(p) {
-                    if (!p) return;
-                    const talla = this.tallaDeCard(p);
-                    const idxFoto = this.fotoDeCard(p);
-                    const cols = this.coloresDe(p);
-                    const tono = cols[idxFoto] || cols[0] || 'Por definir';
-                    const msg = `Hola aura.mgta, quiero anotarme en la lista de espera para la próxima colección hecha en Margarita:\n- Prenda: ${p.nombre}\n- Tono preferido: ${tono}\n- Talla preferida: ${talla}\nPor favor avísenme apenas tengan el precio oficial y el primer lote listo.`;
-                    const num = (this.c.whatsapp || '').replace(/\D/g, '');
-                    window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
-                },
 
                 agregar(p) {
                     if (!this.tallaSel) { alert('Elige una talla para continuar.'); return; }
                     const cols = this.coloresDe(p);
                     const imgs = this.imagenesDe(p);
-                    const colorElegido = cols[this.fotoActiva] || '';
+                    const colorElegido = cols[this.fotoActiva] || cols[0] || '';
                     const etiquetaTalla = colorElegido ? `${this.tallaSel} · ${colorElegido}` : this.tallaSel;
                     const imgElegida = imgs[this.fotoActiva] || p.imagen_url || '';
                     const ex = this.bolsa.find(i => i.id === p.id && i.talla === etiquetaTalla);
@@ -1654,7 +1240,7 @@ window.AURA_CONTENIDO = {
                     const talla = this.tallaSel ? `, talla ${this.tallaSel}` : '';
                     const variante = tono ? ` (${tono}${talla})` : talla;
                     const msg = `Hola aura.mgta, quisiera asesoría de talla y medidas exactas en centímetros para la prenda: ${p.nombre}${variante}.`;
-                    const num = (this.c.whatsapp || '').replace(/\D/g, '');
+                    const num = (this.c.whatsapp || '584160306788').replace(/\D/g, '');
                     window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
                 },
 
@@ -1664,7 +1250,7 @@ window.AURA_CONTENIDO = {
                     const tono = cols[this.fotoActiva] || cols[0] || 'Por definir';
                     const talla = this.tallaSel || 'Por definir';
                     const msg = `Hola aura.mgta, quiero anotarme en la lista de espera para la próxima colección hecha en Margarita:\n- Prenda: ${p.nombre}\n- Tono preferido: ${tono}\n- Talla preferida: ${talla}\nPor favor avísenme apenas tengan el precio oficial y el primer lote listo.`;
-                    const num = (this.c.whatsapp || '').replace(/\D/g, '');
+                    const num = (this.c.whatsapp || '584160306788').replace(/\D/g, '');
                     window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
                 },
 
@@ -1685,7 +1271,7 @@ window.AURA_CONTENIDO = {
                         msg += `\nCódigo de embajador: ${codLimpio} (${notaElegibilidad})`;
                     }
 
-                    const num = (this.c.whatsapp || '').replace(/\D/g, '');
+                    const num = (this.c.whatsapp || '584160306788').replace(/\D/g, '');
                     window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
                 },
 
