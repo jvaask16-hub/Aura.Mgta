@@ -86,64 +86,54 @@
 
         <!-- ================= INICIO ================= -->
         <section x-show="vista === 'inicio'" class="fade-in">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-24 pb-10 sm:pb-20">
-                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/90 border border-zinc-800 label-ui text-zinc-400" x-text="c.hero.etiqueta"></span>
-                <h1 class="serif text-[34px] sm:text-6xl lg:text-7xl mt-4 sm:mt-6 max-w-4xl leading-[1.08]" x-text="c.hero.titulo"></h1>
-                <p class="mt-4 sm:mt-6 text-zinc-400 max-w-xl text-[15px] sm:text-[17px] leading-[1.65]" x-text="c.hero.subtitulo"></p>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-12 sm:pt-28 pb-14 sm:pb-24">
+                <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 label-ui text-zinc-400" x-text="c.hero.etiqueta"></span>
+                <h1 class="serif text-[34px] sm:text-6xl lg:text-7xl mt-5 sm:mt-8 max-w-4xl leading-[1.1]" x-text="c.hero.titulo"></h1>
+                <p class="mt-5 sm:mt-8 text-zinc-400 max-w-xl text-[16px] sm:text-[18px] leading-[1.7]" x-text="c.hero.subtitulo"></p>
 
-                <!-- Botones adaptados a pulgar en móvil -->
-                <div class="mt-6 sm:mt-9 grid grid-cols-1 sm:flex sm:flex-wrap gap-2.5 sm:gap-3">
-                    <a href="#/coleccion" class="h-12 px-6 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold flex items-center justify-center gap-2 hover:bg-white active:scale-[0.99] transition">
+                <!-- Botones con respiro y adaptados a móvil -->
+                <div class="mt-8 sm:mt-12 grid grid-cols-1 sm:flex sm:flex-wrap gap-3 sm:gap-4">
+                    <a href="#/coleccion" class="h-12 sm:h-13 px-7 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold flex items-center justify-center gap-2 hover:bg-white active:scale-[0.99] transition shadow-lg shadow-white/5">
                         Ver la colección <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
-                    <a href="#/nosotros" class="h-12 px-6 rounded-full border border-zinc-700 bg-zinc-950/60 text-sm flex items-center justify-center gap-2 hover:border-zinc-400 active:scale-[0.99] transition">
+                    <a href="#/nosotros" class="h-12 sm:h-13 px-7 rounded-full border border-zinc-700/80 bg-zinc-950/60 text-sm flex items-center justify-center gap-2 hover:border-zinc-400 active:scale-[0.99] transition text-zinc-200">
                         Quiénes somos y por qué nacimos
                     </a>
                 </div>
-
-                <!-- Resumen móvil rápido de los 4 pilares en Inicio -->
-                <div class="mt-8 pt-6 border-t border-zinc-900/80 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                    <template x-for="pilar in c.nosotros.pilares" :key="'h' + pilar.numero">
-                        <a href="#/nosotros" class="p-3.5 rounded-2xl bg-zinc-950 border border-zinc-900 active:border-zinc-700 transition block">
-                            <span class="text-[11px] font-medium text-zinc-500" x-text="pilar.numero + ' · ' + pilar.categoria"></span>
-                            <p class="serif text-[15px] sm:text-base text-zinc-100 mt-1 leading-snug" x-text="pilar.titulo"></p>
-                        </a>
-                    </template>
-                </div>
             </div>
 
-            <!-- Próxima Colección: Confección Propia en Margarita (Diseño editorial monocromático) -->
+            <!-- Próxima Colección: Confección Propia en Margarita (Diseño editorial espacioso) -->
             <template x-if="c.proximaColeccion && prendaExclusiva">
-                <div class="border-t border-zinc-900">
-                    <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-10 sm:py-20">
-                        <div class="flex items-end justify-between mb-5 sm:mb-8 px-0.5">
+                <div class="border-t border-zinc-900/90">
+                    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-28">
+                        <div class="flex items-end justify-between mb-8 sm:mb-12">
                             <div>
                                 <p class="label-ui text-zinc-500">Próxima Colección · Confección Propia en Margarita</p>
-                                <h2 class="serif text-2xl sm:text-4xl mt-1" x-text="c.proximaColeccion.nombre"></h2>
+                                <h2 class="serif text-2xl sm:text-4xl mt-1.5" x-text="c.proximaColeccion.nombre"></h2>
                             </div>
-                            <a :href="'#/prenda/' + prendaExclusiva.id" class="text-xs sm:text-sm text-zinc-300 hover:text-white flex items-center gap-1 transition">
-                                Ver ficha <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                            <a :href="'#/prenda/' + prendaExclusiva.id" class="text-xs sm:text-sm text-zinc-300 hover:text-white flex items-center gap-1.5 transition">
+                                Ver ficha completa <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                             </a>
                         </div>
 
-                        <div class="grid md:grid-cols-12 gap-6 lg:gap-10 items-center">
-                            <!-- Galería 4:5 limpia igual al resto del estudio -->
-                            <div class="md:col-span-5 space-y-2.5">
+                        <div class="grid md:grid-cols-12 gap-8 lg:gap-14 items-center">
+                            <!-- Galería 4:5 limpia y desahogada -->
+                            <div class="md:col-span-5 space-y-3">
                                 <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900 tile relative group">
                                     <a :href="'#/prenda/' + prendaExclusiva.id" class="block w-full h-full">
                                         <img :src="imagenesDe(prendaExclusiva)[fotoDeCard(prendaExclusiva)] || prendaExclusiva.imagen_url"
                                              :alt="prendaExclusiva.nombre"
                                              class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">
                                     </a>
-                                    <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/75 border border-zinc-800 text-[10px] label-ui text-zinc-200">
+                                    <span class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-black/75 border border-zinc-800 text-[10px] label-ui text-zinc-200">
                                         Hecho en Margarita
                                     </span>
-                                    <button type="button" @click.stop="cambiarFotoCard(prendaExclusiva, -1)" class="absolute left-2.5 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-sm transition">&lsaquo;</button>
-                                    <button type="button" @click.stop="cambiarFotoCard(prendaExclusiva, 1)" class="absolute right-2.5 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-sm transition">&rsaquo;</button>
-                                    <span class="absolute bottom-3 left-3 px-2.5 py-1 rounded-full bg-black/75 border border-zinc-800 text-[11px] text-zinc-200" x-text="coloresDe(prendaExclusiva)[fotoDeCard(prendaExclusiva)]"></span>
-                                    <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/75 border border-zinc-800 text-[11px] text-zinc-300" x-text="(fotoDeCard(prendaExclusiva) + 1) + '/' + imagenesDe(prendaExclusiva).length"></span>
+                                    <button type="button" @click.stop="cambiarFotoCard(prendaExclusiva, -1)" class="absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-sm transition">&lsaquo;</button>
+                                    <button type="button" @click.stop="cambiarFotoCard(prendaExclusiva, 1)" class="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-sm transition">&rsaquo;</button>
+                                    <span class="absolute bottom-3.5 left-3.5 px-3 py-1 rounded-full bg-black/75 border border-zinc-800 text-[11px] text-zinc-200" x-text="coloresDe(prendaExclusiva)[fotoDeCard(prendaExclusiva)]"></span>
+                                    <span class="absolute bottom-3.5 right-3.5 px-2.5 py-1 rounded-full bg-black/75 border border-zinc-800 text-[11px] text-zinc-300" x-text="(fotoDeCard(prendaExclusiva) + 1) + '/' + imagenesDe(prendaExclusiva).length"></span>
                                 </div>
-                                <div class="flex gap-1.5 overflow-x-auto no-scrollbar">
+                                <div class="flex gap-2 overflow-x-auto no-scrollbar pt-1">
                                     <template x-for="(col, idx) in coloresDe(prendaExclusiva)" :key="col">
                                         <button type="button" @click="fotosCard[prendaExclusiva.id] = idx" x-text="col"
                                                 :class="fotoDeCard(prendaExclusiva) === idx ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white'"
@@ -152,8 +142,8 @@
                                 </div>
                             </div>
 
-                            <!-- Información limpia y minimalista acorde a la página -->
-                            <div class="md:col-span-7 space-y-5">
+                            <!-- Información limpia con amplio espaciado -->
+                            <div class="md:col-span-7 space-y-6">
                                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/90 border border-zinc-800 label-ui text-zinc-400">
                                     <span>Confección propia · Costureros locales</span>
                                 </div>
@@ -162,17 +152,17 @@
                                 </h3>
                                 <p class="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-xl" x-text="c.proximaColeccion.subtitulo"></p>
 
-                                <div class="grid sm:grid-cols-3 gap-2.5">
+                                <div class="grid sm:grid-cols-3 gap-3 sm:gap-4 pt-1">
                                     <template x-for="det in c.proximaColeccion.detalles" :key="det.titulo">
-                                        <div class="p-3.5 rounded-2xl bg-zinc-950 border border-zinc-900">
+                                        <div class="p-4 sm:p-5 rounded-2xl bg-zinc-950/80 border border-zinc-900/90">
                                             <p class="serif text-base text-zinc-100" x-text="det.titulo"></p>
-                                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="det.texto"></p>
+                                            <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed" x-text="det.texto"></p>
                                         </div>
                                     </template>
                                 </div>
 
-                                <div class="pt-2 border-t border-zinc-900 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                                    <div class="flex items-center gap-1.5">
+                                <div class="pt-4 border-t border-zinc-900 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                    <div class="flex items-center gap-2">
                                         <span class="label-ui text-zinc-500 mr-1">Talla</span>
                                         <template x-for="t in tallasDe(prendaExclusiva)" :key="t">
                                             <button type="button" @click="tallasCard[prendaExclusiva.id] = t" x-text="t"
@@ -180,14 +170,14 @@
                                                     class="h-9 min-w-[36px] px-2.5 rounded-xl border text-xs transition"></button>
                                         </template>
                                     </div>
-                                    <div class="flex flex-wrap gap-2.5">
+                                    <div class="flex flex-wrap gap-3">
                                         <button type="button" @click="reservarDesdeCard(prendaExclusiva)"
-                                                class="h-11 px-6 rounded-full bg-zinc-100 hover:bg-white text-zinc-950 text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 transition">
+                                                class="h-11 sm:h-12 px-6 rounded-full bg-zinc-100 hover:bg-white text-zinc-950 text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 transition">
                                             <span>Lista de espera</span>
                                             <i data-lucide="arrow-right" class="w-4 h-4"></i>
                                         </button>
                                         <a :href="'#/prenda/' + prendaExclusiva.id"
-                                           class="h-11 px-5 rounded-full border border-zinc-800 hover:border-zinc-500 text-zinc-200 text-xs sm:text-sm inline-flex items-center justify-center transition">
+                                           class="h-11 sm:h-12 px-5 rounded-full border border-zinc-800 hover:border-zinc-500 text-zinc-200 text-xs sm:text-sm inline-flex items-center justify-center transition">
                                             Ver detalles
                                         </a>
                                     </div>
@@ -199,100 +189,65 @@
             </template>
 
             <!-- Piezas destacadas -->
-            <div class="border-t border-zinc-900">
-                <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-10 sm:py-20">
-                    <div class="flex items-end justify-between mb-5 sm:mb-8 px-0.5">
+            <div class="border-t border-zinc-900/90">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-28">
+                    <div class="flex items-end justify-between mb-8 sm:mb-12">
                         <div>
                             <p class="label-ui text-zinc-500">Estudio 4:5</p>
-                            <h2 class="serif text-2xl sm:text-4xl mt-1">Piezas del momento</h2>
+                            <h2 class="serif text-2xl sm:text-4xl mt-1.5">Piezas del momento</h2>
                         </div>
-                        <a href="#/coleccion" class="text-xs sm:text-sm text-zinc-300 hover:text-white flex items-center gap-1 transition">
-                            Ver todo <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                        <a href="#/coleccion" class="text-xs sm:text-sm text-zinc-300 hover:text-white flex items-center gap-1.5 transition">
+                            Ver todo el catálogo <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                         </a>
                     </div>
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-8 sm:gap-y-14">
                         <template x-for="p in destacadas" :key="'d' + p.id">
-                            <div class="group flex flex-col justify-between rounded-2xl border border-zinc-900/90 bg-zinc-950/60 p-2 sm:p-3 hover:border-zinc-700/80 transition">
-                                <div>
-                                    <div class="aspect-[4/5] rounded-xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative">
-                                        <a :href="'#/prenda/' + p.id" class="w-full h-full flex items-center justify-center">
-                                            <template x-if="imagenesDe(p).length > 0">
-                                                <img :src="imagenesDe(p)[fotoDeCard(p)] || p.imagen_url" :alt="p.nombre" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">
-                                            </template>
-                                            <template x-if="imagenesDe(p).length === 0">
-                                                <span class="serif text-5xl text-zinc-700" x-text="iniciales(p.nombre)"></span>
-                                            </template>
-                                        </a>
-
-                                        <template x-if="p.proximoLanzamiento">
-                                            <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/75 border border-zinc-800 text-zinc-200 text-[9px] sm:text-[10px] label-ui">
-                                                Hecho en Margarita
-                                            </span>
-                                        </template>
-
-                                        <template x-if="imagenesDe(p).length > 1">
-                                            <div>
-                                                <button type="button" @click.stop="cambiarFotoCard(p, -1)" class="absolute left-1.5 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-xs transition">&lsaquo;</button>
-                                                <button type="button" @click.stop="cambiarFotoCard(p, 1)" class="absolute right-1.5 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-xs transition">&rsaquo;</button>
-                                                <span class="absolute bottom-2 right-2 text-[10px] px-2 py-0.5 rounded-full bg-black/75 border border-zinc-800 text-zinc-200" x-text="(fotoDeCard(p) + 1) + '/' + imagenesDe(p).length"></span>
-                                            </div>
-                                        </template>
-                                        <template x-if="coloresDe(p).length > 0">
-                                            <span class="absolute bottom-2 left-2 max-w-[65%] truncate text-[10px] px-2 py-0.5 rounded-full bg-black/75 border border-zinc-800 text-zinc-200" x-text="coloresDe(p)[fotoDeCard(p)] || coloresDe(p)[0]"></span>
-                                        </template>
-                                    </div>
-
-                                    <div class="mt-2.5 px-0.5">
-                                        <p class="label-ui text-zinc-500 truncate" x-text="p.proximoLanzamiento ? 'Próxima Colección · Sastrería' : p.categoria"></p>
-                                        <a :href="'#/prenda/' + p.id" class="block">
-                                            <h3 class="serif text-[16px] sm:text-xl leading-snug mt-0.5 truncate hover:underline" x-text="p.nombre"></h3>
-                                        </a>
-                                        <p class="text-xs sm:text-sm text-zinc-300 font-medium mt-0.5"
-                                           x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'Precio por definir' : ('$' + Number(p.pvp).toFixed(2))"></p>
-                                    </div>
-                                </div>
-
-                                <!-- Selector rápido de talla y botón Agregar a la bolsa desde afuera -->
-                                <div class="mt-2.5 pt-2 border-t border-zinc-900 space-y-2">
-                                    <div class="flex items-center gap-1 overflow-x-auto no-scrollbar">
-                                        <template x-for="t in tallasDe(p)" :key="t">
-                                            <button type="button" @click="tallasCard[p.id] = t" x-text="t"
-                                                    :class="tallaDeCard(p) === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-900/80 border-zinc-800 text-zinc-400 hover:text-white'"
-                                                    class="flex-shrink-0 min-w-[28px] h-7 px-2 rounded-lg border text-[11px] transition"></button>
-                                        </template>
-                                    </div>
-                                    <template x-if="!p.proximoLanzamiento && p.stock > 0">
-                                        <button type="button" @click="agregarDesdeCard(p)"
-                                                class="w-full h-9 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-[0.98] transition">
-                                            <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
-                                            <span>Agregar a la bolsa</span>
-                                        </button>
+                            <a :href="'#/prenda/' + p.id" class="group block">
+                                <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900/90 tile relative group-hover:border-zinc-700/80 transition-all duration-300">
+                                    <template x-if="imagenesDe(p).length > 0">
+                                        <img :src="imagenesDe(p)[0] || p.imagen_url" :alt="p.nombre" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.04] transition duration-500 ease-out">
                                     </template>
+                                    <template x-if="imagenesDe(p).length === 0">
+                                        <div class="w-full h-full flex items-center justify-center">
+                                            <span class="serif text-5xl text-zinc-700" x-text="iniciales(p.nombre)"></span>
+                                        </div>
+                                    </template>
+
                                     <template x-if="p.proximoLanzamiento">
-                                        <button type="button" @click="reservarDesdeCard(p)"
-                                                class="w-full h-9 rounded-xl border border-zinc-700 hover:border-zinc-400 bg-zinc-900 text-zinc-100 text-xs font-medium flex items-center justify-center gap-1.5 transition">
-                                            <span>Lista de espera</span>
-                                        </button>
+                                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-700/80 text-zinc-200 text-[10px] label-ui">
+                                            Hecho en Margarita
+                                        </span>
                                     </template>
-                                    <template x-if="!p.proximoLanzamiento && p.stock <= 0">
-                                        <span class="block text-center text-[11px] text-zinc-500 py-1">Agotado</span>
+
+                                    <template x-if="imagenesDe(p).length > 1">
+                                        <span class="absolute bottom-3 right-3 text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-800 text-zinc-300" x-text="imagenesDe(p).length + ' fotos'"></span>
+                                    </template>
+                                    <template x-if="coloresDe(p).length > 0">
+                                        <span class="absolute bottom-3 left-3 max-w-[65%] truncate text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-800 text-zinc-300" x-text="coloresDe(p).length + ' tonos'"></span>
                                     </template>
                                 </div>
-                            </div>
+
+                                <div class="mt-3.5 sm:mt-4 space-y-1">
+                                    <p class="label-ui text-zinc-500 text-[10px] sm:text-[11px] tracking-wider truncate" x-text="p.proximoLanzamiento ? 'Próxima Colección · Sastrería' : p.categoria"></p>
+                                    <h3 class="serif text-lg sm:text-2xl text-zinc-100 group-hover:text-white transition leading-snug truncate" x-text="p.nombre"></h3>
+                                    <p class="text-xs sm:text-sm text-zinc-400 font-light pt-0.5"
+                                       x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'Precio por definir' : ('$' + Number(p.pvp).toFixed(2))"></p>
+                                </div>
+                            </a>
                         </template>
                     </div>
                 </div>
             </div>
 
-            <!-- Manifiesto -->
-            <div class="border-t border-zinc-900">
-                <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-24 text-center space-y-4 sm:space-y-6">
+            <!-- Manifiesto con espacio editorial amplio -->
+            <div class="border-t border-zinc-900/90">
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 py-20 sm:py-32 text-center space-y-6 sm:space-y-8">
                     <p class="label-ui text-zinc-500">Manifiesto Aura</p>
                     <template x-for="(m, i) in c.manifiesto" :key="i">
-                        <p class="serif text-xl sm:text-3xl text-zinc-300 leading-snug" :class="i === c.manifiesto.length - 1 ? 'text-white' : ''" x-text="m"></p>
+                        <p class="serif text-xl sm:text-3xl text-zinc-300 leading-relaxed" :class="i === c.manifiesto.length - 1 ? 'text-white' : ''" x-text="m"></p>
                     </template>
-                    <div class="pt-2">
-                        <a href="#/nosotros" class="inline-flex items-center gap-2 h-10 px-5 rounded-full border border-zinc-800 text-xs sm:text-sm text-zinc-200 hover:border-zinc-500 transition">
+                    <div class="pt-4">
+                        <a href="#/nosotros" class="inline-flex items-center gap-2 h-11 px-6 rounded-full border border-zinc-800 text-xs sm:text-sm text-zinc-200 hover:border-zinc-500 transition">
                             Conoce nuestros 4 pilares <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </a>
                     </div>
@@ -302,118 +257,83 @@
 
         <!-- ================= COLECCION ================= -->
         <section x-show="vista === 'coleccion'" x-cloak class="fade-in">
-            <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-6 sm:py-16">
-                <div class="px-0.5">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-20">
+                <div>
                     <p class="label-ui text-zinc-500">Catálogo de Estudio</p>
-                    <div class="flex items-baseline justify-between gap-2 mt-1.5">
+                    <div class="flex items-baseline justify-between gap-2 mt-2">
                         <h1 class="serif text-3xl sm:text-6xl">Nuestras prendas</h1>
-                        <span class="text-xs text-zinc-500" x-text="filtradas.length + ' piezas'"></span>
+                        <span class="text-xs sm:text-sm text-zinc-500" x-text="filtradas.length + ' piezas'"></span>
                     </div>
                 </div>
 
-                <!-- Barra de filtros sticky en móvil -->
-                <div class="sticky top-14 sm:static z-30 bg-[#09090b]/95 backdrop-blur-md py-3 -mx-3.5 px-3.5 sm:mx-0 sm:px-0 border-b border-zinc-900/80 sm:border-none mt-3 sm:mt-6">
-                    <div class="flex gap-2 overflow-x-auto no-scrollbar">
+                <!-- Barra de filtros con espaciado amplio -->
+                <div class="sticky top-14 sm:static z-30 bg-[#09090b]/95 backdrop-blur-md py-4 -mx-4 px-4 sm:mx-0 sm:px-0 border-b border-zinc-900/80 sm:border-none my-4 sm:my-8">
+                    <div class="flex gap-2.5 overflow-x-auto no-scrollbar">
                         <template x-for="cat in categorias" :key="cat">
                             <button @click="filtro = cat" x-text="cat"
-                                    :class="filtro === cat ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 border-zinc-800 text-zinc-400'"
-                                    class="flex-shrink-0 h-9 px-4 rounded-full border text-xs sm:text-[13px] transition active:scale-95"></button>
+                                    :class="filtro === cat ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-white'"
+                                    class="flex-shrink-0 h-9 sm:h-10 px-4 sm:px-5 rounded-full border text-xs sm:text-[13px] transition active:scale-95"></button>
                         </template>
                     </div>
                 </div>
 
-                <div x-show="cargando" class="py-20 text-center text-zinc-500 text-sm">Cargando colección...</div>
-                <div x-show="!cargando && filtradas.length === 0" class="py-20 text-center text-zinc-500 text-sm">Pronto habrá nuevas piezas en esta categoría.</div>
+                <div x-show="cargando" class="py-24 text-center text-zinc-500 text-sm">Cargando colección...</div>
+                <div x-show="!cargando && filtradas.length === 0" class="py-24 text-center text-zinc-500 text-sm">Pronto habrá nuevas piezas en esta categoría.</div>
 
-                <div class="mt-5 sm:mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+                <div class="mt-6 sm:mt-10 grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-8 sm:gap-y-14">
                     <template x-for="p in filtradas" :key="'c' + p.id">
-                        <div class="group flex flex-col justify-between rounded-2xl border border-zinc-900/90 bg-zinc-950/60 p-2 sm:p-3 hover:border-zinc-700/80 transition">
-                            <div>
-                                <div class="aspect-[4/5] rounded-xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative">
-                                    <a :href="'#/prenda/' + p.id" class="w-full h-full flex items-center justify-center">
-                                        <template x-if="imagenesDe(p).length > 0">
-                                            <img :src="imagenesDe(p)[fotoDeCard(p)] || p.imagen_url" :alt="p.nombre" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">
-                                        </template>
-                                        <template x-if="imagenesDe(p).length === 0">
-                                            <span class="serif text-5xl text-zinc-700" x-text="iniciales(p.nombre)"></span>
-                                        </template>
-                                    </a>
-
-                                    <template x-if="p.proximoLanzamiento">
-                                        <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/75 border border-zinc-800 text-zinc-200 text-[9px] sm:text-[10px] label-ui">
-                                            Hecho en Margarita
-                                        </span>
-                                    </template>
-
-                                    <template x-if="imagenesDe(p).length > 1">
-                                        <div>
-                                            <button type="button" @click.stop="cambiarFotoCard(p, -1)" class="absolute left-1.5 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-xs transition">&lsaquo;</button>
-                                            <button type="button" @click.stop="cambiarFotoCard(p, 1)" class="absolute right-1.5 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-black/65 hover:bg-black/90 border border-zinc-700/80 text-white flex items-center justify-center text-xs transition">&rsaquo;</button>
-                                            <span class="absolute bottom-2 right-2 text-[10px] px-2 py-0.5 rounded-full bg-black/75 border border-zinc-800 text-zinc-200" x-text="(fotoDeCard(p) + 1) + '/' + imagenesDe(p).length"></span>
-                                        </div>
-                                    </template>
-                                    <template x-if="coloresDe(p).length > 0">
-                                        <span class="absolute bottom-2 left-2 max-w-[65%] truncate text-[10px] px-2 py-0.5 rounded-full bg-black/75 border border-zinc-800 text-zinc-200" x-text="coloresDe(p)[fotoDeCard(p)] || coloresDe(p)[0]"></span>
-                                    </template>
-                                </div>
-
-                                <div class="mt-2.5 px-0.5">
-                                    <p class="label-ui text-zinc-500 truncate" x-text="p.proximoLanzamiento ? 'Próxima Colección · Sastrería' : p.categoria"></p>
-                                    <a :href="'#/prenda/' + p.id" class="block">
-                                        <h3 class="serif text-[16px] sm:text-xl leading-snug mt-0.5 truncate hover:underline" x-text="p.nombre"></h3>
-                                    </a>
-                                    <p class="text-xs sm:text-sm text-zinc-300 font-medium mt-0.5"
-                                       x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'Precio por definir' : ('$' + Number(p.pvp).toFixed(2))"></p>
-                                </div>
-                            </div>
-
-                            <!-- Selector rápido de talla y botón Agregar a la bolsa desde afuera -->
-                            <div class="mt-2.5 pt-2 border-t border-zinc-900 space-y-2">
-                                <div class="flex items-center gap-1 overflow-x-auto no-scrollbar">
-                                    <template x-for="t in tallasDe(p)" :key="t">
-                                        <button type="button" @click="tallasCard[p.id] = t" x-text="t"
-                                                :class="tallaDeCard(p) === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-900/80 border-zinc-800 text-zinc-400 hover:text-white'"
-                                                class="flex-shrink-0 min-w-[28px] h-7 px-2 rounded-lg border text-[11px] transition"></button>
-                                    </template>
-                                </div>
-                                <template x-if="!p.proximoLanzamiento && p.stock > 0">
-                                    <button type="button" @click="agregarDesdeCard(p)"
-                                            class="w-full h-9 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-[0.98] transition">
-                                        <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
-                                        <span>Agregar a la bolsa</span>
-                                    </button>
+                        <a :href="'#/prenda/' + p.id" class="group block">
+                            <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900/90 tile relative group-hover:border-zinc-700/80 transition-all duration-300">
+                                <template x-if="imagenesDe(p).length > 0">
+                                    <img :src="imagenesDe(p)[0] || p.imagen_url" :alt="p.nombre" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.04] transition duration-500 ease-out">
                                 </template>
+                                <template x-if="imagenesDe(p).length === 0">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <span class="serif text-5xl text-zinc-700" x-text="iniciales(p.nombre)"></span>
+                                    </div>
+                                </template>
+
                                 <template x-if="p.proximoLanzamiento">
-                                    <button type="button" @click="reservarDesdeCard(p)"
-                                            class="w-full h-9 rounded-xl border border-zinc-700 hover:border-zinc-400 bg-zinc-900 text-zinc-100 text-xs font-medium flex items-center justify-center gap-1.5 transition">
-                                        <span>Lista de espera</span>
-                                    </button>
+                                    <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-700/80 text-zinc-200 text-[10px] label-ui">
+                                        Hecho en Margarita
+                                    </span>
                                 </template>
-                                <template x-if="!p.proximoLanzamiento && p.stock <= 0">
-                                    <span class="block text-center text-[11px] text-zinc-500 py-1">Agotado</span>
+
+                                <template x-if="imagenesDe(p).length > 1">
+                                    <span class="absolute bottom-3 right-3 text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-800 text-zinc-300" x-text="imagenesDe(p).length + ' fotos'"></span>
+                                </template>
+                                <template x-if="coloresDe(p).length > 0">
+                                    <span class="absolute bottom-3 left-3 max-w-[65%] truncate text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-sm border border-zinc-800 text-zinc-300" x-text="coloresDe(p).length + ' tonos'"></span>
                                 </template>
                             </div>
-                        </div>
+
+                            <div class="mt-3.5 sm:mt-4 space-y-1">
+                                <p class="label-ui text-zinc-500 text-[10px] sm:text-[11px] tracking-wider truncate" x-text="p.proximoLanzamiento ? 'Próxima Colección · Sastrería' : p.categoria"></p>
+                                <h3 class="serif text-lg sm:text-2xl text-zinc-100 group-hover:text-white transition leading-snug truncate" x-text="p.nombre"></h3>
+                                <p class="text-xs sm:text-sm text-zinc-400 font-light pt-0.5"
+                                   x-text="(p.proximoLanzamiento || Number(p.pvp) <= 0) ? 'Precio por definir' : ('$' + Number(p.pvp).toFixed(2))"></p>
+                            </div>
+                        </a>
                     </template>
                 </div>
             </div>
         </section>
 
-        <!-- ================= DETALLE DE PRENDA (OPTIMIZADO MÓVIL) ================= -->
+        <!-- ================= DETALLE DE PRENDA (OPTIMIZADO CON AIRE Y ELEGANCIA) ================= -->
         <section x-show="vista === 'prenda'" x-cloak class="fade-in">
             <template x-if="actual">
-                <div class="max-w-6xl mx-auto px-3.5 sm:px-6 py-4 sm:py-12 pb-24 sm:pb-14">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-16 pb-28 sm:pb-20">
                     <!-- Barra superior de retorno rápida -->
-                    <div class="flex items-center justify-between mb-3 sm:mb-6">
-                        <a href="#/coleccion" class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs sm:text-sm text-zinc-200 hover:text-white transition">
-                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Colección
+                    <div class="flex items-center justify-between mb-6 sm:mb-10">
+                        <a href="#/coleccion" class="inline-flex items-center gap-2 h-10 px-4 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs sm:text-sm text-zinc-200 hover:text-white transition">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Colección completa
                         </a>
                         <span class="label-ui text-zinc-500" x-text="actual.categoria"></span>
                     </div>
 
-                    <div class="grid md:grid-cols-2 gap-6 lg:gap-14">
+                    <div class="grid md:grid-cols-2 gap-8 lg:gap-16">
                         <!-- Galería con soporte Swipe táctil en móvil -->
-                        <div class="space-y-2.5">
+                        <div class="space-y-3">
                             <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-900 tile flex items-center justify-center relative select-none"
                                  @touchstart.passive="touchStartX = $event.changedTouches[0].screenX"
                                  @touchend.passive="manejarSwipe($event.changedTouches[0].screenX)">
@@ -430,19 +350,19 @@
 
                                 <!-- Etiqueta del tono activo sobre la foto en móvil -->
                                 <template x-if="coloresDe(actual).length > 0">
-                                    <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/75 backdrop-blur-sm border border-zinc-800 text-[11px] text-zinc-200"
+                                    <span class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-black/75 backdrop-blur-sm border border-zinc-800 text-[11px] text-zinc-200"
                                           x-text="coloresDe(actual)[fotoActiva] || coloresDe(actual)[0]"></span>
                                 </template>
 
                                 <template x-if="imagenesDe(actual).length > 1">
                                     <div>
-                                        <button type="button" @click="cambiarFoto(-1)" aria-label="Foto anterior" class="absolute left-2.5 top-1/2 -translate-y-1/2 h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-black/65 hover:bg-black/85 border border-zinc-700/80 text-white flex items-center justify-center active:scale-95 transition">
+                                        <button type="button" @click="cambiarFoto(-1)" aria-label="Foto anterior" class="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/65 hover:bg-black/85 border border-zinc-700/80 text-white flex items-center justify-center active:scale-95 transition">
                                             <i data-lucide="chevron-left" class="w-4 h-4"></i>
                                         </button>
-                                        <button type="button" @click="cambiarFoto(1)" aria-label="Foto siguiente" class="absolute right-2.5 top-1/2 -translate-y-1/2 h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-black/65 hover:bg-black/85 border border-zinc-700/80 text-white flex items-center justify-center active:scale-95 transition">
+                                        <button type="button" @click="cambiarFoto(1)" aria-label="Foto siguiente" class="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/65 hover:bg-black/85 border border-zinc-700/80 text-white flex items-center justify-center active:scale-95 transition">
                                             <i data-lucide="chevron-right" class="w-4 h-4"></i>
                                         </button>
-                                        <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/75 border border-zinc-800 text-[11px] text-zinc-200"
+                                        <span class="absolute bottom-3.5 right-3.5 px-2.5 py-1 rounded-full bg-black/75 border border-zinc-800 text-[11px] text-zinc-200"
                                               x-text="(fotoActiva + 1) + ' / ' + imagenesDe(actual).length"></span>
                                     </div>
                                 </template>
@@ -450,7 +370,7 @@
 
                             <!-- Carrusel horizontal de miniaturas táctiles en móvil, grilla en desktop -->
                             <template x-if="imagenesDe(actual).length > 1">
-                                <div class="flex sm:grid sm:grid-cols-5 gap-2 overflow-x-auto no-scrollbar pb-1 snap-x">
+                                <div class="flex sm:grid sm:grid-cols-5 gap-2.5 overflow-x-auto no-scrollbar pt-1 snap-x">
                                     <template x-for="(imgUrl, idx) in imagenesDe(actual)" :key="imgUrl">
                                         <button type="button" @click="fotoActiva = idx"
                                                 :class="fotoActiva === idx ? 'border-white ring-1 ring-white/50 opacity-100' : 'border-zinc-900 opacity-55 hover:opacity-90'"
@@ -463,57 +383,59 @@
                         </div>
 
                         <!-- Información y selectores -->
-                        <div class="md:py-2">
-                            <div class="flex flex-wrap items-start justify-between gap-3">
-                                <h1 class="serif text-3xl sm:text-5xl leading-tight" x-text="actual.nombre"></h1>
-                                <template x-if="!actual.proximoLanzamiento && Number(actual.pvp) > 0">
-                                    <p class="serif text-2xl sm:text-3xl text-white flex-shrink-0" x-text="'$' + Number(actual.pvp).toFixed(2)"></p>
-                                </template>
-                                <template x-if="actual.proximoLanzamiento || Number(actual.pvp) <= 0">
-                                    <span class="px-3 py-1 rounded-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200">Precio por definir · Confección en Margarita</span>
-                                </template>
+                        <div class="md:py-2 space-y-6">
+                            <div>
+                                <div class="flex flex-wrap items-start justify-between gap-3">
+                                    <h1 class="serif text-3xl sm:text-5xl leading-tight text-white" x-text="actual.nombre"></h1>
+                                    <template x-if="!actual.proximoLanzamiento && Number(actual.pvp) > 0">
+                                        <p class="serif text-2xl sm:text-3xl text-white flex-shrink-0" x-text="'$' + Number(actual.pvp).toFixed(2)"></p>
+                                    </template>
+                                    <template x-if="actual.proximoLanzamiento || Number(actual.pvp) <= 0">
+                                        <span class="px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200">Precio por definir · Confección en Margarita</span>
+                                    </template>
+                                </div>
+                                <p class="text-zinc-400 text-sm sm:text-base mt-4 leading-relaxed" x-text="actual.descripcion || 'Una pieza seleccionada por nuestro equipo. Escríbenos y te asesoramos con la talla y el estilo.'"></p>
                             </div>
-                            <p class="text-zinc-400 text-sm sm:text-base mt-3 sm:mt-5 leading-relaxed" x-text="actual.descripcion || 'Una pieza seleccionada por nuestro equipo. Escríbenos y te asesoramos con la talla y el estilo.'"></p>
 
                             <!-- Selector de Tono / Variante -->
                             <template x-if="coloresDe(actual).length > 0">
-                                <div class="mt-5 sm:mt-7">
-                                    <div class="flex items-center justify-between mb-2.5">
+                                <div class="pt-2">
+                                    <div class="flex items-center justify-between mb-3">
                                         <p class="label-ui text-zinc-500" x-text="actual.proximoLanzamiento ? 'Tonos previstos de confección' : 'Color / Variante'"></p>
                                         <span class="text-xs text-zinc-200 font-medium" x-text="coloresDe(actual)[fotoActiva] || coloresDe(actual)[0]"></span>
                                     </div>
-                                    <div class="flex sm:flex-wrap gap-2 overflow-x-auto no-scrollbar pb-1 -mx-3.5 px-3.5 sm:mx-0 sm:px-0">
+                                    <div class="flex sm:flex-wrap gap-2.5 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4 sm:mx-0 sm:px-0">
                                         <template x-for="(col, idx) in coloresDe(actual)" :key="col">
                                             <button type="button" @click="fotoActiva = idx" x-text="col"
-                                                    :class="fotoActiva === idx ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 border-zinc-800 text-zinc-300'"
-                                                    class="flex-shrink-0 h-9 sm:h-10 px-3.5 rounded-xl border text-xs transition active:scale-95"></button>
+                                                    :class="fotoActiva === idx ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 border-zinc-800 text-zinc-300 hover:text-white'"
+                                                    class="flex-shrink-0 h-9 sm:h-10 px-4 rounded-xl border text-xs transition active:scale-95"></button>
                                         </template>
                                     </div>
                                 </div>
                             </template>
 
                             <!-- Selector de Talla (Prendas disponibles) -->
-                            <div class="mt-5 sm:mt-7" x-show="actual.stock > 0 && !actual.proximoLanzamiento">
-                                <div class="flex items-center justify-between mb-2.5">
+                            <div class="pt-2" x-show="actual.stock > 0 && !actual.proximoLanzamiento">
+                                <div class="flex items-center justify-between mb-3">
                                     <p class="label-ui text-zinc-500">Selecciona tu talla</p>
                                     <button type="button" @click="consultarTallaWhatsApp(actual)" class="text-xs text-zinc-300 underline hover:text-white">
                                         ¿Dudas? Pedir medidas en cm
                                     </button>
                                 </div>
-                                <div class="grid grid-cols-4 sm:flex sm:flex-wrap gap-2">
+                                <div class="grid grid-cols-4 sm:flex sm:flex-wrap gap-2.5">
                                     <template x-for="t in tallasDe(actual)" :key="t">
                                         <button @click="tallaSel = t" x-text="t"
-                                                :class="tallaSel === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-950 border-zinc-800 text-zinc-300'"
-                                                class="h-11 px-4 rounded-xl border text-sm transition active:scale-95"></button>
+                                                :class="tallaSel === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-950 border-zinc-800 text-zinc-300 hover:text-white'"
+                                                class="h-11 sm:h-12 px-4 rounded-xl border text-sm transition active:scale-95"></button>
                                     </template>
                                 </div>
 
-                                <!-- Botones de acción en móvil y desktop -->
-                                <div class="mt-5 grid grid-cols-1 sm:flex gap-2.5">
-                                    <button @click="agregar(actual)" class="h-12 px-8 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white active:scale-[0.99] transition flex items-center justify-center gap-2">
+                                <!-- Botones de acción con respiro -->
+                                <div class="mt-6 grid grid-cols-1 sm:flex gap-3">
+                                    <button @click="agregar(actual)" class="h-12 sm:h-13 px-8 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white active:scale-[0.99] transition flex items-center justify-center gap-2 shadow-lg shadow-white/5">
                                         <i data-lucide="shopping-bag" class="w-4 h-4"></i> Añadir a la bolsa
                                     </button>
-                                    <button type="button" @click="consultarTallaWhatsApp(actual)" class="h-12 px-5 rounded-full border border-zinc-800 bg-zinc-950 text-xs sm:text-sm text-zinc-200 hover:border-zinc-500 transition flex items-center justify-center gap-2">
+                                    <button type="button" @click="consultarTallaWhatsApp(actual)" class="h-12 sm:h-13 px-6 rounded-full border border-zinc-800 bg-zinc-950 text-xs sm:text-sm text-zinc-200 hover:border-zinc-500 transition flex items-center justify-center gap-2">
                                         <i data-lucide="ruler" class="w-4 h-4"></i> Asesoría de talla en vivo
                                     </button>
                                 </div>
@@ -521,55 +443,55 @@
                             </div>
 
                             <!-- Bloque especial: Próxima Colección / Confección Propia en Margarita -->
-                            <div class="mt-5 sm:mt-7 space-y-4" x-show="actual.proximoLanzamiento">
+                            <div class="pt-2 space-y-5" x-show="actual.proximoLanzamiento">
                                 <div>
-                                    <p class="label-ui text-zinc-500 mb-2.5">Elige tu talla para lista de espera</p>
-                                    <div class="grid grid-cols-4 sm:flex sm:flex-wrap gap-2">
+                                    <p class="label-ui text-zinc-500 mb-3">Elige tu talla para lista de espera</p>
+                                    <div class="grid grid-cols-4 sm:flex sm:flex-wrap gap-2.5">
                                         <template x-for="t in tallasDe(actual)" :key="t">
                                             <button @click="tallaSel = t" x-text="t"
-                                                    :class="tallaSel === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-950 border-zinc-800 text-zinc-300'"
-                                                    class="h-11 px-4 rounded-xl border text-sm transition active:scale-95"></button>
+                                                    :class="tallaSel === t ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-semibold' : 'bg-zinc-950 border-zinc-800 text-zinc-300 hover:text-white'"
+                                                    class="h-11 sm:h-12 px-4 rounded-xl border text-sm transition active:scale-95"></button>
                                         </template>
                                     </div>
                                 </div>
-                                <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-xs text-zinc-300 space-y-1.5 leading-relaxed">
-                                    <p class="font-medium text-white">Confección local en la Isla de Margarita</p>
+                                <div class="p-5 rounded-2xl bg-zinc-950/80 border border-zinc-800/80 text-xs text-zinc-300 space-y-2 leading-relaxed">
+                                    <p class="font-medium text-white text-sm">Confección local en la Isla de Margarita</p>
                                     <p>Esta prenda será confeccionada directamente en la isla junto a nuestros costureros. Actualmente estamos cerrando el costo de telas, insumos y confección por prenda para anunciar el precio oficial de lanzamiento.</p>
                                 </div>
-                                <button type="button" @click="reservarProximoLanzamiento(actual)" class="w-full h-12 px-6 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white transition flex items-center justify-center gap-2">
+                                <button type="button" @click="reservarProximoLanzamiento(actual)" class="w-full h-12 sm:h-13 px-6 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white transition flex items-center justify-center gap-2 shadow-lg shadow-white/5">
                                     <i data-lucide="bell" class="w-4 h-4"></i> Anotarme en Lista de Espera / Votar Tono
                                 </button>
                             </div>
 
                             <div x-show="actual.stock <= 0 && !actual.proximoLanzamiento" class="mt-6 text-sm text-zinc-500">Agotado por ahora. Escríbenos para avisarte cuando regrese.</div>
 
-                            <!-- Ficha Técnica y Transparencia (Pilar 1) adaptada a lectura móvil -->
+                            <!-- Ficha Técnica y Transparencia con amplio espacio -->
                             <template x-if="actual.ficha">
-                                <div class="mt-7 pt-6 border-t border-zinc-900 space-y-3">
+                                <div class="mt-8 pt-8 border-t border-zinc-900 space-y-4">
                                     <div class="flex items-center justify-between">
                                         <p class="label-ui text-zinc-300">Ficha Técnica y Transparencia</p>
-                                        <span class="text-[11px] px-2 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400">Sin rodeos</span>
+                                        <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400">Sin rodeos</span>
                                     </div>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm">
-                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900 sm:col-span-2">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                                        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-900/90 sm:col-span-2">
                                             <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Tela y densidad</span>
-                                            <span class="text-zinc-200 mt-0.5 block leading-snug" x-text="actual.ficha.tela"></span>
+                                            <span class="text-zinc-200 mt-1 block leading-relaxed" x-text="actual.ficha.tela"></span>
                                         </div>
-                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900 sm:col-span-2">
+                                        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-900/90 sm:col-span-2">
                                             <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Caída y calce</span>
-                                            <span class="text-zinc-200 mt-0.5 block leading-snug" x-text="actual.ficha.caida"></span>
+                                            <span class="text-zinc-200 mt-1 block leading-relaxed" x-text="actual.ficha.caida"></span>
                                         </div>
-                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900">
+                                        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-900/90">
                                             <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Sensación al tacto</span>
-                                            <span class="text-zinc-300 mt-0.5 block leading-snug" x-text="actual.ficha.tacto"></span>
+                                            <span class="text-zinc-300 mt-1 block leading-relaxed" x-text="actual.ficha.tacto"></span>
                                         </div>
-                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900">
+                                        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-900/90">
                                             <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Elasticidad</span>
-                                            <span class="text-zinc-300 mt-0.5 block leading-snug" x-text="actual.ficha.elasticidad"></span>
+                                            <span class="text-zinc-300 mt-1 block leading-relaxed" x-text="actual.ficha.elasticidad"></span>
                                         </div>
-                                        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-900 sm:col-span-2">
+                                        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-900/90 sm:col-span-2">
                                             <span class="text-[10px] uppercase tracking-wider text-zinc-500 block">Cuidado al lavar</span>
-                                            <span class="text-zinc-300 mt-0.5 block leading-snug" x-text="actual.ficha.cuidado"></span>
+                                            <span class="text-zinc-300 mt-1 block leading-relaxed" x-text="actual.ficha.cuidado"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -585,38 +507,38 @@
 
         <!-- ================= QUIÉNES SOMOS Y POR QUÉ NACIMOS (PRESENTACIÓN MÓVIL INTERACTIVA) ================= -->
         <section x-show="vista === 'nosotros'" x-cloak class="fade-in">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-20">
-                <!-- Encabezado Editorial Compacto para Móvil -->
-                <span class="inline-flex items-center px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-400" x-text="c.nosotros.etiqueta || 'aura.mgta'"></span>
-                <h1 class="serif text-[32px] sm:text-6xl lg:text-7xl mt-3.5 max-w-4xl leading-[1.1]" x-text="c.nosotros.titulo"></h1>
-                <p class="serif text-lg sm:text-2xl text-zinc-200 mt-4 sm:mt-7 max-w-3xl leading-relaxed" x-text="c.nosotros.intro"></p>
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-28">
+                <!-- Encabezado Editorial con aire -->
+                <span class="inline-flex items-center px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-400" x-text="c.nosotros.etiqueta || 'aura.mgta'"></span>
+                <h1 class="serif text-[34px] sm:text-6xl lg:text-7xl mt-5 max-w-4xl leading-[1.1]" x-text="c.nosotros.titulo"></h1>
+                <p class="serif text-lg sm:text-2xl text-zinc-200 mt-6 sm:mt-8 max-w-3xl leading-relaxed" x-text="c.nosotros.intro"></p>
 
-                <div class="mt-4 sm:mt-6 space-y-3 text-zinc-400 text-sm sm:text-[17px] leading-[1.7] max-w-3xl">
+                <div class="mt-6 sm:mt-8 space-y-4 text-zinc-400 text-sm sm:text-[17px] leading-[1.8] max-w-3xl">
                     <template x-for="(t, i) in c.nosotros.parrafos" :key="i">
                         <p x-text="t"></p>
                     </template>
                 </div>
 
-                <!-- Selector Rápido de los 4 Pilares (Modo Presentación en Móvil) -->
-                <div class="mt-8 sm:mt-14">
-                    <div class="flex items-center justify-between mb-3">
+                <!-- 4 Pilares Fundamentales -->
+                <div class="mt-14 sm:mt-24">
+                    <div class="flex items-center justify-between mb-4">
                         <p class="label-ui text-zinc-400">Nuestros 4 Pilares Fundamentales</p>
                         <button type="button" @click="pilarFiltro = (pilarFiltro === 'todos' ? '01' : 'todos')"
                                 class="md:hidden text-xs text-zinc-300 underline"
                                 x-text="pilarFiltro === 'todos' ? 'Ver uno por uno' : 'Ver los 4 juntos'"></button>
                     </div>
 
-                    <!-- Tabs táctiles para navegar los 4 pilares en el teléfono -->
-                    <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+                    <!-- Tabs táctiles -->
+                    <div class="flex gap-2.5 overflow-x-auto no-scrollbar pb-3 -mx-4 px-4 sm:mx-0 sm:px-0">
                         <button type="button" @click="pilarFiltro = 'todos'"
                                 :class="pilarFiltro === 'todos' ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 text-zinc-400 border-zinc-800'"
-                                class="flex-shrink-0 h-9 px-3.5 rounded-full border text-xs transition">
+                                class="flex-shrink-0 h-9 px-4 rounded-full border text-xs transition">
                             Todos (4)
                         </button>
                         <template x-for="pilar in c.nosotros.pilares" :key="'tab' + pilar.numero">
                             <button type="button" @click="pilarFiltro = pilar.numero"
                                     :class="pilarFiltro === pilar.numero ? 'bg-zinc-100 text-zinc-950 border-zinc-100 font-medium' : 'bg-zinc-950 text-zinc-400 border-zinc-800'"
-                                    class="flex-shrink-0 h-9 px-3.5 rounded-full border text-xs transition flex items-center gap-1.5">
+                                    class="flex-shrink-0 h-9 px-4 rounded-full border text-xs transition flex items-center gap-1.5">
                                 <span x-text="pilar.numero"></span>
                                 <span x-text="pilar.categoria"></span>
                             </button>
@@ -624,43 +546,43 @@
                     </div>
 
                     <!-- Tarjetas de los 4 Pilares -->
-                    <div class="mt-4 grid gap-4 sm:gap-6">
+                    <div class="mt-6 grid gap-6 sm:gap-8">
                         <template x-for="pilar in c.nosotros.pilares" :key="pilar.numero">
                             <div x-show="pilarFiltro === 'todos' || pilarFiltro === pilar.numero"
-                                 class="p-5 sm:p-8 rounded-2xl border border-zinc-900 bg-zinc-950/95 space-y-4 sm:space-y-6 transition">
-                                <div class="flex items-start justify-between gap-3 border-b border-zinc-900 pb-4">
-                                    <div class="flex items-start gap-3 sm:gap-4">
-                                        <span class="serif text-2xl sm:text-4xl text-zinc-500 leading-none mt-0.5" x-text="pilar.numero"></span>
+                                 class="p-6 sm:p-10 rounded-3xl border border-zinc-900 bg-zinc-950/95 space-y-6 sm:space-y-8 transition">
+                                <div class="flex items-start justify-between gap-4 border-b border-zinc-900 pb-5">
+                                    <div class="flex items-start gap-4 sm:gap-5">
+                                        <span class="serif text-3xl sm:text-5xl text-zinc-500 leading-none mt-0.5" x-text="pilar.numero"></span>
                                         <div>
                                             <p class="label-ui text-zinc-500" x-text="pilar.categoria"></p>
-                                            <h2 class="serif text-xl sm:text-3xl text-white mt-1 leading-snug" x-text="pilar.titulo"></h2>
-                                            <p class="text-xs sm:text-sm text-zinc-400 mt-1.5 leading-relaxed" x-text="pilar.resumen"></p>
+                                            <h2 class="serif text-xl sm:text-3xl text-white mt-1.5 leading-snug" x-text="pilar.titulo"></h2>
+                                            <p class="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed" x-text="pilar.resumen"></p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Sub-bloques del pilar -->
-                                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                                <!-- Sub-bloques del pilar con respiro -->
+                                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                                     <template x-for="(pt, idxPt) in pilar.puntos" :key="pt.subtitulo">
-                                        <div class="p-4 sm:p-5 rounded-xl bg-[#0d0d10] border border-zinc-900/90 flex flex-col justify-between">
+                                        <div class="p-5 sm:p-6 rounded-2xl bg-[#0d0d10] border border-zinc-900/90 flex flex-col justify-between">
                                             <div>
-                                                <div class="flex items-center gap-2">
+                                                <div class="flex items-center gap-2.5">
                                                     <span class="w-1.5 h-1.5 rounded-full bg-zinc-300 flex-shrink-0"></span>
                                                     <h3 class="text-sm sm:text-base font-medium text-zinc-100" x-text="pt.subtitulo"></h3>
                                                 </div>
-                                                <p class="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed" x-text="pt.texto"></p>
+                                                <p class="text-xs sm:text-sm text-zinc-400 mt-2.5 leading-relaxed" x-text="pt.texto"></p>
                                             </div>
                                         </div>
                                     </template>
                                 </div>
 
-                                <!-- Controles Siguiente Pilar cuando está en modo diapositiva móvil -->
-                                <div x-show="pilarFiltro !== 'todos'" class="pt-2 flex items-center justify-between text-xs text-zinc-400">
-                                    <button type="button" @click="cambiarPilar(-1)" class="h-9 px-3.5 rounded-full border border-zinc-800 text-zinc-200 flex items-center gap-1">
+                                <!-- Controles Siguiente Pilar en móvil -->
+                                <div x-show="pilarFiltro !== 'todos'" class="pt-3 flex items-center justify-between text-xs text-zinc-400">
+                                    <button type="button" @click="cambiarPilar(-1)" class="h-9 px-4 rounded-full border border-zinc-800 text-zinc-200 flex items-center gap-1.5">
                                         <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i> Anterior
                                     </button>
                                     <span x-text="'Pilar ' + pilar.numero + ' de 04'"></span>
-                                    <button type="button" @click="cambiarPilar(1)" class="h-9 px-3.5 rounded-full bg-zinc-100 text-zinc-950 font-medium flex items-center gap-1">
+                                    <button type="button" @click="cambiarPilar(1)" class="h-9 px-4 rounded-full bg-zinc-100 text-zinc-950 font-medium flex items-center gap-1.5">
                                         Siguiente <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                                     </button>
                                 </div>
@@ -671,16 +593,16 @@
 
                 <!-- Protocolo de Atención y Laboratorio DEMO -->
                 <template x-if="c.nosotros.compromisos && c.nosotros.compromisos.length">
-                    <div class="mt-8 sm:mt-14">
-                        <p class="label-ui text-zinc-500 mb-3">Cómo lo llevamos a la práctica</p>
-                        <div class="grid md:grid-cols-2 gap-4 sm:gap-6">
+                    <div class="mt-14 sm:mt-24">
+                        <p class="label-ui text-zinc-500 mb-4">Cómo lo llevamos a la práctica</p>
+                        <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
                             <template x-for="comp in c.nosotros.compromisos" :key="comp.titulo">
-                                <div class="p-5 sm:p-8 rounded-2xl border border-zinc-800/80 bg-zinc-950 space-y-3 sm:space-y-4">
+                                <div class="p-6 sm:p-10 rounded-3xl border border-zinc-800/80 bg-zinc-950 space-y-4 sm:space-y-5">
                                     <p class="label-ui text-zinc-500" x-text="comp.etiqueta"></p>
                                     <h3 class="serif text-xl sm:text-3xl text-white leading-snug" x-text="comp.titulo"></h3>
-                                    <div class="space-y-2 pt-1">
+                                    <div class="space-y-2.5 pt-2">
                                         <template x-for="paso in comp.pasos" :key="paso">
-                                            <div class="p-3 rounded-xl bg-zinc-900/50 border border-zinc-900 text-xs sm:text-sm text-zinc-300 leading-relaxed" x-text="paso"></div>
+                                            <div class="p-4 rounded-2xl bg-zinc-900/50 border border-zinc-900 text-xs sm:text-sm text-zinc-300 leading-relaxed" x-text="paso"></div>
                                         </template>
                                     </div>
                                 </div>
@@ -689,32 +611,31 @@
                     </div>
                 </template>
 
-                <!-- Botones finales adaptados a móvil -->
-                <div class="mt-8 sm:mt-14 grid grid-cols-1 sm:flex sm:flex-wrap gap-2.5 sm:gap-3">
-                    <a href="#/coleccion" class="h-12 px-7 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold flex items-center justify-center gap-2 hover:bg-white transition">
+                <!-- Botones finales con respiro -->
+                <div class="mt-12 sm:mt-20 grid grid-cols-1 sm:flex sm:flex-wrap gap-3 sm:gap-4">
+                    <a href="#/coleccion" class="h-12 sm:h-13 px-8 rounded-full bg-zinc-100 text-zinc-950 text-sm font-semibold flex items-center justify-center gap-2 hover:bg-white transition shadow-lg shadow-white/5">
                         Explorar la colección <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
-                    <a href="#/embajadoras" class="h-12 px-7 rounded-full border border-zinc-700 text-sm flex items-center justify-center hover:border-zinc-400 transition">
+                    <a href="#/embajadoras" class="h-12 sm:h-13 px-8 rounded-full border border-zinc-700 text-sm flex items-center justify-center hover:border-zinc-400 transition text-zinc-200">
                         Programa de Embajadores y Aliados
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- ================= EMBAJADORAS Y CUPONES (CUPÓN DE PRIMERO + CONDICIONES CLARAS) ================= -->
+        <!-- ================= EMBAJADORAS Y CUPONES (DISEÑO ESPACIOSO Y CLARO) ================= -->
         <section x-show="vista === 'embajadoras'" x-cloak class="fade-in">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-16">
-                <!-- Encabezado directo y compacto -->
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-24">
                 <div class="flex flex-wrap items-center justify-between gap-2">
-                    <span class="inline-flex items-center px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-300">Cupones y Comunidad Aura</span>
+                    <span class="inline-flex items-center px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 label-ui text-zinc-300">Cupones y Comunidad Aura</span>
                     <span class="text-xs text-zinc-400">Verificación en tiempo real</span>
                 </div>
-                <h1 class="serif text-[30px] sm:text-5xl mt-3 leading-[1.1]" x-text="c.embajadoras.titulo"></h1>
-                <p class="mt-2.5 text-zinc-400 text-xs sm:text-base leading-relaxed max-w-2xl" x-text="c.embajadoras.texto"></p>
+                <h1 class="serif text-[32px] sm:text-5xl mt-4 leading-[1.1]" x-text="c.embajadoras.titulo"></h1>
+                <p class="mt-3 text-zinc-400 text-xs sm:text-base leading-relaxed max-w-2xl" x-text="c.embajadoras.texto"></p>
 
-                <!-- 1. BUSCADOR DE CÓDIGO / CUPÓN DE PRIMERO (PROTAGONISTA) -->
-                <div class="mt-5 sm:mt-7 p-5 sm:p-7 rounded-2xl border border-zinc-700/90 bg-gradient-to-b from-zinc-900/90 to-zinc-950 shadow-2xl">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
+                <!-- 1. BUSCADOR DE CÓDIGO / CUPÓN (CON PADDING AMPLIO) -->
+                <div class="mt-8 sm:mt-12 p-6 sm:p-10 rounded-3xl border border-zinc-700/90 bg-gradient-to-b from-zinc-900/90 to-zinc-950 shadow-2xl">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <p class="label-ui text-emerald-400">Paso 1 · Consulta aquí primero</p>
                             <h2 class="serif text-2xl sm:text-3xl text-white mt-1">Consulta tu código o cupón</h2>
