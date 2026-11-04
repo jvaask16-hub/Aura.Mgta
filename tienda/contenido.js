@@ -126,12 +126,12 @@ window.AURA_CONTENIDO = {
             tallas: 'XS, S, M, L, XL',
             destacado: true,
             proximoLanzamiento: true,
-            imagen_url: '/tienda/fotos/bruno-sastre-1.jpg?v=1',
+            imagen_url: '/tienda/fotos/bruno-sastre-1.jpg',
             imagenes: [
-                '/tienda/fotos/bruno-sastre-1.jpg?v=1',
-                '/tienda/fotos/bruno-sastre-2.jpg?v=1',
-                '/tienda/fotos/bruno-sastre-3.jpg?v=1',
-                '/tienda/fotos/bruno-sastre-4.jpg?v=1'
+                '/tienda/fotos/bruno-sastre-1.jpg',
+                '/tienda/fotos/bruno-sastre-2.jpg',
+                '/tienda/fotos/bruno-sastre-3.jpg',
+                '/tienda/fotos/bruno-sastre-4.jpg'
             ],
             colores: ['Negro Sastre', 'Gris Carbón Plisado', 'Arena / Beige Neutro', 'Gris Jaspeado'],
             descripcion: 'Nuestra primera confección propia hecha por costureros locales en la Isla de Margarita. Pantalón sastre de corte baggy con pinzas dobles, tiro medio-alto, caída pesada y bota ancha contemporánea.',
@@ -144,22 +144,50 @@ window.AURA_CONTENIDO = {
             }
         },
         {
+            id: 1793641003024,
+            nombre: 'Baggy - Styles',
+            categoria: 'Baggy',
+            pvp: 25.00,
+            stock: 6,
+            genero: 'Unisex',
+            tallas: 'S, M, L, XL',
+            destacado: true,
+            imagen_url: '/tienda/fotos/baggy-styles-1.jpg',
+            imagenes: [
+                '/tienda/fotos/baggy-styles-1.jpg',
+                '/tienda/fotos/baggy-styles-2.jpg',
+                '/tienda/fotos/baggy-styles-3.jpg',
+                '/tienda/fotos/baggy-styles-4.jpg',
+                '/tienda/fotos/baggy-styles-5.jpg'
+            ],
+            colores: ['Gris Cemento', 'Verde Militar', 'Negro Mate'],
+            descripcion: 'Pantalón corte baggy de caída amplia y cintura elástica con cordón ajustable. Silueta fluida pensada para el día a día.',
+            ficha: {
+                tela: 'Nailon técnico y algodón ligero transpirable',
+                caida: 'Caída suelta con movimiento natural',
+                tacto: 'Fresco, liso y ultraligero',
+                elasticidad: 'Cintura elástica ajustable con cordón interno',
+                cuidado: 'Lavar en agua fría y secar a la sombra'
+            }
+        },
+        {
             id: 1793646300001,
-            nombre: 'Baggy Jeans OEN - Dark Blue',
+            nombre: 'Baggy Jeans - OEN',
             categoria: 'Jeans',
-            pvp: 35.00,
-            stock: 8,
+            pvp: 40.00,
+            stock: 6,
             genero: 'Unisex',
             tallas: '28, 30, 32, 34, 36',
             destacado: true,
-            imagen_url: '/tienda/fotos/baggy-jeans-oen-1.jpg?v=2',
+            imagen_url: '/tienda/fotos/baggy-jeans-oen-1.jpg',
             imagenes: [
-                '/tienda/fotos/baggy-jeans-oen-1.jpg?v=2',
-                '/tienda/fotos/baggy-jeans-oen-2.jpg?v=2',
-                '/tienda/fotos/baggy-jeans-oen-3.jpg?v=2'
+                '/tienda/fotos/baggy-jeans-oen-1.jpg',
+                '/tienda/fotos/baggy-jeans-oen-2.jpg',
+                '/tienda/fotos/baggy-jeans-oen-3.jpg',
+                '/tienda/fotos/baggy-jeans-oen-4.jpg'
             ],
             colores: ['Azul Oscuro / Dark Blue', 'Azul Índigo Clásico', 'Azul Lavado Medio'],
-            descripcion: 'Jeans corte baggy auténtico con lavado oscuro y costuras reforzadas.',
+            descripcion: 'Denim pesado de corte baggy relajado con lavado de carácter y estructura firme.',
             ficha: {
                 tela: 'Denim rígido 100% algodón de 12.5 oz',
                 caida: 'Caída amplia con quiebre sobre el calzado (stacking natural)',
@@ -170,21 +198,22 @@ window.AURA_CONTENIDO = {
         },
         {
             id: 1793646300002,
-            nombre: 'Baggy Premium OEN - Dirty Wash',
+            nombre: 'Baggy Pants Premium - OEN',
             categoria: 'Baggy',
-            pvp: 38.00,
-            stock: 5,
+            pvp: 30.00,
+            stock: 6,
             genero: 'Unisex',
-            tallas: '28, 30, 32, 34, 36',
+            tallas: 'S, M, L, XL',
             destacado: true,
-            imagen_url: '/tienda/fotos/baggy-premium-oen-1.jpg?v=2',
+            imagen_url: '/tienda/fotos/baggy-premium-oen-1.jpg',
             imagenes: [
-                '/tienda/fotos/baggy-premium-oen-1.jpg?v=2',
-                '/tienda/fotos/baggy-premium-oen-2.jpg?v=2',
-                '/tienda/fotos/baggy-premium-oen-3.jpg?v=2'
+                '/tienda/fotos/baggy-premium-oen-1.jpg',
+                '/tienda/fotos/baggy-premium-oen-2.jpg',
+                '/tienda/fotos/baggy-premium-oen-3.jpg',
+                '/tienda/fotos/baggy-premium-oen-4.jpg'
             ],
             colores: ['Dirty Wash Tint', 'Gris Ceniza Desgastado', 'Azul Petróleo Envejecido'],
-            descripcion: 'Edición especial baggy con tratamiento dirty wash y matices vintage.',
+            descripcion: 'Baggy jogging premium con costuras curvas en contraste (piping) y pretina elástica.',
             ficha: {
                 tela: 'Denim grueso con tinte artesanal en tonos arena/óxido vintage',
                 caida: 'Silueta balloon-baggy de gran presencia y volumen en piernas',
@@ -194,22 +223,23 @@ window.AURA_CONTENIDO = {
             }
         },
         {
-            id: 1793646300003,
-            nombre: 'Baggy Unicolor OEN - Black',
+            id: 1793383598668,
+            nombre: 'Baggy Pants Unicolor - OEN',
             categoria: 'Baggy',
-            pvp: 35.00,
-            stock: 7,
+            pvp: 28.00,
+            stock: 6,
             genero: 'Unisex',
-            tallas: '28, 30, 32, 34, 36',
-            destacado: true,
-            imagen_url: '/tienda/fotos/baggy-unicolor-oen-1.jpg?v=2',
+            tallas: 'S, M, L, XL',
+            destacado: false,
+            imagen_url: '/tienda/fotos/baggy-unicolor-oen-1.jpg',
             imagenes: [
-                '/tienda/fotos/baggy-unicolor-oen-1.jpg?v=2',
-                '/tienda/fotos/baggy-unicolor-oen-2.jpg?v=2',
-                '/tienda/fotos/baggy-unicolor-oen-3.jpg?v=2'
+                '/tienda/fotos/baggy-unicolor-oen-1.jpg',
+                '/tienda/fotos/baggy-unicolor-oen-2.jpg',
+                '/tienda/fotos/baggy-unicolor-oen-3.jpg',
+                '/tienda/fotos/baggy-unicolor-oen-4.jpg'
             ],
             colores: ['Negro Intenso', 'Negro Deslavado / Washed Black', 'Gris Carbón'],
-            descripcion: 'Baggy minimalista en color negro uniforme con herrajes pavonados oscuros.',
+            descripcion: 'Baggy unicolor de algodón suave con caída fluida y bota ancha.',
             ficha: {
                 tela: 'Denim negro teñido reactivo para mayor retención de color',
                 caida: 'Recta-ancha desde la cadera hasta el ruedo',
@@ -219,28 +249,81 @@ window.AURA_CONTENIDO = {
             }
         },
         {
+            id: 1793383575598,
+            nombre: 'Sueter Boxy Fit - OEN',
+            categoria: 'Sueter/Sudadera',
+            pvp: 30.00,
+            stock: 6,
+            genero: 'Unisex',
+            tallas: 'S, M, L',
+            destacado: true,
+            imagen_url: '/tienda/fotos/sueter-boxy-oen-1.jpg',
+            imagenes: [
+                '/tienda/fotos/sueter-boxy-oen-1.jpg',
+                '/tienda/fotos/sueter-boxy-oen-2.jpg',
+                '/tienda/fotos/sueter-boxy-oen-3.jpg'
+            ],
+            colores: ['Gris Melange', 'Negro Profundo', 'Blanco Crudo'],
+            descripcion: 'Suéter con silueta boxy fit de hombros caídos y puños acanalados.',
+            ficha: {
+                tela: 'Algodón afelpado perchado de 320 gsm',
+                caida: 'Boxy estructurado con caída recta y hombros caídos',
+                tacto: 'Interior afelpado cálido y tacto exterior suave',
+                elasticidad: 'Rib acanalado en puños y pretina para retención de silueta',
+                cuidado: 'Lavar en frío y secar en plano para evitar deformaciones'
+            }
+        },
+        {
+            id: 1793646300003,
+            nombre: 'Mom Jeans - OEN',
+            categoria: 'Jeans',
+            pvp: 34.00,
+            stock: 6,
+            genero: 'Unisex',
+            tallas: '28, 30, 32, 34',
+            destacado: false,
+            imagen_url: '/tienda/fotos/mom-jeans-oen-1.jpg',
+            imagenes: [
+                '/tienda/fotos/mom-jeans-oen-1.jpg',
+                '/tienda/fotos/mom-jeans-oen-2.jpg'
+            ],
+            colores: ['Azul Vintage Retro', 'Azul Claro Deslavado'],
+            descripcion: 'Jeans de corte recto clásico con entalle limpio en cintura y tiro medio-alto.',
+            ficha: {
+                tela: 'Denim resistente 100% algodón con efecto deslavado',
+                caida: 'Ajuste ceñido a la cintura y holgado en muslos',
+                tacto: 'Denim con cuerpo y textura genuina',
+                elasticidad: 'Rígido clásico',
+                cuidado: 'Lavar del revés para preservar el tono vintage'
+            }
+        },
+        {
             id: 1793646300004,
-            nombre: 'Baggy Styles - Parachute / Cargo',
-            categoria: 'Baggy',
-            pvp: 32.00,
-            stock: 9,
+            nombre: 'Track Pants - Style',
+            categoria: 'Track Pants',
+            pvp: 28.00,
+            stock: 6,
             genero: 'Unisex',
             tallas: 'S, M, L, XL',
             destacado: false,
-            imagen_url: '/tienda/fotos/baggy-styles-1.jpg?v=2',
+            imagen_url: '/tienda/fotos/track-pants-style-1.jpg',
             imagenes: [
-                '/tienda/fotos/baggy-styles-1.jpg?v=2',
-                '/tienda/fotos/baggy-styles-2.jpg?v=2',
-                '/tienda/fotos/baggy-styles-3.jpg?v=2'
+                '/tienda/fotos/track-pants-style-1.jpg',
+                '/tienda/fotos/track-pants-style-2.jpg',
+                '/tienda/fotos/track-pants-style-3.jpg',
+                '/tienda/fotos/track-pants-style-4.jpg',
+                '/tienda/fotos/track-pants-style-5.jpg',
+                '/tienda/fotos/track-pants-style-6.jpg',
+                '/tienda/fotos/track-pants-style-7.jpg'
             ],
-            colores: ['Gris Cemento', 'Verde Militar / Oliva', 'Negro Mate'],
-            descripcion: 'Pantalón ligero de silueta oversized con bolsillos utilitarios.',
+            colores: ['Negro + Vivo Blanco', 'Azul Marino + Vivo Blanco', 'Verde Botella', 'Gris Carbón', 'Rojo Borgoña', 'Beige', 'Azul Eléctrico'],
+            descripcion: 'Track pants de corte recto con líneas laterales en contraste.',
             ficha: {
-                tela: 'Nailon técnico ripstop ligero y transpirable',
-                caida: 'Caída recta y suelta tipo parachute con gran movimiento',
-                tacto: 'Fresco, liso y ultraligero, ideal para el calor de Margarita',
-                elasticidad: 'Tela no elástica de corte amplio; cintura 100% elástica con cordón ajustable',
-                cuidado: 'Secado rápido; lavar en agua fría y no planchar a alta temperatura'
+                tela: 'Tejido técnico deportivo ligero y transpirable',
+                caida: 'Recta y cómoda sin ceñir la pierna',
+                tacto: 'Sedoso al roce con la piel',
+                elasticidad: 'Cintura elástica con cordón de ajuste',
+                cuidado: 'Lavar en máquina en agua fría; no planchar vivo'
             }
         },
         {
@@ -252,10 +335,10 @@ window.AURA_CONTENIDO = {
             genero: 'Unisex',
             tallas: 'S, M, L, XL',
             destacado: false,
-            imagen_url: '/tienda/fotos/track-pants-arac-1.jpg?v=2',
+            imagen_url: '/tienda/fotos/track-pants-arac-1.jpg',
             imagenes: [
-                '/tienda/fotos/track-pants-arac-1.jpg?v=2',
-                '/tienda/fotos/track-pants-arac-2.jpg?v=2'
+                '/tienda/fotos/track-pants-arac-1.jpg',
+                '/tienda/fotos/track-pants-arac-2.jpg'
             ],
             colores: [
                 'Gama Vibrante (Fucsia, Rosa, Morado, Verde Esmeralda, Oliva)',
@@ -279,18 +362,18 @@ window.AURA_CONTENIDO = {
             genero: 'Unisex',
             tallas: 'S, M, L, XL',
             destacado: false,
-            imagen_url: '/tienda/fotos/kit-5-nike-ccs-1.jpg?v=2',
+            imagen_url: '/tienda/fotos/kit-5-nike-ccs-1.jpg',
             imagenes: [
-                '/tienda/fotos/kit-5-nike-ccs-1.jpg?v=2',
-                '/tienda/fotos/kit-5-nike-ccs-2.jpg?v=2',
-                '/tienda/fotos/kit-5-nike-ccs-3.jpg?v=2',
-                '/tienda/fotos/kit-5-nike-ccs-4.jpg?v=2',
-                '/tienda/fotos/kit-5-nike-ccs-5.jpg?v=2',
-                '/tienda/fotos/kit-5-nike-ccs-6.jpg?v=2',
-                '/tienda/fotos/kit-5-nike-ccs-7.jpg?v=2',
-                '/tienda/fotos/kit-5-nike-ccs-8.jpg?v=2',
-                '/tienda/fotos/kit-5-nike-ccs-9.jpg?v=2',
-                '/tienda/fotos/kit-5-nike-ccs-10.jpg?v=2'
+                '/tienda/fotos/kit-5-nike-ccs-1.jpg',
+                '/tienda/fotos/kit-5-nike-ccs-2.jpg',
+                '/tienda/fotos/kit-5-nike-ccs-3.jpg',
+                '/tienda/fotos/kit-5-nike-ccs-4.jpg',
+                '/tienda/fotos/kit-5-nike-ccs-5.jpg',
+                '/tienda/fotos/kit-5-nike-ccs-6.jpg',
+                '/tienda/fotos/kit-5-nike-ccs-7.jpg',
+                '/tienda/fotos/kit-5-nike-ccs-8.jpg',
+                '/tienda/fotos/kit-5-nike-ccs-9.jpg',
+                '/tienda/fotos/kit-5-nike-ccs-10.jpg'
             ],
             colores: [
                 'Blanco + Gris Carbón',
@@ -322,9 +405,9 @@ window.AURA_CONTENIDO = {
             genero: 'Unisex',
             tallas: 'S, M, L, XL',
             destacado: false,
-            imagen_url: '/tienda/fotos/kit-perchado-ccs-1.jpg?v=2',
+            imagen_url: '/tienda/fotos/kit-perchado-ccs-1.jpg',
             imagenes: [
-                '/tienda/fotos/kit-perchado-ccs-1.jpg?v=2'
+                '/tienda/fotos/kit-perchado-ccs-1.jpg'
             ],
             colores: ['Negro + Short Blanco'],
             descripcion: 'Kit perchado completo (conjunto negro con capucha, franela, short perchado blanco y medias).',
@@ -334,52 +417,6 @@ window.AURA_CONTENIDO = {
                 tacto: 'Interior afelpado suave de tacto premium',
                 elasticidad: 'Pretinas elásticas firmes con cordón y rib en tobillos/puños',
                 cuidado: 'Lavar el short blanco por separado del conjunto negro en agua fría'
-            }
-        },
-        {
-            id: 1793646300008,
-            nombre: 'Suéter Cuello Redondo Oversize',
-            categoria: 'Suéter / Sudadera',
-            pvp: 28.00,
-            stock: 5,
-            genero: 'Unisex',
-            tallas: 'S, M, L, XL',
-            destacado: false,
-            imagen_url: '/tienda/fotos/sueter-suave-1.jpg?v=1',
-            imagenes: [
-                '/tienda/fotos/sueter-suave-1.jpg?v=1'
-            ],
-            colores: ['Gris Melange'],
-            descripcion: 'Suéter cuello redondo de corte boxy relajado con caída suelta y puños acanalados.',
-            ficha: {
-                tela: 'Mezcla de algodón y felpa francesa ligera',
-                caida: 'Corte boxy amplio que cae natural sobre los hombros',
-                tacto: 'Suave y transpirable para noches frescas en la isla',
-                elasticidad: 'Tejido con elasticidad en cuello y puños',
-                cuidado: 'Lavar con agua fría en ciclo suave'
-            }
-        },
-        {
-            id: 1793646300009,
-            nombre: 'Mom Jeans Vintage Wash',
-            categoria: 'Jeans',
-            pvp: 32.00,
-            stock: 4,
-            genero: 'Mujer',
-            tallas: '26, 28, 30, 32',
-            destacado: false,
-            imagen_url: '/tienda/fotos/mom-jeans-1.jpg?v=1',
-            imagenes: [
-                '/tienda/fotos/mom-jeans-1.jpg?v=1'
-            ],
-            colores: ['Azul Vintage'],
-            descripcion: 'Jeans de tiro alto con corte clásico cónico en tobillos y lavado retro.',
-            ficha: {
-                tela: 'Denim resistente 100% algodón con efecto deslavado',
-                caida: 'Ajuste ceñido a la cintura y holgado en muslos',
-                tacto: 'Denim con cuerpo y textura genuina',
-                elasticidad: 'Rígido clásico',
-                cuidado: 'Lavar del revés para preservar el tono vintage'
             }
         }
     ]
